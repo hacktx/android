@@ -1,0 +1,64 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+def retrieveProp(String key) {
+    try {
+        Properties props = new Properties()
+        props.load(new FileInputStream("private.props"))
+        def val = props.getProperty(key)
+        return val
+    } catch (FileNotFoundException ignored) {
+        return ''
+    }
+}
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        applicationId "com.utcs.mad.umad"
+        minSdkVersion 16
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+
+        buildConfigField "String", "PARSE_ID", "\"${retrieveProp('PARSE_ID')}\""
+        buildConfigField "String", "PARSE_CLIENT_KEY", "\"${retrieveProp('PARSE_CLIENT_KEY')}\""
+
+        buildConfigField "String", "TWITTER_KEY", "\"${retrieveProp('TWITTER_KEY')}\""
+        buildConfigField "String", "TWITTER_SECRET", "\"${retrieveProp('TWITTER_SECRET')}\""
+        buildConfigField "String", "TWITTER_ACCESS_TOKEN", "\"${retrieveProp('TWITTER_ACCESS_TOKEN')}\""
+        buildConfigField "String", "TWITTER_ACCESS_TOKEN_SECRET", "\"${retrieveProp('TWITTER_ACCESS_TOKEN_SECRET')}\""
+        buildConfigField "String", "TWITTER_MAD_ID", "\"${retrieveProp('TWITTER_MAD_ID')}\""
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile('com.twitter.sdk.android:twitter:1.1.1@aar') {
+        transitive = true;
+    }
+    compile 'se.emilsjolander:stickylistheaders:2.5.2'
+}
