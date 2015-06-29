@@ -18,4 +18,8 @@ public class AnnouncementsActivity extends BaseActivity {
         setupToolbar((Toolbar) findViewById(R.id.toolbar));
         setupDrawerContent(this, (DrawerLayout) findViewById(R.id.drawer_layout), (NavigationView) findViewById(R.id.nav_view));
     }
+
+    private void test() {
+
+    }
 }
