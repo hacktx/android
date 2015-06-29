@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#d32f2f</color>
-    <color name="primary_dark">#B71C1C</color>
-    <color name="primary_accent">#F44336</color>
-
+    <color name="window_background">#FFF5F5F5</color>
+    <color name="hacktx_white">#FEF0D9</color>
 </resources>
