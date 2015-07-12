@@ -85,7 +85,7 @@ public class MainActivity extends BaseActivity {
         ScheduleEvent batman1 = new ScheduleEvent(1, "discussion", "BatPython: The gangsta dev language",
                 "September 26 9:00am", "September 26 10:00am",
                 "SAC Mainroom", "We be talkin about stuff", batmanList);
-        ScheduleEvent superman0 = new ScheduleEvent(2, "discussion", "SuperJava: The caffinated dev language",
+        ScheduleEvent superman0 = new ScheduleEvent(2, "discussion", "SuperJava: The caffeinated dev language",
                 "September 26 9:00am", "September 26 10:00am",
                 "SAC Mainroom", "We be talkin about stuff", supermanList);
         ArrayList<ScheduleEvent> sept26List = new ArrayList<>();
