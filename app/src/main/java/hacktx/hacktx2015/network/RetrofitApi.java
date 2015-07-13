@@ -4,6 +4,8 @@ import java.util.List;
 
 import hacktx.hacktx2015.models.Channels;
 import hacktx.hacktx2015.models.Messages;
+import hacktx.hacktx2015.models.SlackChannelResponse;
+import hacktx.hacktx2015.models.SlackMessageResponse;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Query;
@@ -14,9 +16,9 @@ import retrofit.http.Query;
 public interface RetrofitApi {
 
     @GET("/channels.list")
-    List<Channels> getChannelsList(@Query("token") String apiToken, Callback<Channels> callback);
+    List<Channels> getChannelsList(@Query("token") String apiToken, Callback<SlackChannelResponse> callback);
 
     @GET("/channels.history")
     List<Messages> getMessages(@Query("token") String apiToken, @Query("channel") String channel,
-                     Callback<Messages> callback);
+                     Callback<SlackMessageResponse> callback);
 }

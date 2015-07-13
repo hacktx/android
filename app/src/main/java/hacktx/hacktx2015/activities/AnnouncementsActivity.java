@@ -13,7 +13,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import hacktx.hacktx2015.BuildConfig;
 import hacktx.hacktx2015.R;
+import hacktx.hacktx2015.models.SlackChannelResponse;
+import hacktx.hacktx2015.network.RestAdapterClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Drew on 6/29/15.
@@ -38,24 +44,20 @@ public class AnnouncementsActivity extends BaseActivity {
      */
     private void test() {
 
-        StringBuilder stringBuilder = new StringBuilder();
-
-        try {
-            URL url = new URL("https://slack.com/api/channels.history?token=xoxp-4100074345-4874523927-7052863236-611ca8&channel=C042Y26AM&count=2&pretty=1");
-            URLConnection urlConnection = url.openConnection();
-            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-
-            int b;
-            //creates json as string
-            while ((b = in.read()) != -1) {
-                stringBuilder.append((char) b);
+        RestAdapterClient.getRestClient().getChannelsList(BuildConfig.SLACK_TOKEN, new Callback<SlackChannelResponse>() {
+            @Override
+            public void success(SlackChannelResponse slackChannelResponse, Response response) {
+                // success!
+                Log.i(TAG, "first channel name: " + slackChannelResponse.getChannels().get(0).getName());
+                // you get the point...
             }
 
-            in.close();
-        }
-        catch (IOException e) {
-            Log.e(TAG, e.getMessage());
-        }
+            @Override
+            public void failure(RetrofitError error) {
+                // something went wrong
+                Log.e(TAG, error.getMessage());
+            }
+        });
 
     }
 }

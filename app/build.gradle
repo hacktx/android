@@ -41,6 +41,8 @@ android {
 
         buildConfigField "String", "TWITTER_KEY", "\"${retrieveProp('TWITTER_KEY')}\""
         buildConfigField "String", "TWITTER_SECRET", "\"${retrieveProp('TWITTER_SECRET')}\""
+        buildConfigField "String", "SLACK_KEY", "\"${retrieveProp('SLACK_KEY')}\""
+        buildConfigField "String", "SLACK_TOKEN", "\"${retrieveProp('SLACK_TOKEN')}\""
     }
     buildTypes {
         release {
