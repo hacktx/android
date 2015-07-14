@@ -5,4 +5,4 @@
 /.idea/libraries
 .DS_Store
 /build
-app/crashlytics.properties
+/app/fabric.properties
