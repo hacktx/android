@@ -5,12 +5,12 @@ import java.util.ArrayList;
 /**
  * Created by Drew on 6/27/15.
  */
-public class ScheduleDay {
+public class ScheduleCluster {
     private int id;
     private String name;
     private ArrayList<ScheduleEvent> eventsList;
 
-    public ScheduleDay(int id, String name, ArrayList<ScheduleEvent> eventsList) {
+    public ScheduleCluster(int id, String name, ArrayList<ScheduleEvent> eventsList) {
         this.id = id;
         this.name = name;
         this.eventsList = eventsList;

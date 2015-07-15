@@ -1,21 +1,25 @@
 package hacktx.hacktx2015.models;
 
 import java.util.ArrayList;
+import java.util.Date;
+
+import hacktx.hacktx2015.enums.EventType;
 
 /**
  * Created by Drew on 6/27/15.
  */
 public class ScheduleEvent {
     private int id;
-    private String type;
+    private EventType type;
     private String name;
-    private String startTime;
-    private String endTime;
+    //2001-07-04 12:08:56
+    private Date startTime;
+    private Date endTime;
     private String location;
     private String description;
     private ArrayList<ScheduleSpeaker> speakerList;
 
-    public ScheduleEvent(int id, String type, String name, String startTime, String endTime, String location, String description, ArrayList<ScheduleSpeaker> speakerList) {
+    public ScheduleEvent(int id, EventType type, String name, Date startTime, Date endTime, String location, String description, ArrayList<ScheduleSpeaker> speakerList) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -34,11 +38,11 @@ public class ScheduleEvent {
         this.id = id;
     }
 
-    public String getType() {
+    public EventType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(EventType type) {
         this.type = type;
     }
 
@@ -50,19 +54,19 @@ public class ScheduleEvent {
         this.name = name;
     }
 
-    public String getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 
@@ -88,5 +92,9 @@ public class ScheduleEvent {
 
     public void setSpeakerList(ArrayList<ScheduleSpeaker> speakerList) {
         this.speakerList = speakerList;
+    }
+
+    public String getEventDetails() {
+        return "" + (getStartTime().getHours()) + ":" + (getStartTime().getMinutes()) +  " - " + (getEndTime().getHours()) + ":" + (getEndTime().getMinutes()) +  " | " + getLocation();
     }
 }
