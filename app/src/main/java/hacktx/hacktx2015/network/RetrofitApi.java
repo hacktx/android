@@ -16,9 +16,9 @@ import retrofit.http.Query;
 public interface RetrofitApi {
 
     @GET("/channels.list")
-    List<Channels> getChannelsList(@Query("token") String apiToken, Callback<SlackChannelResponse> callback);
+    void getChannelsList(@Query("token") String apiToken, Callback<SlackChannelResponse> callback);
 
     @GET("/channels.history")
-    List<Messages> getMessages(@Query("token") String apiToken, @Query("channel") String channel,
+    void getMessages(@Query("token") String apiToken, @Query("channel") String channel,
                      Callback<SlackMessageResponse> callback);
 }

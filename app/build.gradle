@@ -43,6 +43,8 @@ android {
         buildConfigField "String", "TWITTER_SECRET", "\"${retrieveProp('TWITTER_SECRET')}\""
         buildConfigField "String", "SLACK_KEY", "\"${retrieveProp('SLACK_KEY')}\""
         buildConfigField "String", "SLACK_TOKEN", "\"${retrieveProp('SLACK_TOKEN')}\""
+        buildConfigField "String", "PARSE_APP_ID", "\"${retrieveProp('PARSE_APP_ID')}\""
+        buildConfigField "String", "PARSE_CLIENT_ID", "\"${retrieveProp('PARSE_CLIENT_ID')}\""
     }
     buildTypes {
         release {
@@ -57,6 +59,8 @@ dependencies {
         transitive = true;
     }
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.parse.bolts:bolts-android:1.+'
+    compile files('libs/Parse-1.9.1/Parse-1.9.1.jar')
     compile 'com.android.support:design:22.2.0'
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.android.support:cardview-v7:22.2.0'

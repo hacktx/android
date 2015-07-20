@@ -28,7 +28,7 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <include layout="@layout/announcements_layout" />
+        <include layout="@layout/announcement_individual" />
 
     </android.support.design.widget.CoordinatorLayout>
 

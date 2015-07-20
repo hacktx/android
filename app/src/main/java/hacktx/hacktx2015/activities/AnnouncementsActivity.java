@@ -5,6 +5,12 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.TextView;
+
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParsePush;
+import com.parse.SaveCallback;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -49,7 +55,7 @@ public class AnnouncementsActivity extends BaseActivity {
             public void success(SlackChannelResponse slackChannelResponse, Response response) {
                 // success!
                 Log.i(TAG, "first channel name: " + slackChannelResponse.getChannels().get(0).getName());
-                // you get the point...
+                Log.i(TAG, "second channel name: " + slackChannelResponse.getChannels().get(1).getName());
             }
 
             @Override
