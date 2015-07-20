@@ -1,5 +1,8 @@
 package hacktx.hacktx2015.fragments;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,13 +12,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import java.text.DateFormat;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 import hacktx.hacktx2015.R;
@@ -51,6 +64,7 @@ public class ScheduleDayFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_schedule_day, container, false);
         scheduleList = new ArrayList<>();
         getFakeData();
+        new ScheduleDataAsyncTask().execute();
 
         recyclerView = (RecyclerView) root.findViewById(R.id.scheduleRecyclerView);
         RecyclerView.Adapter scheduleAdapter = new ScheduleClusterRecyclerView(scheduleList);
@@ -114,6 +128,74 @@ public class ScheduleDayFragment extends Fragment {
             scheduleList.add(secondCluster);
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+    }
+
+    class ScheduleDataAsyncTask extends AsyncTask<String, String, Void> {
+
+        private ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        InputStream inputStream = null;
+        String result = "";
+
+        protected void onPreExecute() {
+            progressDialog.setMessage("Getting schedule...");
+            progressDialog.show();
+            progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                public void onCancel(DialogInterface arg0) {
+                    cancel(true);
+                }
+            });
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+
+            String url = "http://texasgamer.me/projects/hacktx/schedule.json";
+            InputStream is = null;
+            JSONArray jsonArray = null;
+            String json = "";
+
+            try {
+                DefaultHttpClient httpClient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost(url);
+
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+                HttpEntity httpEntity = httpResponse.getEntity();
+                is = httpEntity.getContent();
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        is, "iso-8859-1"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                is.close();
+                json = sb.toString();
+            } catch (Exception e) {
+                Log.e("Buffer Error", "Error converting result " + e.toString());
+            }
+
+            try {
+                jsonArray = new JSONArray(json);
+            } catch (JSONException e) {
+                Log.e("JSON Parser", "Error parsing data " + e.toString());
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(Void v) {
+            progressDialog.dismiss();
         }
     }
 }
