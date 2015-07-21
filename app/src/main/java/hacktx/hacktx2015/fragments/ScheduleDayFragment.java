@@ -153,7 +153,7 @@ public class ScheduleDayFragment extends Fragment {
                     ArrayList<ScheduleEvent> events = new ArrayList<>();
 
                     for (int n = 0; n < eventsArrayJson.length(); n++) {
-                        JSONObject event = eventsArrayJson.getJSONObject(x);
+                        JSONObject event = eventsArrayJson.getJSONObject(n);
                         EventType type;
                         switch (event.getString("type")) {
                             case "food":
