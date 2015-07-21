@@ -1,6 +1,7 @@
 package hacktx.hacktx2015.models;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import hacktx.hacktx2015.enums.EventType;
@@ -13,8 +14,8 @@ public class ScheduleEvent {
     private EventType type;
     private String name;
     //2001-07-04 12:08:56
-    private Date startTime;
-    private Date endTime;
+    private Calendar startTime;
+    private Calendar endTime;
     private String location;
     private String description;
     private ArrayList<ScheduleSpeaker> speakerList;
@@ -23,8 +24,10 @@ public class ScheduleEvent {
         this.id = id;
         this.type = type;
         this.name = name;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.startTime = Calendar.getInstance();
+        this.startTime.setTime(startTime);
+        this.endTime = Calendar.getInstance();
+        this.endTime.setTime(endTime);
         this.location = location;
         this.description = description;
         this.speakerList = speakerList;
@@ -54,19 +57,19 @@ public class ScheduleEvent {
         this.name = name;
     }
 
-    public Date getStartTime() {
+    public Calendar getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(Calendar startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public Calendar getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(Calendar endTime) {
         this.endTime = endTime;
     }
 
@@ -95,6 +98,15 @@ public class ScheduleEvent {
     }
 
     public String getEventDetails() {
-        return "" + (getStartTime().getHours()) + ":" + (getStartTime().getMinutes()) +  " - " + (getEndTime().getHours()) + ":" + (getEndTime().getMinutes()) +  " | " + getLocation();
+        String startAmPm = "", endAmPm = "";
+        if(getStartTime().get(Calendar.AM_PM) != getEndTime().get(Calendar.AM_PM)) {
+            startAmPm = (getStartTime().get(Calendar.AM_PM) == 0) ? " AM" : " PM";
+            endAmPm = (getEndTime().get(Calendar.AM_PM) == 0) ? " AM" : " PM";
+        }
+
+        return String.format("%01d:%02d", getStartTime().get(Calendar.HOUR), getStartTime().get(Calendar.MINUTE))
+                + startAmPm + " - "
+                + String.format("%01d:%02d", getEndTime().get(Calendar.HOUR), getEndTime().get(Calendar.MINUTE))
+                + endAmPm + " | " + getLocation();
     }
 }
