@@ -1,11 +1,11 @@
 package hacktx.hacktx2015.fragments;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -45,10 +45,12 @@ import hacktx.hacktx2015.views.adapters.ScheduleClusterRecyclerView;
  */
 public class ScheduleDayFragment extends Fragment {
 
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private ArrayList<ScheduleCluster> scheduleList;
-    RecyclerView recyclerView;
 
-    public ScheduleDayFragment() {}
+    public ScheduleDayFragment() {
+    }
 
     public static ScheduleDayFragment newInstance(String request) {
 
@@ -65,6 +67,17 @@ public class ScheduleDayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_schedule_day, container, false);
         scheduleList = new ArrayList<>();
+
+        swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.primary, R.color.accent);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                scheduleList.clear();
+                new ScheduleDataAsyncTask().execute();
+            }
+        });
+
         new ScheduleDataAsyncTask().execute();
 
         recyclerView = (RecyclerView) root.findViewById(R.id.scheduleRecyclerView);
@@ -78,17 +91,11 @@ public class ScheduleDayFragment extends Fragment {
 
     class ScheduleDataAsyncTask extends AsyncTask<String, String, Void> {
 
-        private ProgressDialog progressDialog = new ProgressDialog(getActivity());
         JSONArray jsonArray = null;
+        private ProgressDialog progressDialog = new ProgressDialog(getActivity());
 
         protected void onPreExecute() {
-            progressDialog.setMessage("Getting schedule...");
-            progressDialog.show();
-            progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                public void onCancel(DialogInterface arg0) {
-                    cancel(true);
-                }
-            });
+            swipeRefreshLayout.setRefreshing(true);
         }
 
         @Override
@@ -190,7 +197,7 @@ public class ScheduleDayFragment extends Fragment {
             RecyclerView.Adapter scheduleAdapter = new ScheduleClusterRecyclerView(scheduleList);
             recyclerView.setAdapter(scheduleAdapter);
 
-            progressDialog.dismiss();
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 }
