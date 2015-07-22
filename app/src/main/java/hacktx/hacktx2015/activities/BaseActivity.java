@@ -80,6 +80,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                                         if(navSelect != 0) {
                                             Intent intent = new Intent(context, MainActivity.class);
                                             intent.putExtra("navSelect", 0);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(intent);
                                         }
                                     }
@@ -92,6 +93,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                                         if(navSelect != 1) {
                                             Intent intent = new Intent(context, AnnouncementsActivity.class);
                                             intent.putExtra("navSelect", 1);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(intent);
                                         }
                                     }
@@ -104,6 +106,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                                         if(navSelect != 2) {
                                             Intent intent = new Intent(context, TwitterActivity.class);
                                             intent.putExtra("navSelect", 2);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(intent);
                                         }
                                     }
@@ -128,6 +131,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                                         if(navSelect != 4) {
                                             Intent intent = new Intent(context, SponsorActivity.class);
                                             intent.putExtra("navSelect", 4);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(intent);
                                         }
                                     }
