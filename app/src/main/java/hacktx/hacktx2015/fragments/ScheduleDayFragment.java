@@ -8,29 +8,24 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import hacktx.hacktx2015.R;
@@ -102,43 +97,29 @@ public class ScheduleDayFragment extends Fragment {
         protected Void doInBackground(String... params) {
 
             String url = "http://texasgamer.me/projects/hacktx/schedule.json";
-            InputStream is = null;
-            String json = "";
 
             try {
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(url);
+                URL u = new URL(url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) u.openConnection();
+                httpURLConnection.setRequestMethod("GET");
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+                StringBuilder stringBuilder = new StringBuilder();
 
-                HttpResponse httpResponse = httpClient.execute(httpPost);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                is = httpEntity.getContent();
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(line + '\n');
+                }
 
-            } catch (UnsupportedEncodingException e) {
+                jsonArray = new JSONArray(stringBuilder.toString());
+                httpURLConnection.disconnect();
+            } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (ClientProtocolException e) {
+            } catch (ProtocolException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(
-                        is, "iso-8859-1"), 8);
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line + "\n");
-                }
-                is.close();
-                json = sb.toString();
-            } catch (Exception e) {
-                Log.e("Buffer Error", "Error converting result " + e.toString());
-            }
-
-            try {
-                jsonArray = new JSONArray(json);
             } catch (JSONException e) {
-                Log.e("JSON Parser", "Error parsing data " + e.toString());
+                e.printStackTrace();
             }
 
             return null;
