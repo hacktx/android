@@ -35,7 +35,7 @@ public class ScheduleMainFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return root;
     }
 
     private void setupViewPager(ViewPager viewPager) {
