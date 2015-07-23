@@ -2,6 +2,8 @@ package hacktx.hacktx2015.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -109,9 +111,11 @@ public class ScheduleDayFragment extends Fragment {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
             long lastUpdated = preferences.getLong("scheduleLastUpdated" + day, 0);
 
-            if(System.currentTimeMillis() - lastUpdated < 3600000 && !overrideCache) {
+            if((System.currentTimeMillis() - lastUpdated < 3600000 && !overrideCache) || !isNetworkAvailable()) {
+                System.out.println("HACTX: loading from file!");
                 scheduleClusters = getDataFromFile();
             } else {
+                System.out.println("HACTX: loading from url!");
                 scheduleClusters = getDataFromUrl();
             }
 
@@ -121,6 +125,10 @@ public class ScheduleDayFragment extends Fragment {
         }
 
         protected void onPostExecute(Void v) {
+            if(scheduleClusters.size() == 0) {
+                System.out.println("HACTX: Offline and no cache available! (day " + day + ")");
+            }
+
             RecyclerView.Adapter scheduleAdapter = new ScheduleClusterRecyclerView(scheduleClusters);
             recyclerView.setAdapter(scheduleAdapter);
 
@@ -139,7 +147,17 @@ public class ScheduleDayFragment extends Fragment {
         }
 
         private ArrayList<ScheduleCluster> getDataFromFile() {
-            return new Gson().fromJson(readCache(), new TypeToken<ArrayList<ScheduleCluster>>(){}.getType());
+            String cache = readCache();
+            if(!cache.equals("")) {
+                return new Gson().fromJson(cache, new TypeToken<ArrayList<ScheduleCluster>>() {
+                }.getType());
+            } else {
+                if(isNetworkAvailable()) {
+                    return getDataFromUrl();
+                } else {
+                    return new ArrayList<>();
+                }
+            }
         }
 
         private void saveCache(String data) {
@@ -157,7 +175,6 @@ public class ScheduleDayFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-
 
         private String readCache() {
             String ret = "";
@@ -185,6 +202,13 @@ public class ScheduleDayFragment extends Fragment {
             }
 
             return ret;
+        }
+
+        private boolean isNetworkAvailable() {
+            ConnectivityManager connectivityManager
+                    = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
         }
     }
 
