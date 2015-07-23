@@ -1,21 +1,39 @@
 package hacktx.hacktx2015.fragments;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import java.text.DateFormat;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 import hacktx.hacktx2015.R;
@@ -30,13 +48,11 @@ import hacktx.hacktx2015.views.adapters.ScheduleClusterRecyclerView;
  */
 public class ScheduleDayFragment extends Fragment {
 
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private ArrayList<ScheduleCluster> scheduleList;
-    RecyclerView recyclerView;
-
-    public ScheduleDayFragment() {}
 
     public static ScheduleDayFragment newInstance(String request) {
-
         Bundle args = new Bundle();
         args.putString("request", request);
 
@@ -50,7 +66,26 @@ public class ScheduleDayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_schedule_day, container, false);
         scheduleList = new ArrayList<>();
-        getFakeData();
+
+        swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.primary, R.color.accent);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                scheduleList.clear();
+                new ScheduleDataAsyncTask(true).execute();
+            }
+        });
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                if(scheduleList.size() == 0) {
+                    swipeRefreshLayout.setRefreshing(true);
+                }
+            }
+        });
+
+        new ScheduleDataAsyncTask(false).execute();
 
         recyclerView = (RecyclerView) root.findViewById(R.id.scheduleRecyclerView);
         RecyclerView.Adapter scheduleAdapter = new ScheduleClusterRecyclerView(scheduleList);
@@ -61,59 +96,167 @@ public class ScheduleDayFragment extends Fragment {
         return root;
     }
 
-    private void getFakeData() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-        ScheduleSpeaker batman = new ScheduleSpeaker(0,
-                "Batman",
-                "Justice Inc",
-                "Hero can be anyone. Even a man knowing something as simple and reassuring as putting a coat around a young boy shoulders to let him know the world hadn't ended.",
-                "http://cdn.bgr.com/2015/04/batman-v-superman-trailer.png");
-        ScheduleSpeaker superman = new ScheduleSpeaker(1,
-                "Superman",
-                "Peace Inc",
-                "You will travel far, my little Kal-El. But we will never leave you... even in the face of our death. The richness of our lives shall be yours. All that I have, all that I've learned, everything I feel... all this, and more, I... I bequeath you, my son. You will carry me inside you, all the days of your life. You will make my strength your own, and see my life through your eyes, as your life will be seen through mine. The son becomes the father, and the father the son. This is all I... all I can send you, Kal-El.",
-                "http://1.bp.blogspot.com/-w9vnmSGyhBU/VRL-ioqskHI/AAAAAAAAATA/WpM7LR8Pg1k/s1600/superman01.png");
+    class ScheduleDataAsyncTask extends AsyncTask<String, String, Void> {
 
-        ArrayList<ScheduleSpeaker> batmanList = new ArrayList<>();
-        batmanList.add(batman);
-        ArrayList<ScheduleSpeaker> supermanList = new ArrayList<>();
-        supermanList.add(superman);
-        ArrayList<ScheduleSpeaker> superAndBatList = new ArrayList<>();
-        batmanList.add(batman);
-        supermanList.add(superman);
+        private JSONArray jsonArray = null;
+        private boolean overrideCache;
 
-        try {
-            ScheduleEvent batman0 = new ScheduleEvent(0, EventType.TALK, "BatScript: The real dev language",
-                    formatter.parse("2015-09-26 08:00:00"),
-                    formatter.parse("2015-09-26 09:00:00"),
-                    "SAC Mainroom", "We be talkin about stuff", batmanList);
-            ScheduleEvent batman1 = new ScheduleEvent(1, EventType.EDUCATION, "BatPython: The gangsta dev language",
-                    formatter.parse("2015-09-26 08:00:00"),
-                    formatter.parse("2015-09-26 09:00:00"),
-                    "Blue Room", "We be talkin about stuff", batmanList);
-            ArrayList<ScheduleEvent> firstList = new ArrayList<>();
-            firstList.add(batman0);
-            firstList.add(batman1);
-            ScheduleCluster firstCluster = new ScheduleCluster(0, "8:00 AM", firstList);
+        public ScheduleDataAsyncTask(boolean overrideCache) {
+            this.overrideCache = overrideCache;
+        }
 
-            ScheduleEvent superman0 = new ScheduleEvent(2, EventType.FOOD, "SuperJava: The caffinated dev language",
-                    formatter.parse("2015-09-26 09:00:00"),
-                    formatter.parse("2015-09-26 10:00:00"),
-                    "Taco Room", "We be talkin about stuff", supermanList);
-            ScheduleEvent superbat0 = new ScheduleEvent(3, EventType.FOOD, "V super much Bat: Food for all",
-                    formatter.parse("2015-09-26 09:00:00"),
-                    formatter.parse("2015-09-26 13:00:00"),
-                    "SAC Mainroom", "We be talkin about stuff", superAndBatList);
+        @Override
+        protected Void doInBackground(String... params) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            long lastUpdated = preferences.getLong("scheduleLastUpdated", 0);
+            if(System.currentTimeMillis() - lastUpdated < 3600000 && !overrideCache) {
+                jsonArray = getJsonFromFile();
+            } else {
+                jsonArray = getJsonFromUrl();
+            }
 
-            ArrayList<ScheduleEvent> secondList = new ArrayList<>();
-            secondList.add(superman0);
-            secondList.add(superbat0);
-            ScheduleCluster secondCluster = new ScheduleCluster(0, "9:00 AM", secondList);
+            return null;
+        }
 
-            scheduleList.add(firstCluster);
-            scheduleList.add(secondCluster);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        protected void onPostExecute(Void v) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+            try {
+                for (int x = 0; x < jsonArray.length(); x++) {
+                    JSONObject schedClusterJson = jsonArray.getJSONObject(x);
+                    JSONArray eventsArrayJson = schedClusterJson.getJSONArray("eventsList");
+                    ArrayList<ScheduleEvent> events = new ArrayList<>();
+
+                    for (int n = 0; n < eventsArrayJson.length(); n++) {
+                        JSONObject event = eventsArrayJson.getJSONObject(n);
+                        EventType type;
+                        switch (event.getString("type")) {
+                            case "food":
+                                type = EventType.FOOD;
+                                break;
+                            case "education":
+                                type = EventType.EDUCATION;
+                                break;
+                            case "talk":
+                                type = EventType.TALK;
+                                break;
+                            default:
+                                type = EventType.TALK;
+                                break;
+                        }
+
+                        ArrayList<ScheduleSpeaker> speakers = new ArrayList<>();
+                        JSONArray speakerArray = event.getJSONArray("speakerList");
+                        for (int k = 0; k < speakerArray.length(); k++) {
+                            JSONObject speaker = speakerArray.getJSONObject(k);
+                            speakers.add(new ScheduleSpeaker(speaker.getInt("id"), speaker.getString("name"),
+                                    speaker.getString("organization"), speaker.getString("description"),
+                                    speaker.getString("imageUrl")));
+                        }
+
+                        events.add(new ScheduleEvent(event.getInt("id"), type, event.getString("name"),
+                                formatter.parse(event.getString("startDate")),
+                                formatter.parse(event.getString("endDate")),
+                                event.getString("location"), event.getString("description"), speakers));
+                    }
+
+                    scheduleList.add(new ScheduleCluster(schedClusterJson.getInt("id"),
+                            schedClusterJson.getString("name"), events));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            RecyclerView.Adapter scheduleAdapter = new ScheduleClusterRecyclerView(scheduleList);
+            recyclerView.setAdapter(scheduleAdapter);
+
+            swipeRefreshLayout.setRefreshing(false);
+        }
+
+        private JSONArray getJsonFromUrl() {
+            String url = "http://texasgamer.me/projects/hacktx/schedule.json";
+            JSONArray result = new JSONArray();
+            try {
+                URL u = new URL(url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) u.openConnection();
+                httpURLConnection.setRequestMethod("GET");
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+                StringBuilder stringBuilder = new StringBuilder();
+
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(line + '\n');
+                }
+                saveCache(stringBuilder.toString());
+                result = new JSONArray(stringBuilder.toString());
+                httpURLConnection.disconnect();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return result;
+        }
+
+        private JSONArray getJsonFromFile() {
+            try {
+                return new JSONArray(readCache());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return getJsonFromUrl();
+        }
+
+        private void saveCache(String data) {
+            FileOutputStream outputStream;
+            try {
+                outputStream = getActivity().openFileOutput("schedule.json", Context.MODE_PRIVATE);
+                outputStream.write(data.getBytes());
+                outputStream.close();
+
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putLong("scheduleLastUpdated", System.currentTimeMillis());
+                editor.apply();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        private String readCache() {
+            String ret = "";
+
+            try {
+                InputStream inputStream = getActivity().openFileInput("schedule.json");
+
+                if (inputStream != null) {
+                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    String receiveString;
+                    StringBuilder stringBuilder = new StringBuilder();
+
+                    while ((receiveString = bufferedReader.readLine()) != null) {
+                        stringBuilder.append(receiveString);
+                    }
+
+                    inputStream.close();
+                    ret = stringBuilder.toString();
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return ret;
         }
     }
 }

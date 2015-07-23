@@ -3,12 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="10dp">
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
 
     <ImageView
         android:id="@+id/eventIcon"
-        android:paddingRight="20dp"
-        android:paddingLeft="20dp"
+        android:paddingRight="24dp"
+        android:paddingLeft="24dp"
         android:src="@drawable/ic_event"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -26,7 +27,7 @@
             android:textStyle="bold"/>
         <TextView
             android:id="@+id/eventDetails"
-            android:paddingTop="5dp"
+            android:paddingTop="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="12:30 AM - 1:00 PM | Lounge Talk (L2)"
