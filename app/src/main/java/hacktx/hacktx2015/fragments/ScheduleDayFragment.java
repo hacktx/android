@@ -40,6 +40,7 @@ public class ScheduleDayFragment extends Fragment {
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ArrayList<ScheduleCluster> scheduleList;
+    private boolean doneLoading;
 
     public static ScheduleDayFragment newInstance(String request) {
         Bundle args = new Bundle();
@@ -68,7 +69,7 @@ public class ScheduleDayFragment extends Fragment {
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                if (scheduleList.size() == 0) {
+                if (!doneLoading) {
                     swipeRefreshLayout.setRefreshing(true);
                 }
             }
@@ -92,17 +93,22 @@ public class ScheduleDayFragment extends Fragment {
 
         public ScheduleDataAsyncTask(boolean overrideCache) {
             this.overrideCache = overrideCache;
+
+            doneLoading = false;
         }
 
         @Override
         protected Void doInBackground(String... params) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
             long lastUpdated = preferences.getLong("scheduleLastUpdated", 0);
+
             if(System.currentTimeMillis() - lastUpdated < 3600000 && !overrideCache) {
                 scheduleClusters = getDataFromFile();
             } else {
                 scheduleClusters = getDataFromUrl();
             }
+
+            doneLoading = true;
 
             return null;
         }
