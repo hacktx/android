@@ -40,6 +40,7 @@ public class ScheduleDayFragment extends Fragment {
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ArrayList<ScheduleCluster> scheduleList;
+    private int day;
     private boolean doneLoading;
 
     public static ScheduleDayFragment newInstance(String request) {
@@ -56,6 +57,12 @@ public class ScheduleDayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_schedule_day, container, false);
         scheduleList = new ArrayList<>();
+
+        switch(getArguments().getString("request")) {
+            case "Sept 26": day = 1; break;
+            case "Sept 27": day = 2; break;
+            default: day = 1;
+        }
 
         swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.primary, R.color.accent);
@@ -100,7 +107,7 @@ public class ScheduleDayFragment extends Fragment {
         @Override
         protected Void doInBackground(String... params) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            long lastUpdated = preferences.getLong("scheduleLastUpdated", 0);
+            long lastUpdated = preferences.getLong("scheduleLastUpdated" + day, 0);
 
             if(System.currentTimeMillis() - lastUpdated < 3600000 && !overrideCache) {
                 scheduleClusters = getDataFromFile();
@@ -128,7 +135,7 @@ public class ScheduleDayFragment extends Fragment {
             ScheduleService scheduleService = restAdapter.create(ScheduleService.class);
             ArrayList<ScheduleCluster> scheduleClusters = scheduleService.getSchedule(1);
             saveCache(new Gson().toJson(scheduleClusters));
-            return scheduleService.getSchedule(1);
+            return scheduleService.getSchedule(day);
         }
 
         private ArrayList<ScheduleCluster> getDataFromFile() {
@@ -138,13 +145,13 @@ public class ScheduleDayFragment extends Fragment {
         private void saveCache(String data) {
             FileOutputStream outputStream;
             try {
-                outputStream = getActivity().openFileOutput("schedule.json", Context.MODE_PRIVATE);
+                outputStream = getActivity().openFileOutput("schedule-" + day + ".json", Context.MODE_PRIVATE);
                 outputStream.write(data.getBytes());
                 outputStream.close();
 
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor editor = preferences.edit();
-                editor.putLong("scheduleLastUpdated", System.currentTimeMillis());
+                editor.putLong("scheduleLastUpdated" + day, System.currentTimeMillis());
                 editor.apply();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -156,7 +163,7 @@ public class ScheduleDayFragment extends Fragment {
             String ret = "";
 
             try {
-                InputStream inputStream = getActivity().openFileInput("schedule.json");
+                InputStream inputStream = getActivity().openFileInput("schedule-" + day + ".json");
 
                 if (inputStream != null) {
                     InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
