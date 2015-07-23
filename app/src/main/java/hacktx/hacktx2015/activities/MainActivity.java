@@ -1,87 +1,124 @@
 package hacktx.hacktx2015.activities;
 
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
+import android.app.ActivityManager;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.FrameLayout;
 
-import hacktx.hacktx2015.enums.EventType;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import hacktx.hacktx2015.fragments.ScheduleDayFragment;
-import hacktx.hacktx2015.models.ScheduleCluster;
-import hacktx.hacktx2015.models.ScheduleEvent;
-import hacktx.hacktx2015.models.ScheduleSpeaker;
 import hacktx.hacktx2015.R;
+import hacktx.hacktx2015.fragments.AnnouncementFragment;
+import hacktx.hacktx2015.fragments.MapFragment;
+import hacktx.hacktx2015.fragments.ScheduleMainFragment;
+import hacktx.hacktx2015.fragments.SponsorFragment;
+import hacktx.hacktx2015.fragments.TwitterFragment;
 
-public class MainActivity extends BaseActivity {
+/**
+ * Created by Drew on 6/28/15.
+ */
+public class MainActivity extends AppCompatActivity {
+
+    private DrawerLayout drawerLayout;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setupTaskActivityInfo();
         setupToolbar((Toolbar) findViewById(R.id.toolbar));
         setupDrawerContent(this, (DrawerLayout) findViewById(R.id.drawer_layout), (NavigationView) findViewById(R.id.nav_view));
-
-        ViewPager viewPager = (android.support.v4.view.ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        setupFragmentContent(savedInstanceState);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new ScheduleDayFragment(), "Sept 26");
-        adapter.addFragment(new ScheduleDayFragment(), "Sept 27");
-        viewPager.setAdapter(adapter);
-        Log.v("Main", " "  + viewPager.getAdapter().getCount());
+    protected void setupTaskActivityInfo() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            String appName = getString(R.string.app_name);
+            Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+            int color = getResources().getColor(R.color.primaryDark);
+            ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(appName, icon, color);
+            setTaskDescription(taskDesc);
+        }
     }
 
-    static class Adapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragments = new ArrayList<>();
-        private final List<String> mFragmentTitles = new ArrayList<>();
+    protected void setupToolbar(Toolbar toolbar) {
+        setSupportActionBar(toolbar);
 
-        public Adapter(FragmentManager fm) {
-            super(fm);
-        }
+        actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
 
-        public void addFragment(Fragment fragment, String title) {
-            mFragments.add(fragment);
-            mFragmentTitles.add(title);
-        }
+    protected void setupDrawerContent(final Context context, final DrawerLayout drawerLayout, NavigationView navigationView) {
+        this.drawerLayout = drawerLayout;
+        //final int navSelect = getIntent().getIntExtra("navSelect", 0);
 
-        @Override
-        public Fragment getItem(int position) {
-            return ScheduleDayFragment.newInstance(mFragmentTitles.get(position));
-        }
+        navigationView.getMenu().getItem(0).setChecked(true);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(final MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        switch (menuItem.getItemId()) {
+                            case R.id.nav_schedule:
+                                transaction.replace(R.id.content_fragment, new ScheduleMainFragment());
+                                transaction.commit();
+                                break;
+                            case R.id.nav_announcement:
+                                transaction.replace(R.id.content_fragment, new AnnouncementFragment());
+                                transaction.commit();
+                                break;
+                            case R.id.nav_twitter:
+                                transaction.replace(R.id.content_fragment, new TwitterFragment());
+                                transaction.commit();
+                                break;
+                            case R.id.nav_map:
+                                transaction.replace(R.id.content_fragment, new MapFragment());
+                                transaction.commit();
+                                break;
+                            case R.id.nav_sponsors:
+                                transaction.replace(R.id.content_fragment, new SponsorFragment());
+                                transaction.commit();
+                                break;
+                        }
+                        drawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
+    }
 
-        @Override
-        public int getCount() {
-            return mFragments.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitles.get(position);
+    protected void setupFragmentContent(Bundle savedInstanceState) {
+        // Setup fragments
+        Log.v("main", "before");
+        if (savedInstanceState == null) {
+            Log.v("main", "start");
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.content_fragment, new ScheduleMainFragment())
+                    .commit();
         }
     }
 }
