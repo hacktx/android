@@ -20,7 +20,6 @@ public class AnnouncementsRecyclerView extends RecyclerView.Adapter<Announcement
 
     private static final String TAG = "AnnouncementsRecycler";
     private List<Messages> announcementsList;
-    private String realName;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -28,7 +27,6 @@ public class AnnouncementsRecyclerView extends RecyclerView.Adapter<Announcement
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         CardView card;
-        TextView creator;
         TextView date;
         TextView message;
 
@@ -36,7 +34,6 @@ public class AnnouncementsRecyclerView extends RecyclerView.Adapter<Announcement
             super(v);
 
             card = (CardView) v.findViewById(R.id.announcement_cardview);
-            creator = (TextView) v.findViewById(R.id.announcement_creator);
             date = (TextView) v.findViewById(R.id.announcement_date);
             message = (TextView) v.findViewById(R.id.announcement_message);
         }
@@ -62,7 +59,6 @@ public class AnnouncementsRecyclerView extends RecyclerView.Adapter<Announcement
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.creator.setText(realName);
         holder.date.setText(announcementsList.get(position).getTs());
         holder.message.setText(announcementsList.get(position).getText());
     }

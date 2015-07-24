@@ -2,11 +2,8 @@
 <resources>
     <color name="window_background">#FFF5F5F5</color>
     <color name="hacktx_white">#FEF0D9</color>
-<<<<<<< HEAD
-    <color name="announcement_author">#Ec1c24</color>
-=======
+
     <color name="primary">#0AA6B6</color>
     <color name="primaryDark">#0d8397</color>
     <color name="accent">#F0514D</color>
->>>>>>> 7e7e85af8d0c6f9b934895c7ef68a64d3cac7087
 </resources>

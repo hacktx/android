@@ -1,6 +1,8 @@
 package hacktx.hacktx2015.activities;
 
 import android.app.ActivityManager;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -41,6 +43,18 @@ public class MainActivity extends AppCompatActivity {
         setupToolbar((Toolbar) findViewById(R.id.toolbar));
         setupDrawerContent(this, (DrawerLayout) findViewById(R.id.drawer_layout), (NavigationView) findViewById(R.id.nav_view));
         setupFragmentContent(savedInstanceState);
+
+        String extra = getIntent().getStringExtra("open");
+
+        if (extra != null) {
+            if (extra.equals("announcements")) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.content_fragment, new AnnouncementFragment()).commit();
+            } else {
+                Log.d("MainActivity", "Somehow something else was in the extra. You might want to" +
+                        " step through.");
+            }
+        }
     }
 
     @Override

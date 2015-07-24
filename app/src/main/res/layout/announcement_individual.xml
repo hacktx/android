@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="date goes here"
-                android:textColor="@color/announcement_author"
+                android:textColor="@color/accent"
                 android:textSize="16sp"/>
 
             <TextView

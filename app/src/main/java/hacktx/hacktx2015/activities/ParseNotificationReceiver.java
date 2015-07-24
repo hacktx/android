@@ -14,7 +14,8 @@ public class ParseNotificationReceiver extends ParsePushBroadcastReceiver {
     @Override
     protected void onPushOpen(Context context, Intent intent) {
         Log.d("NotifReceiver", "notification opened!");
-        Intent i = new Intent(context, AnnouncementsActivity.class);
+        Intent i = new Intent(context, MainActivity.class);
+        i.putExtra("open", "announcements");
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
     }
