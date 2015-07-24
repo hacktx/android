@@ -2,4 +2,5 @@
 <resources>
     <color name="window_background">#FFF5F5F5</color>
     <color name="hacktx_white">#FEF0D9</color>
+    <color name="announcement_author">#Ec1c24</color>
 </resources>

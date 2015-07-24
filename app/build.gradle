@@ -43,6 +43,7 @@ android {
         buildConfigField "String", "TWITTER_SECRET", "\"${retrieveProp('TWITTER_SECRET')}\""
         buildConfigField "String", "SLACK_KEY", "\"${retrieveProp('SLACK_KEY')}\""
         buildConfigField "String", "SLACK_TOKEN", "\"${retrieveProp('SLACK_TOKEN')}\""
+        buildConfigField "String", "SLACK_ANNOUNCEMENT_ID", "\"${retrieveProp('SLACK_ANNOUNCEMENT_ID')}\""
         buildConfigField "String", "PARSE_APP_ID", "\"${retrieveProp('PARSE_APP_ID')}\""
         buildConfigField "String", "PARSE_CLIENT_ID", "\"${retrieveProp('PARSE_CLIENT_ID')}\""
     }
@@ -68,4 +69,5 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.4.0'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.android.support:recyclerview-v7:21.0.+'
 }

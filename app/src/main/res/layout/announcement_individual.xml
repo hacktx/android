@@ -1,44 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
+
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
-        android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="7dp"
+    android:paddingBottom="7dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/announcement_cardview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="4dp">
 
         <RelativeLayout
             android:id="@+id/announcement_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp">
-
-            <TextView
-                android:id="@+id/announcement_creator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:text="message creator goes here"/>
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/announcement_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:text="date goes here"
+                android:textColor="@color/announcement_author"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/announcement_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/announcement_date"
+                android:layout_marginTop="7dp"
                 android:textColor="@android:color/black"
-                android:textStyle="bold"
-                />
+                android:text="message text goes here"/>
+
         </RelativeLayout>
 
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/announcement_info"
-            android:text="message text goes here"/>
-
-    </RelativeLayout>
-</merge>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

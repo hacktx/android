@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by britne on 7/12/15.
  */
-public class SlackMessageResponse {
+public class AnnouncementResponse {
 
     private List<Messages> messages;
 

@@ -11,7 +11,7 @@ import retrofit.client.OkClient;
 public class RestAdapterClient {
 
     private static RetrofitApi REST_CLIENT;
-    private static String ROOT = "https://slack.com/api/";
+    private static String ROOT = "hacktx something";
 
     static {
         setupRestClient();

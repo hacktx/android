@@ -986,8 +986,8 @@
 <dt><span class="strong"><a href="./com/parse/PushService.html#getSubscriptions(android.content.Context)">getSubscriptions(Context)</a></span> - Static method in class com.parse.<a href="./com/parse/PushService.html" title="class in com.parse">PushService</a></dt>
 <dd>
 <div class="block"><span class="strong">Deprecated.</span>
-<div class="block"><i>Subscriptions are stored in the <a href="./com/parse/ParseInstallation.html" title="class in com.parse"><code>ParseInstallation</code></a> <code>"channels"</code> field.
-   Use <code>ParseInstallation.getCurrentInstallation().getList&lt;String&gt;("channels")</code></i></div>
+<div class="block"><i>Subscriptions are stored in the <a href="./com/parse/ParseInstallation.html" title="class in com.parse"><code>ParseInstallation</code></a> <code>"groups"</code> field.
+   Use <code>ParseInstallation.getCurrentInstallation().getList&lt;String&gt;("groups")</code></i></div>
 </div>
 </dd>
 <dt><span class="strong"><a href="./com/parse/ParseTwitterUtils.html#getTwitter()">getTwitter()</a></span> - Static method in class com.parse.<a href="./com/parse/ParseTwitterUtils.html" title="class in com.parse">ParseTwitterUtils</a></dt>
@@ -1949,7 +1949,7 @@
 </dd>
 <dt><span class="strong"><a href="./com/parse/ParsePush.html#setChannels(java.util.Collection)">setChannels(Collection&lt;String&gt;)</a></span> - Method in class com.parse.<a href="./com/parse/ParsePush.html" title="class in com.parse">ParsePush</a></dt>
 <dd>
-<div class="block">Sets the collection of channels on which this push notification will be sent.</div>
+<div class="block">Sets the collection of groups on which this push notification will be sent.</div>
 </dd>
 <dt><span class="strong"><a href="./com/parse/ParsePush.html#setData(org.json.JSONObject)">setData(JSONObject)</a></span> - Method in class com.parse.<a href="./com/parse/ParsePush.html" title="class in com.parse">ParsePush</a></dt>
 <dd>
@@ -2149,12 +2149,12 @@
 </dd>
 <dt><span class="strong"><a href="./com/parse/ParsePush.html#subscribeInBackground(java.lang.String)">subscribeInBackground(String)</a></span> - Static method in class com.parse.<a href="./com/parse/ParsePush.html" title="class in com.parse">ParsePush</a></dt>
 <dd>
-<div class="block">Adds 'channel' to the 'channels' list in the current <a href="./com/parse/ParseInstallation.html" title="class in com.parse"><code>ParseInstallation</code></a> and saves it in
+<div class="block">Adds 'channel' to the 'groups' list in the current <a href="./com/parse/ParseInstallation.html" title="class in com.parse"><code>ParseInstallation</code></a> and saves it in
  a background thread.</div>
 </dd>
 <dt><span class="strong"><a href="./com/parse/ParsePush.html#subscribeInBackground(java.lang.String,%20com.parse.SaveCallback)">subscribeInBackground(String, SaveCallback)</a></span> - Static method in class com.parse.<a href="./com/parse/ParsePush.html" title="class in com.parse">ParsePush</a></dt>
 <dd>
-<div class="block">Adds 'channel' to the 'channels' list in the current <a href="./com/parse/ParseInstallation.html" title="class in com.parse"><code>ParseInstallation</code></a> and saves it in
+<div class="block">Adds 'channel' to the 'groups' list in the current <a href="./com/parse/ParseInstallation.html" title="class in com.parse"><code>ParseInstallation</code></a> and saves it in
  a background thread.</div>
 </dd>
 </dl>
@@ -2318,12 +2318,12 @@
 </dd>
 <dt><span class="strong"><a href="./com/parse/ParsePush.html#unsubscribeInBackground(java.lang.String)">unsubscribeInBackground(String)</a></span> - Static method in class com.parse.<a href="./com/parse/ParsePush.html" title="class in com.parse">ParsePush</a></dt>
 <dd>
-<div class="block">Removes 'channel' from the 'channels' list in the current <a href="./com/parse/ParseInstallation.html" title="class in com.parse"><code>ParseInstallation</code></a> and saves
+<div class="block">Removes 'channel' from the 'groups' list in the current <a href="./com/parse/ParseInstallation.html" title="class in com.parse"><code>ParseInstallation</code></a> and saves
  it in a background thread.</div>
 </dd>
 <dt><span class="strong"><a href="./com/parse/ParsePush.html#unsubscribeInBackground(java.lang.String,%20com.parse.SaveCallback)">unsubscribeInBackground(String, SaveCallback)</a></span> - Static method in class com.parse.<a href="./com/parse/ParsePush.html" title="class in com.parse">ParsePush</a></dt>
 <dd>
-<div class="block">Removes 'channel' from the 'channels' list in the current <a href="./com/parse/ParseInstallation.html" title="class in com.parse"><code>ParseInstallation</code></a> and saves
+<div class="block">Removes 'channel' from the 'groups' list in the current <a href="./com/parse/ParseInstallation.html" title="class in com.parse"><code>ParseInstallation</code></a> and saves
  it in a background thread.</div>
 </dd>
 <dt><span class="strong"><a href="./com/parse/ParseException.html#UNSUPPORTED_SERVICE">UNSUPPORTED_SERVICE</a></span> - Static variable in exception com.parse.<a href="./com/parse/ParseException.html" title="class in com.parse">ParseException</a></dt>

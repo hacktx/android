@@ -1,0 +1,21 @@
+package hacktx.hacktx2015.activities;
+
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+
+import com.parse.ParsePushBroadcastReceiver;
+
+/**
+ * Created by britne on 7/22/15.
+ */
+public class ParseNotificationReceiver extends ParsePushBroadcastReceiver {
+
+    @Override
+    protected void onPushOpen(Context context, Intent intent) {
+        Log.d("NotifReceiver", "notification opened!");
+        Intent i = new Intent(context, AnnouncementsActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(i);
+    }
+}

@@ -19,7 +19,10 @@ public class AppParseSetUp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Parse.initialize(this, BuildConfig.PARSE_APP_ID, BuildConfig.PARSE_CLIENT_ID);
+
+        //real one!!!
+        //Parse.initialize(this, BuildConfig.PARSE_APP_ID, BuildConfig.PARSE_CLIENT_ID);
+
         ParseInstallation.getCurrentInstallation().saveInBackground();
 
         ParsePush.subscribeInBackground("Announcements", new SaveCallback() {
