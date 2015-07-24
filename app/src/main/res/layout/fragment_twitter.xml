@@ -5,8 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/scheduleRecyclerView"
+    <ListView android:id="@+id/twitterList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="#e1e8ed"
+        android:dividerHeight="1dp"
+        android:drawSelectorOnTop="false"/>
+
 </android.support.v4.widget.SwipeRefreshLayout>
