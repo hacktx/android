@@ -3,4 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <!-- -->
+    <string name="prefs_schedule_last_updated">scheduleLastUpdated</string>
 </resources>
