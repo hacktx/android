@@ -1,12 +1,7 @@
 package hacktx.hacktx2015.fragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
@@ -18,34 +13,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.models.ScheduleCluster;
+import hacktx.hacktx2015.network.FileUtils;
+import hacktx.hacktx2015.network.HackTxClient;
+import hacktx.hacktx2015.network.NetworkUtils;
+import hacktx.hacktx2015.network.UserStateStore;
+import hacktx.hacktx2015.network.services.HackTxService;
 import hacktx.hacktx2015.views.adapters.ScheduleClusterRecyclerView;
-import retrofit.RestAdapter;
-import retrofit.http.GET;
-import retrofit.http.Path;
 
-/**
- * Created by Drew on 6/28/15.
- */
 public class ScheduleDayFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ArrayList<ScheduleCluster> scheduleList;
-    private int day;
     private boolean doneLoading;
+    private int day;
 
     public static ScheduleDayFragment newInstance(String request) {
         Bundle args = new Bundle();
@@ -68,24 +53,27 @@ public class ScheduleDayFragment extends Fragment {
             default: day = 1;
         }
 
-        swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipeRefreshLayout);
-        setupSwipeRefreshLayout(swipeRefreshLayout);
+        setupRecyclerView(root);
+        setupSwipeRefresh(root);
+        setupCollapsibleToolbar((AppBarLayout) getActivity().findViewById(R.id.appBar), swipeRefreshLayout);
 
         new ScheduleDataAsyncTask(false).execute();
-
-        recyclerView = (RecyclerView) root.findViewById(R.id.scheduleRecyclerView);
-        setupRecylerView((RecyclerView) root.findViewById(R.id.scheduleRecyclerView));
-        setupCollapsibleToolbar((AppBarLayout) getActivity().findViewById(R.id.appBar), swipeRefreshLayout);
 
         return root;
     }
 
-    private void setupSwipeRefreshLayout(final SwipeRefreshLayout swipeRefreshLayout) {
+    private void setupRecyclerView(View root) {
+        recyclerView = (RecyclerView) root.findViewById(R.id.scheduleRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(new ScheduleClusterRecyclerView(scheduleList));
+    }
+
+    private void setupSwipeRefresh(View root) {
+        swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.primary, R.color.accent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                scheduleList.clear();
                 new ScheduleDataAsyncTask(true).execute();
             }
         });
@@ -97,13 +85,6 @@ public class ScheduleDayFragment extends Fragment {
                 }
             }
         });
-    }
-
-    private void setupRecylerView(RecyclerView recyclerView) {
-        RecyclerView.Adapter scheduleAdapter = new ScheduleClusterRecyclerView(scheduleList);
-        recyclerView.setAdapter(scheduleAdapter);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(mLayoutManager);
     }
 
     private void setupCollapsibleToolbar(AppBarLayout appBarLayout, final SwipeRefreshLayout swipeRefreshLayout) {
@@ -119,27 +100,29 @@ public class ScheduleDayFragment extends Fragment {
         });
     }
 
+    /**
+     * <code>AsyncTask</code> which manages the fetching of schedule data either from
+     * the network or from local cache, depending on several conditions. Also handles
+     * caching new data to disk.
+     */
     class ScheduleDataAsyncTask extends AsyncTask<String, String, Void> {
+
+        final static int HOUR = 3600000;
 
         private ArrayList<ScheduleCluster> scheduleClusters;
         private boolean overrideCache;
 
         public ScheduleDataAsyncTask(boolean overrideCache) {
             this.overrideCache = overrideCache;
-
-            doneLoading = false;
         }
 
         @Override
         protected Void doInBackground(String... params) {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            long lastUpdated = preferences.getLong("scheduleLastUpdated" + day, 0);
-
-            if((System.currentTimeMillis() - lastUpdated < 3600000 && !overrideCache) || !isNetworkAvailable()) {
-                Log.v("ScheduleDayFragment", "Loading from file! (day " + day + ")");
+            if(willLoadFromFile()) {
+                Log.v("ScheduleDayFragment", "Loading day " + day + " schedule from file.");
                 scheduleClusters = getDataFromFile();
             } else {
-                Log.v("ScheduleDayFragment", "Loading from URL! (day " + day + ")");
+                Log.v("ScheduleDayFragment", "Loading day " + day + " schedule from URL.");
                 scheduleClusters = getDataFromUrl();
             }
 
@@ -150,94 +133,41 @@ public class ScheduleDayFragment extends Fragment {
 
         protected void onPostExecute(Void v) {
             if(scheduleClusters.size() == 0) {
-                Log.v("ScheduleDayFragment", "Offline and no cache available! (day " + day + ")");
+                Log.v("ScheduleDayFragment", "Offline and no cache available for day " + day + " schedule.");
             }
 
-            RecyclerView.Adapter scheduleAdapter = new ScheduleClusterRecyclerView(scheduleClusters);
-            recyclerView.setAdapter(scheduleAdapter);
+            scheduleList.clear();
+            scheduleList.addAll(scheduleClusters);
+            recyclerView.getAdapter().notifyDataSetChanged();
 
             swipeRefreshLayout.setRefreshing(false);
         }
 
-        private ArrayList<ScheduleCluster> getDataFromUrl() {
-            RestAdapter restAdapter = new RestAdapter.Builder()
-                    .setEndpoint("http://hacktx.getsandbox.com")
-                    .build();
+        private boolean willLoadFromFile() {
+            return (isFileRecent() || !NetworkUtils.canConnect(getActivity()));
+        }
 
-            ScheduleService scheduleService = restAdapter.create(ScheduleService.class);
-            ArrayList<ScheduleCluster> scheduleClusters = scheduleService.getSchedule(1);
-            saveCache(new Gson().toJson(scheduleClusters));
-            return scheduleService.getSchedule(day);
+        private boolean isFileRecent() {
+            return (System.currentTimeMillis() - UserStateStore.getScheduleLastUpdated(getActivity(), day)
+                    < HOUR && !overrideCache);
+        }
+
+        private ArrayList<ScheduleCluster> getDataFromUrl() {
+            HackTxService hackTxService = HackTxClient.getInstance().getApiService();
+            ArrayList<ScheduleCluster> scheduleClusters = hackTxService.getScheduleDayData(day);
+
+            FileUtils.setScheduleCache(getActivity(), day, scheduleClusters);
+            return scheduleClusters;
         }
 
         private ArrayList<ScheduleCluster> getDataFromFile() {
-            String cache = readCache();
-            if(!cache.equals("")) {
-                return new Gson().fromJson(cache, new TypeToken<ArrayList<ScheduleCluster>>() {
-                }.getType());
-            } else {
-                if(isNetworkAvailable()) {
-                    return getDataFromUrl();
-                } else {
-                    return new ArrayList<>();
-                }
-            }
-        }
+            ArrayList<ScheduleCluster> result = FileUtils.getScheduleCache(getActivity(), day);
 
-        private void saveCache(String data) {
-            FileOutputStream outputStream;
-            try {
-                outputStream = getActivity().openFileOutput("schedule-" + day + ".json", Context.MODE_PRIVATE);
-                outputStream.write(data.getBytes());
-                outputStream.close();
-
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putLong("scheduleLastUpdated" + day, System.currentTimeMillis());
-                editor.apply();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        private String readCache() {
-            String ret = "";
-
-            try {
-                InputStream inputStream = getActivity().openFileInput("schedule-" + day + ".json");
-
-                if (inputStream != null) {
-                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                    String receiveString;
-                    StringBuilder stringBuilder = new StringBuilder();
-
-                    while ((receiveString = bufferedReader.readLine()) != null) {
-                        stringBuilder.append(receiveString);
-                    }
-
-                    inputStream.close();
-                    ret = stringBuilder.toString();
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if(result.isEmpty() && NetworkUtils.canConnect(getActivity())) {
+                result = getDataFromUrl();
             }
 
-            return ret;
+            return result;
         }
-
-        private boolean isNetworkAvailable() {
-            ConnectivityManager connectivityManager
-                    = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-        }
-    }
-
-    interface ScheduleService {
-        @GET("/schedule/{day}")
-        ArrayList<ScheduleCluster> getSchedule(@Path("day") int day);
     }
 }

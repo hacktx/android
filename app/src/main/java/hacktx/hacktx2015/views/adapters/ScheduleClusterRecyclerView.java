@@ -57,6 +57,7 @@ public class ScheduleClusterRecyclerView extends RecyclerView.Adapter<ScheduleCl
     }
 
     private void createEventViews(LinearLayout groupEvents, ArrayList<ScheduleEvent> eventList) {
+        groupEvents.removeAllViews();
         for(int child = 0; child < eventList.size(); child++) {
             ScheduleEvent curEvent = eventList.get(child);
             View childView = LayoutInflater.from(groupEvents.getContext()).inflate(R.layout.schedule_eventview, groupEvents, false);

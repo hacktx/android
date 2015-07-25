@@ -14,12 +14,12 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ListView android:id="@+id/twitterList"
+        <ListView
+            android:id="@+id/twitterList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
