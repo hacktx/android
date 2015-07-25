@@ -2,8 +2,8 @@ package hacktx.hacktx2015.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +21,7 @@ import io.fabric.sdk.android.Fabric;
 /**
  * Created by Drew on 7/22/2015.
  */
-public class TwitterFragment extends Fragment{
+public class TwitterFragment extends BaseFragment {
 
     SwipeRefreshLayout swipeRefreshLayout;
     ListView twitterListView;
@@ -31,6 +31,7 @@ public class TwitterFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_twitter, container, false);
 
+        setupToolbar((Toolbar) root.findViewById(R.id.toolbar));
         setupTwitter(root);
         setupSwipeRefreshLayout(root);
 

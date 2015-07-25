@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,10 +113,10 @@ public class ScheduleDayFragment extends Fragment {
             long lastUpdated = preferences.getLong("scheduleLastUpdated" + day, 0);
 
             if((System.currentTimeMillis() - lastUpdated < 3600000 && !overrideCache) || !isNetworkAvailable()) {
-                System.out.println("HACTX: loading from file!");
+                Log.v("ScheduleDayFragment", "Loading from file! (day " + day + ")");
                 scheduleClusters = getDataFromFile();
             } else {
-                System.out.println("HACTX: loading from url!");
+                Log.v("ScheduleDayFragment", "Loading from URL! (day " + day + ")");
                 scheduleClusters = getDataFromUrl();
             }
 
@@ -126,7 +127,7 @@ public class ScheduleDayFragment extends Fragment {
 
         protected void onPostExecute(Void v) {
             if(scheduleClusters.size() == 0) {
-                System.out.println("HACTX: Offline and no cache available! (day " + day + ")");
+                Log.v("ScheduleDayFragment", "Offline and no cache available! (day " + day + ")");
             }
 
             RecyclerView.Adapter scheduleAdapter = new ScheduleClusterRecyclerView(scheduleClusters);
