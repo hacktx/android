@@ -1,8 +1,10 @@
 package hacktx.hacktx2015.models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Locale;
 
 import hacktx.hacktx2015.enums.EventType;
 
@@ -14,20 +16,22 @@ public class ScheduleEvent {
     private EventType type;
     private String name;
     //2001-07-04 12:08:56
-    private Calendar startTime;
-    private Calendar endTime;
+    private String startDate;
+    private String endDate;
     private String location;
     private String description;
     private ArrayList<ScheduleSpeaker> speakerList;
 
-    public ScheduleEvent(int id, EventType type, String name, Date startTime, Date endTime, String location, String description, ArrayList<ScheduleSpeaker> speakerList) {
+    public ScheduleEvent(int id, EventType type, String name, String startDate, String endTime, String location, String description, ArrayList<ScheduleSpeaker> speakerList) {
         this.id = id;
         this.type = type;
         this.name = name;
-        this.startTime = Calendar.getInstance();
-        this.startTime.setTime(startTime);
-        this.endTime = Calendar.getInstance();
-        this.endTime.setTime(endTime);
+        //this.startDate = Calendar.getInstance();
+        //this.startDate.setTime(startDate);
+        this.startDate = startDate;
+        //this.endDate = Calendar.getInstance();
+        //this.endDate.setTime(endTime);
+        this.endDate = endDate;
         this.location = location;
         this.description = description;
         this.speakerList = speakerList;
@@ -57,20 +61,20 @@ public class ScheduleEvent {
         this.name = name;
     }
 
-    public Calendar getStartTime() {
-        return startTime;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setStartTime(Calendar startTime) {
-        this.startTime = startTime;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
-    public Calendar getEndTime() {
-        return endTime;
+    public String getEndDate() {
+        return endDate;
     }
 
-    public void setEndTime(Calendar endTime) {
-        this.endTime = endTime;
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public String getLocation() {
@@ -98,15 +102,26 @@ public class ScheduleEvent {
     }
 
     public String getEventDetails() {
-        String startAmPm = "", endAmPm = "";
-        if(getStartTime().get(Calendar.AM_PM) != getEndTime().get(Calendar.AM_PM)) {
-            startAmPm = (getStartTime().get(Calendar.AM_PM) == 0) ? " AM" : " PM";
-            endAmPm = (getEndTime().get(Calendar.AM_PM) == 0) ? " AM" : " PM";
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        Calendar start = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+
+        try {
+            start.setTime(formatter.parse(startDate));
+            end.setTime(formatter.parse(endDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
-        return String.format("%01d:%02d", getStartTime().get(Calendar.HOUR), getStartTime().get(Calendar.MINUTE))
+        String startAmPm = "", endAmPm = "";
+        if(start.get(Calendar.AM_PM) != end.get(Calendar.AM_PM)) {
+            startAmPm = (start.get(Calendar.AM_PM) == 0) ? " AM" : " PM";
+            endAmPm = (end.get(Calendar.AM_PM) == 0) ? " AM" : " PM";
+        }
+
+        return String.format("%01d:%02d", start.get(Calendar.HOUR), start.get(Calendar.MINUTE))
                 + startAmPm + " - "
-                + String.format("%01d:%02d", getEndTime().get(Calendar.HOUR), getEndTime().get(Calendar.MINUTE))
+                + String.format("%01d:%02d", end.get(Calendar.HOUR), end.get(Calendar.MINUTE))
                 + endAmPm + " | " + getLocation();
     }
 }

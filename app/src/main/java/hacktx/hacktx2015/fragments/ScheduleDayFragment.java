@@ -1,8 +1,9 @@
 package hacktx.hacktx2015.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -16,9 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -26,22 +26,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import hacktx.hacktx2015.R;
-import hacktx.hacktx2015.enums.EventType;
 import hacktx.hacktx2015.models.ScheduleCluster;
-import hacktx.hacktx2015.models.ScheduleEvent;
-import hacktx.hacktx2015.models.ScheduleSpeaker;
 import hacktx.hacktx2015.views.adapters.ScheduleClusterRecyclerView;
+import retrofit.RestAdapter;
+import retrofit.http.GET;
+import retrofit.http.Path;
 
 /**
  * Created by Drew on 6/28/15.
@@ -51,6 +43,8 @@ public class ScheduleDayFragment extends Fragment {
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ArrayList<ScheduleCluster> scheduleList;
+    private int day;
+    private boolean doneLoading;
 
     public static ScheduleDayFragment newInstance(String request) {
         Bundle args = new Bundle();
@@ -67,6 +61,12 @@ public class ScheduleDayFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_schedule_day, container, false);
         scheduleList = new ArrayList<>();
 
+        switch(getArguments().getString("request")) {
+            case "Sept 26": day = 1; break;
+            case "Sept 27": day = 2; break;
+            default: day = 1;
+        }
+
         swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.primary, R.color.accent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -79,7 +79,7 @@ public class ScheduleDayFragment extends Fragment {
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                if(scheduleList.size() == 0) {
+                if (!doneLoading) {
                     swipeRefreshLayout.setRefreshing(true);
                 }
             }
@@ -98,144 +98,90 @@ public class ScheduleDayFragment extends Fragment {
 
     class ScheduleDataAsyncTask extends AsyncTask<String, String, Void> {
 
-        private JSONArray jsonArray = null;
+        private ArrayList<ScheduleCluster> scheduleClusters;
         private boolean overrideCache;
 
         public ScheduleDataAsyncTask(boolean overrideCache) {
             this.overrideCache = overrideCache;
+
+            doneLoading = false;
         }
 
         @Override
         protected Void doInBackground(String... params) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            long lastUpdated = preferences.getLong("scheduleLastUpdated", 0);
-            if(System.currentTimeMillis() - lastUpdated < 3600000 && !overrideCache) {
-                jsonArray = getJsonFromFile();
+            long lastUpdated = preferences.getLong("scheduleLastUpdated" + day, 0);
+
+            if((System.currentTimeMillis() - lastUpdated < 3600000 && !overrideCache) || !isNetworkAvailable()) {
+                Log.v("ScheduleDayFragment", "Loading from file! (day " + day + ")");
+                scheduleClusters = getDataFromFile();
             } else {
-                jsonArray = getJsonFromUrl();
+                Log.v("ScheduleDayFragment", "Loading from URL! (day " + day + ")");
+                scheduleClusters = getDataFromUrl();
             }
+
+            doneLoading = true;
 
             return null;
         }
 
         protected void onPostExecute(Void v) {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-            try {
-                for (int x = 0; x < jsonArray.length(); x++) {
-                    JSONObject schedClusterJson = jsonArray.getJSONObject(x);
-                    JSONArray eventsArrayJson = schedClusterJson.getJSONArray("eventsList");
-                    ArrayList<ScheduleEvent> events = new ArrayList<>();
-
-                    for (int n = 0; n < eventsArrayJson.length(); n++) {
-                        JSONObject event = eventsArrayJson.getJSONObject(n);
-                        EventType type;
-                        switch (event.getString("type")) {
-                            case "food":
-                                type = EventType.FOOD;
-                                break;
-                            case "education":
-                                type = EventType.EDUCATION;
-                                break;
-                            case "talk":
-                                type = EventType.TALK;
-                                break;
-                            default:
-                                type = EventType.TALK;
-                                break;
-                        }
-
-                        ArrayList<ScheduleSpeaker> speakers = new ArrayList<>();
-                        JSONArray speakerArray = event.getJSONArray("speakerList");
-                        for (int k = 0; k < speakerArray.length(); k++) {
-                            JSONObject speaker = speakerArray.getJSONObject(k);
-                            speakers.add(new ScheduleSpeaker(speaker.getInt("id"), speaker.getString("name"),
-                                    speaker.getString("organization"), speaker.getString("description"),
-                                    speaker.getString("imageUrl")));
-                        }
-
-                        events.add(new ScheduleEvent(event.getInt("id"), type, event.getString("name"),
-                                formatter.parse(event.getString("startDate")),
-                                formatter.parse(event.getString("endDate")),
-                                event.getString("location"), event.getString("description"), speakers));
-                    }
-
-                    scheduleList.add(new ScheduleCluster(schedClusterJson.getInt("id"),
-                            schedClusterJson.getString("name"), events));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if(scheduleClusters.size() == 0) {
+                Log.v("ScheduleDayFragment", "Offline and no cache available! (day " + day + ")");
             }
 
-            RecyclerView.Adapter scheduleAdapter = new ScheduleClusterRecyclerView(scheduleList);
+            RecyclerView.Adapter scheduleAdapter = new ScheduleClusterRecyclerView(scheduleClusters);
             recyclerView.setAdapter(scheduleAdapter);
 
             swipeRefreshLayout.setRefreshing(false);
         }
 
-        private JSONArray getJsonFromUrl() {
-            String url = "http://texasgamer.me/projects/hacktx/schedule.json";
-            JSONArray result = new JSONArray();
-            try {
-                URL u = new URL(url);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) u.openConnection();
-                httpURLConnection.setRequestMethod("GET");
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
-                StringBuilder stringBuilder = new StringBuilder();
+        private ArrayList<ScheduleCluster> getDataFromUrl() {
+            RestAdapter restAdapter = new RestAdapter.Builder()
+                    .setEndpoint("http://demo9695027.mockable.io")
+                    .build();
 
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(line + '\n');
-                }
-                saveCache(stringBuilder.toString());
-                result = new JSONArray(stringBuilder.toString());
-                httpURLConnection.disconnect();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return result;
+            ScheduleService scheduleService = restAdapter.create(ScheduleService.class);
+            ArrayList<ScheduleCluster> scheduleClusters = scheduleService.getSchedule(1);
+            saveCache(new Gson().toJson(scheduleClusters));
+            return scheduleService.getSchedule(day);
         }
 
-        private JSONArray getJsonFromFile() {
-            try {
-                return new JSONArray(readCache());
-            } catch (JSONException e) {
-                e.printStackTrace();
+        private ArrayList<ScheduleCluster> getDataFromFile() {
+            String cache = readCache();
+            if(!cache.equals("")) {
+                return new Gson().fromJson(cache, new TypeToken<ArrayList<ScheduleCluster>>() {
+                }.getType());
+            } else {
+                if(isNetworkAvailable()) {
+                    return getDataFromUrl();
+                } else {
+                    return new ArrayList<>();
+                }
             }
-
-            return getJsonFromUrl();
         }
 
         private void saveCache(String data) {
             FileOutputStream outputStream;
             try {
-                outputStream = getActivity().openFileOutput("schedule.json", Context.MODE_PRIVATE);
+                outputStream = getActivity().openFileOutput("schedule-" + day + ".json", Context.MODE_PRIVATE);
                 outputStream.write(data.getBytes());
                 outputStream.close();
 
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor editor = preferences.edit();
-                editor.putLong("scheduleLastUpdated", System.currentTimeMillis());
+                editor.putLong("scheduleLastUpdated" + day, System.currentTimeMillis());
                 editor.apply();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-
         private String readCache() {
             String ret = "";
 
             try {
-                InputStream inputStream = getActivity().openFileInput("schedule.json");
+                InputStream inputStream = getActivity().openFileInput("schedule-" + day + ".json");
 
                 if (inputStream != null) {
                     InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -258,5 +204,17 @@ public class ScheduleDayFragment extends Fragment {
 
             return ret;
         }
+
+        private boolean isNetworkAvailable() {
+            ConnectivityManager connectivityManager
+                    = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+    }
+
+    interface ScheduleService {
+        @GET("/api/schedules/{day}")
+        ArrayList<ScheduleCluster> getSchedule(@Path("day") int day);
     }
 }
