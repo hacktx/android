@@ -2,6 +2,7 @@ package hacktx.hacktx2015.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,11 +27,11 @@ public class ScheduleMainFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_schedule_main, container, false);
+        final View root = inflater.inflate(R.layout.fragment_schedule_main, container, false);
 
         setupToolbar((Toolbar) root.findViewById(R.id.toolbar));
 
-        ViewPager viewPager = (android.support.v4.view.ViewPager) root.findViewById(R.id.viewpager);
+        final ViewPager viewPager = (android.support.v4.view.ViewPager) root.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         TabLayout tabLayout = (TabLayout) root.findViewById(R.id.tabs);

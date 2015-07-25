@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -68,6 +69,18 @@ public class ScheduleDayFragment extends Fragment {
         }
 
         swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipeRefreshLayout);
+        setupSwipeRefreshLayout(swipeRefreshLayout);
+
+        new ScheduleDataAsyncTask(false).execute();
+
+        recyclerView = (RecyclerView) root.findViewById(R.id.scheduleRecyclerView);
+        setupRecylerView((RecyclerView) root.findViewById(R.id.scheduleRecyclerView));
+        setupCollapsibleToolbar((AppBarLayout) getActivity().findViewById(R.id.appBar), swipeRefreshLayout);
+
+        return root;
+    }
+
+    private void setupSwipeRefreshLayout(final SwipeRefreshLayout swipeRefreshLayout) {
         swipeRefreshLayout.setColorSchemeResources(R.color.primary, R.color.accent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -84,16 +97,26 @@ public class ScheduleDayFragment extends Fragment {
                 }
             }
         });
+    }
 
-        new ScheduleDataAsyncTask(false).execute();
-
-        recyclerView = (RecyclerView) root.findViewById(R.id.scheduleRecyclerView);
+    private void setupRecylerView(RecyclerView recyclerView) {
         RecyclerView.Adapter scheduleAdapter = new ScheduleClusterRecyclerView(scheduleList);
         recyclerView.setAdapter(scheduleAdapter);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
+    }
 
-        return root;
+    private void setupCollapsibleToolbar(AppBarLayout appBarLayout, final SwipeRefreshLayout swipeRefreshLayout) {
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+                if (i == 0) {
+                    swipeRefreshLayout.setEnabled(true);
+                } else {
+                    swipeRefreshLayout.setEnabled(false);
+                }
+            }
+        });
     }
 
     class ScheduleDataAsyncTask extends AsyncTask<String, String, Void> {
@@ -138,7 +161,7 @@ public class ScheduleDayFragment extends Fragment {
 
         private ArrayList<ScheduleCluster> getDataFromUrl() {
             RestAdapter restAdapter = new RestAdapter.Builder()
-                    .setEndpoint("http://demo9695027.mockable.io")
+                    .setEndpoint("http://hacktx.getsandbox.com")
                     .build();
 
             ScheduleService scheduleService = restAdapter.create(ScheduleService.class);
@@ -214,7 +237,7 @@ public class ScheduleDayFragment extends Fragment {
     }
 
     interface ScheduleService {
-        @GET("/api/schedules/{day}")
+        @GET("/schedule/{day}")
         ArrayList<ScheduleCluster> getSchedule(@Path("day") int day);
     }
 }
