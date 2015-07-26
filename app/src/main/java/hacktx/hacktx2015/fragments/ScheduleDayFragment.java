@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
@@ -56,6 +57,7 @@ public class ScheduleDayFragment extends Fragment {
         setupRecyclerView(root);
         setupSwipeRefresh(root);
         setupCollapsibleToolbar((AppBarLayout) getActivity().findViewById(R.id.appBar), swipeRefreshLayout);
+        setupRetryButton(root.findViewById(R.id.scheduleEmptyTryAgain));
 
         new ScheduleDataAsyncTask(false).execute();
 
@@ -100,6 +102,15 @@ public class ScheduleDayFragment extends Fragment {
         });
     }
 
+    private void setupRetryButton(View retryBtn) {
+        retryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ScheduleDataAsyncTask(true).execute();
+            }
+        });
+    }
+
     /**
      * <code>AsyncTask</code> which manages the fetching of schedule data either from
      * the network or from local cache, depending on several conditions. Also handles
@@ -134,6 +145,9 @@ public class ScheduleDayFragment extends Fragment {
         protected void onPostExecute(Void v) {
             if(scheduleClusters.size() == 0) {
                 Log.v("ScheduleDayFragment", "Offline and no cache available for day " + day + " schedule.");
+                swipeRefreshLayout.setVisibility(View.GONE);
+            } else {
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
             }
 
             scheduleList.clear();

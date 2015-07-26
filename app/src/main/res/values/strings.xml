@@ -4,6 +4,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <!-- ScheduleDayFragment -->
+    <string name="sched_day_empty_title">Unable to fetch schedule</string>
+    <string name="sched_day_empty_btn">Try Again</string>
+
     <!-- -->
     <string name="prefs_schedule_last_updated">scheduleLastUpdated</string>
 </resources>
