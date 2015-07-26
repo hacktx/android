@@ -12,16 +12,20 @@ public class ScheduleEvent {
     private int id;
     private EventType type;
     private String name;
+    private String imageUrl;
     private String startDate;
     private String endDate;
     private String location;
     private String description;
     private ArrayList<ScheduleSpeaker> speakerList;
 
-    public ScheduleEvent(int id, EventType type, String name, String startDate, String endDate, String location, String description, ArrayList<ScheduleSpeaker> speakerList) {
+    public ScheduleEvent(int id, EventType type, String name, String imageUrl,
+                         String startDate, String endDate, String location,
+                         String description, ArrayList<ScheduleSpeaker> speakerList) {
         this.id = id;
         this.type = type;
         this.name = name;
+        this.imageUrl = imageUrl;
         this.startDate = startDate;
         this.endDate = endDate;
         this.location = location;
@@ -51,6 +55,14 @@ public class ScheduleEvent {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getStartDate() {
@@ -121,7 +133,7 @@ public class ScheduleEvent {
         }
 
         String startAmPm = "", endAmPm = "";
-        if(start.get(Calendar.AM_PM) != end.get(Calendar.AM_PM)) {
+        if (start.get(Calendar.AM_PM) != end.get(Calendar.AM_PM)) {
             startAmPm = (start.get(Calendar.AM_PM) == 0) ? " AM" : " PM";
             endAmPm = (end.get(Calendar.AM_PM) == 0) ? " AM" : " PM";
         }
