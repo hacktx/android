@@ -48,10 +48,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
         android:clickable="true"
+        android:elevation="12dp"
         android:src="@drawable/ic_discuss"
-        app:layout_anchor="@+id/appbar"
-        app:layout_anchorGravity="bottom|right|end"
         app:borderWidth="0dp"
-        android:elevation="12dp"/>
+        app:layout_anchor="@+id/appbar"
+        app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>

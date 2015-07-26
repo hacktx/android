@@ -105,6 +105,21 @@ public class ScheduleEvent {
             e.printStackTrace();
         }
 
+        return getEventTimes() + " | " + getLocation();
+    }
+
+    public String getEventTimes() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        Calendar start = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+
+        try {
+            start.setTime(formatter.parse(startDate));
+            end.setTime(formatter.parse(endDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         String startAmPm = "", endAmPm = "";
         if(start.get(Calendar.AM_PM) != end.get(Calendar.AM_PM)) {
             startAmPm = (start.get(Calendar.AM_PM) == 0) ? " AM" : " PM";
@@ -114,6 +129,6 @@ public class ScheduleEvent {
         return String.format("%01d:%02d", start.get(Calendar.HOUR), start.get(Calendar.MINUTE))
                 + startAmPm + " - "
                 + String.format("%01d:%02d", end.get(Calendar.HOUR), end.get(Calendar.MINUTE))
-                + endAmPm + " | " + getLocation();
+                + endAmPm;
     }
 }

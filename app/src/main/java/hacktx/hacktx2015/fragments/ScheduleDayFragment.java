@@ -1,5 +1,6 @@
 package hacktx.hacktx2015.fragments;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,12 +13,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 import hacktx.hacktx2015.R;
+import hacktx.hacktx2015.activities.EventDetailActivity;
 import hacktx.hacktx2015.models.ScheduleCluster;
+import hacktx.hacktx2015.models.ScheduleEvent;
 import hacktx.hacktx2015.network.FileUtils;
 import hacktx.hacktx2015.network.HackTxClient;
 import hacktx.hacktx2015.network.NetworkUtils;
@@ -67,7 +71,15 @@ public class ScheduleDayFragment extends Fragment {
     private void setupRecyclerView(View root) {
         recyclerView = (RecyclerView) root.findViewById(R.id.scheduleRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new ScheduleClusterRecyclerView(scheduleList));
+        recyclerView.setAdapter(new ScheduleClusterRecyclerView(scheduleList,
+                new ScheduleClusterRecyclerView.ScheduleItemClickListener() {
+            @Override
+            public void onItemClick(View v, ScheduleEvent e) {
+                Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+                intent.putExtra("eventData", new Gson().toJson(e));
+                startActivity(intent);
+            }
+        }));
     }
 
     private void setupSwipeRefresh(View root) {

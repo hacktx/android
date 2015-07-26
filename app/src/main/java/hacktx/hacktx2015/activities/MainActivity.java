@@ -2,12 +2,12 @@ package hacktx.hacktx2015.activities;
 
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -50,9 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.action_settings:
-                //Snackbar.make(findViewById(android.R.id.content), R.string.action_settings, Snackbar.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, EventDetailActivity.class);
-                startActivity(intent);
+                Snackbar.make(findViewById(android.R.id.content), R.string.action_settings, Snackbar.LENGTH_SHORT).show();
                 return true;
         }
 

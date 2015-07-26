@@ -17,6 +17,7 @@ import hacktx.hacktx2015.models.ScheduleEvent;
 public class ScheduleClusterRecyclerView extends RecyclerView.Adapter<ScheduleClusterRecyclerView.ViewHolder> {
 
     ArrayList<ScheduleCluster> scheduleClusterList;
+    private ScheduleItemClickListener listener;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView groupTime;
@@ -29,8 +30,14 @@ public class ScheduleClusterRecyclerView extends RecyclerView.Adapter<ScheduleCl
         }
     }
 
-    public ScheduleClusterRecyclerView(ArrayList<ScheduleCluster> scheduleClusterList) {
+    public interface ScheduleItemClickListener {
+        void onItemClick(View v, ScheduleEvent e);
+    }
+
+    public ScheduleClusterRecyclerView(ArrayList<ScheduleCluster> scheduleClusterList,
+                                       ScheduleItemClickListener listener) {
         this.scheduleClusterList = scheduleClusterList;
+        this.listener = listener;
     }
 
     @Override
@@ -44,7 +51,6 @@ public class ScheduleClusterRecyclerView extends RecyclerView.Adapter<ScheduleCl
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.groupTime.setText(scheduleClusterList.get(position).getName());
         createEventViews(holder.groupEvents, scheduleClusterList.get(position).getEventsList());
-
     }
 
     @Override
@@ -55,7 +61,7 @@ public class ScheduleClusterRecyclerView extends RecyclerView.Adapter<ScheduleCl
     private void createEventViews(LinearLayout groupEvents, ArrayList<ScheduleEvent> eventList) {
         groupEvents.removeAllViews();
         for(int child = 0; child < eventList.size(); child++) {
-            ScheduleEvent curEvent = eventList.get(child);
+            final ScheduleEvent curEvent = eventList.get(child);
             View childView = LayoutInflater.from(groupEvents.getContext()).inflate(R.layout.schedule_eventview, groupEvents, false);
 
             int eventIconId;
@@ -72,6 +78,13 @@ public class ScheduleClusterRecyclerView extends RecyclerView.Adapter<ScheduleCl
             eventName.setText(curEvent.getName());
             TextView eventDetails = (TextView) childView.findViewById(R.id.eventDetails);
             eventDetails.setText(curEvent.getEventDetails());
+
+            childView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(v, curEvent);
+                }
+            });
 
             groupEvents.addView(childView);
         }
