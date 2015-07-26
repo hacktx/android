@@ -8,29 +8,21 @@ import java.util.Locale;
 
 import hacktx.hacktx2015.enums.EventType;
 
-/**
- * Created by Drew on 6/27/15.
- */
 public class ScheduleEvent {
     private int id;
     private EventType type;
     private String name;
-    //2001-07-04 12:08:56
     private String startDate;
     private String endDate;
     private String location;
     private String description;
     private ArrayList<ScheduleSpeaker> speakerList;
 
-    public ScheduleEvent(int id, EventType type, String name, String startDate, String endTime, String location, String description, ArrayList<ScheduleSpeaker> speakerList) {
+    public ScheduleEvent(int id, EventType type, String name, String startDate, String endDate, String location, String description, ArrayList<ScheduleSpeaker> speakerList) {
         this.id = id;
         this.type = type;
         this.name = name;
-        //this.startDate = Calendar.getInstance();
-        //this.startDate.setTime(startDate);
         this.startDate = startDate;
-        //this.endDate = Calendar.getInstance();
-        //this.endDate.setTime(endTime);
         this.endDate = endDate;
         this.location = location;
         this.description = description;

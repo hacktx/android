@@ -1,8 +1,12 @@
 package hacktx.hacktx2015.enums;
 
-/**
- * Created by Drew on 7/1/15.
- */
+import com.google.gson.annotations.SerializedName;
+
 public enum EventType {
-    FOOD, EDUCATION, TALK
+    @SerializedName("food")
+    FOOD,
+    @SerializedName("education")
+    EDUCATION,
+    @SerializedName("talk")
+    TALK
 }

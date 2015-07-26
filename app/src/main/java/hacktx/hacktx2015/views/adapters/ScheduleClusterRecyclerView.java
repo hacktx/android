@@ -8,16 +8,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.models.ScheduleCluster;
 import hacktx.hacktx2015.models.ScheduleEvent;
 
-/**
- * Created by Drew on 7/1/15.
- */
 public class ScheduleClusterRecyclerView extends RecyclerView.Adapter<ScheduleClusterRecyclerView.ViewHolder> {
 
     ArrayList<ScheduleCluster> scheduleClusterList;
@@ -62,8 +58,16 @@ public class ScheduleClusterRecyclerView extends RecyclerView.Adapter<ScheduleCl
             ScheduleEvent curEvent = eventList.get(child);
             View childView = LayoutInflater.from(groupEvents.getContext()).inflate(R.layout.schedule_eventview, groupEvents, false);
 
+            int eventIconId;
+            switch(curEvent.getType()) {
+                case TALK: eventIconId = R.drawable.ic_event; break;
+                case EDUCATION: eventIconId = R.drawable.ic_education; break;
+                case FOOD: eventIconId = R.drawable.ic_food; break;
+                default: eventIconId = R.drawable.ic_event; break;
+            }
+
             ImageView eventIcon = (ImageView) childView.findViewById(R.id.eventIcon);
-            eventIcon.setImageResource(R.drawable.ic_event);
+            eventIcon.setImageResource(eventIconId);
             TextView eventName = (TextView) childView.findViewById(R.id.eventName);
             eventName.setText(curEvent.getName());
             TextView eventDetails = (TextView) childView.findViewById(R.id.eventDetails);
