@@ -2,12 +2,12 @@ package hacktx.hacktx2015.activities;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -23,9 +23,6 @@ import hacktx.hacktx2015.fragments.ScheduleMainFragment;
 import hacktx.hacktx2015.fragments.SponsorFragment;
 import hacktx.hacktx2015.fragments.TwitterFragment;
 
-/**
- * Created by Drew on 6/28/15.
- */
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
@@ -53,7 +50,9 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.action_settings:
-                Snackbar.make(findViewById(android.R.id.content), R.string.action_settings, Snackbar.LENGTH_SHORT).show();
+                //Snackbar.make(findViewById(android.R.id.content), R.string.action_settings, Snackbar.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, EventDetailActivity.class);
+                startActivity(intent);
                 return true;
         }
 
