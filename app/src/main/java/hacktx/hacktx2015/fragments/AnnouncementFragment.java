@@ -48,6 +48,15 @@ public class AnnouncementFragment extends BaseFragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_announcement, container, false);
         announcements = new ArrayList<>();
 
+        getAnnouncements();
+        setupSwipeRefreshLayout(root);
+        setupRecyclerView(root);
+        setupToolbar((Toolbar) root.findViewById(R.id.toolbar));
+
+        return root;
+    }
+
+    private void setupSwipeRefreshLayout(ViewGroup root) {
         swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.announcementsSwipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.primary, R.color.accent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -68,15 +77,9 @@ public class AnnouncementFragment extends BaseFragment {
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-
+                swipeRefreshLayout.setRefreshing(true);
             }
         });
-
-        createFakeData();
-        setupRecyclerView(root);
-        setupToolbar((Toolbar) root.findViewById(R.id.toolbar));
-
-        return root;
     }
 
     private void addNewAnnouncements() {
@@ -148,10 +151,7 @@ public class AnnouncementFragment extends BaseFragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    /*
-    get messages using channel id
-     */
-    private void test() {
+    private void getAnnouncements() {
         HackTxService hackTxService = HackTxClient.getInstance().getApiService();
         List<Messages> newAnn = hackTxService.getMessages();
 
