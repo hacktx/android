@@ -150,7 +150,7 @@ public class EventDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if(end.before(now)) {
+        if(!end.before(now)) {
             findViewById(R.id.rateEventCard).setVisibility(View.GONE);
         } else {
             findViewById(R.id.rateEventCardOk).setOnClickListener(new View.OnClickListener() {
