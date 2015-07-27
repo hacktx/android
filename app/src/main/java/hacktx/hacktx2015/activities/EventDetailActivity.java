@@ -119,7 +119,7 @@ public class EventDetailActivity extends AppCompatActivity {
             }
         };
 
-        Picasso.with(this).load("http://i.imgur.com/I5qI3BC.jpg").into(target);
+        Picasso.with(this).load("http://i.imgur.com/I5qI3BC.jpg").placeholder(R.color.primary).into(target);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -223,7 +223,11 @@ public class EventDetailActivity extends AppCompatActivity {
                     .inflate(R.layout.event_detail_speaker, speakersContainer, false);
 
             CircularImageView speakerIcon = (CircularImageView) childView.findViewById(R.id.speakerIcon);
-            Picasso.with(this).load(speaker.getImageUrl()).resize(150, 150).centerCrop().into(speakerIcon);
+            Picasso.with(this).load(speaker.getImageUrl())
+                    .resize(150, 150)
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_profile)
+                    .into(speakerIcon);
             ((TextView) childView.findViewById(R.id.speakerTitle)).setText(speaker.getName()
                     + " | " + speaker.getOrganization());
             ((TextView) childView.findViewById(R.id.speakerDescription)).setText(speaker.getDescription());
