@@ -1,8 +1,10 @@
 package hacktx.hacktx2015.fragments;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,10 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 import hacktx.hacktx2015.R;
+import hacktx.hacktx2015.activities.EventDetailActivity;
 import hacktx.hacktx2015.models.ScheduleCluster;
+import hacktx.hacktx2015.models.ScheduleEvent;
 import hacktx.hacktx2015.network.FileUtils;
 import hacktx.hacktx2015.network.HackTxClient;
 import hacktx.hacktx2015.network.NetworkUtils;
@@ -23,14 +29,12 @@ import hacktx.hacktx2015.network.UserStateStore;
 import hacktx.hacktx2015.network.services.HackTxService;
 import hacktx.hacktx2015.views.adapters.ScheduleClusterRecyclerView;
 
-/**
- * Created by Drew on 6/28/15.
- */
 public class ScheduleDayFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ArrayList<ScheduleCluster> scheduleList;
+    private boolean doneLoading;
     private int day;
 
     public static ScheduleDayFragment newInstance(String request) {
@@ -56,6 +60,8 @@ public class ScheduleDayFragment extends Fragment {
 
         setupRecyclerView(root);
         setupSwipeRefresh(root);
+        setupCollapsibleToolbar((AppBarLayout) getActivity().findViewById(R.id.appBar), swipeRefreshLayout);
+        setupRetryButton(root.findViewById(R.id.scheduleEmptyTryAgain));
 
         new ScheduleDataAsyncTask(false).execute();
 
@@ -65,7 +71,15 @@ public class ScheduleDayFragment extends Fragment {
     private void setupRecyclerView(View root) {
         recyclerView = (RecyclerView) root.findViewById(R.id.scheduleRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new ScheduleClusterRecyclerView(scheduleList));
+        recyclerView.setAdapter(new ScheduleClusterRecyclerView(scheduleList,
+                new ScheduleClusterRecyclerView.ScheduleItemClickListener() {
+            @Override
+            public void onItemClick(View v, ScheduleEvent e) {
+                Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+                intent.putExtra("eventData", new Gson().toJson(e));
+                startActivity(intent);
+            }
+        }));
     }
 
     private void setupSwipeRefresh(View root) {
@@ -77,14 +91,45 @@ public class ScheduleDayFragment extends Fragment {
                 new ScheduleDataAsyncTask(true).execute();
             }
         });
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                if (!doneLoading) {
+                    swipeRefreshLayout.setRefreshing(true);
+                }
+            }
+        });
     }
 
+    private void setupCollapsibleToolbar(AppBarLayout appBarLayout, final SwipeRefreshLayout swipeRefreshLayout) {
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+                if (i == 0) {
+                    swipeRefreshLayout.setEnabled(true);
+                } else {
+                    swipeRefreshLayout.setEnabled(false);
+                }
+            }
+        });
+    }
 
-    /*
-    This Async decides whether to pull data from the network or from locally saved schedule
-    ( it saves that data )
-    */
+    private void setupRetryButton(View retryBtn) {
+        retryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ScheduleDataAsyncTask(true).execute();
+            }
+        });
+    }
+
+    /**
+     * <code>AsyncTask</code> which manages the fetching of schedule data either from
+     * the network or from local cache, depending on several conditions. Also handles
+     * caching new data to disk.
+     */
     class ScheduleDataAsyncTask extends AsyncTask<String, String, Void> {
+
         final static int HOUR = 3600000;
 
         private ArrayList<ScheduleCluster> scheduleClusters;
@@ -97,14 +142,31 @@ public class ScheduleDayFragment extends Fragment {
         @Override
         protected Void doInBackground(String... params) {
             if(willLoadFromFile()) {
-                Log.v("ScheduleDayFragment", "Loading from file! (day " + day + ")");
+                Log.v("ScheduleDayFragment", "Loading day " + day + " schedule from file.");
                 scheduleClusters = getDataFromFile();
             } else {
-                Log.v("ScheduleDayFragment", "Loading from URL! (day " + day + ")");
+                Log.v("ScheduleDayFragment", "Loading day " + day + " schedule from URL.");
                 scheduleClusters = getDataFromUrl();
             }
 
+            doneLoading = true;
+
             return null;
+        }
+
+        protected void onPostExecute(Void v) {
+            if(scheduleClusters.size() == 0) {
+                Log.v("ScheduleDayFragment", "Offline and no cache available for day " + day + " schedule.");
+                swipeRefreshLayout.setVisibility(View.GONE);
+            } else {
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
+            }
+
+            scheduleList.clear();
+            scheduleList.addAll(scheduleClusters);
+            recyclerView.getAdapter().notifyDataSetChanged();
+
+            swipeRefreshLayout.setRefreshing(false);
         }
 
         private boolean willLoadFromFile() {
@@ -114,18 +176,6 @@ public class ScheduleDayFragment extends Fragment {
         private boolean isFileRecent() {
             return (System.currentTimeMillis() - UserStateStore.getScheduleLastUpdated(getActivity(), day)
                     < HOUR && !overrideCache);
-        }
-
-        protected void onPostExecute(Void v) {
-            if(scheduleClusters.size() == 0) {
-                Log.v("ScheduleDayFragment", "Offline and no cache available! (day " + day + ")");
-            }
-
-            scheduleList.clear();
-            scheduleList.addAll(scheduleClusters);
-            recyclerView.getAdapter().notifyDataSetChanged();
-
-            swipeRefreshLayout.setRefreshing(false);
         }
 
         private ArrayList<ScheduleCluster> getDataFromUrl() {

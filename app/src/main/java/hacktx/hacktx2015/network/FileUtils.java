@@ -15,11 +15,15 @@ import java.util.ArrayList;
 
 import hacktx.hacktx2015.models.ScheduleCluster;
 
-/**
- * Created by Drew on 7/25/15.
- */
 public class FileUtils {
 
+    /**
+     * Saves schedule cache to disk.
+     *
+     * @param context Context by which to save cache.
+     * @param day Unique identifier for cache.
+     * @param data Data to save to cache.
+     */
     public static void setScheduleCache(Context context, int day, ArrayList<ScheduleCluster> data) {
         String dataStr = new Gson().toJson(data);
 
@@ -35,11 +39,17 @@ public class FileUtils {
         }
     }
 
+    /**
+     * Reads schedule cache from disk.
+     *
+     * @param context Context by which to read cache.
+     * @param day Unique identifier for cache.
+     * @return List of <code>ScheduleCluster</code> read from cache.
+     */
     public static ArrayList<ScheduleCluster> getScheduleCache(Context context, int day) {
         ArrayList<ScheduleCluster> result = new ArrayList<>();
         String cache = "";
 
-        // Get Schedule Cache
         try {
             InputStream inputStream = context.openFileInput("schedule-" + day + ".json");
 
@@ -62,7 +72,6 @@ public class FileUtils {
             e.printStackTrace();
         }
 
-        // Put Cache into POJO
         if(!cache.isEmpty()) {
             result = new Gson().fromJson(cache, new TypeToken<ArrayList<ScheduleCluster>>(){}.getType());
         }

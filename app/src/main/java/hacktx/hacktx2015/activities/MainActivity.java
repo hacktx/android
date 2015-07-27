@@ -18,14 +18,12 @@ import android.view.MenuItem;
 
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.fragments.AnnouncementFragment;
+import hacktx.hacktx2015.fragments.BaseFragment;
 import hacktx.hacktx2015.fragments.MapFragment;
 import hacktx.hacktx2015.fragments.ScheduleMainFragment;
 import hacktx.hacktx2015.fragments.SponsorFragment;
 import hacktx.hacktx2015.fragments.TwitterFragment;
 
-/**
- * Created by Drew on 6/28/15.
- */
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
@@ -35,9 +33,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final int navSelect = getIntent().getIntExtra("navSelect", 0);
+
         setupTaskActivityInfo();
-        setupDrawerContent(this, (DrawerLayout) findViewById(R.id.drawer_layout), (NavigationView) findViewById(R.id.nav_view));
-        setupFragmentContent(savedInstanceState);
+        setupDrawerContent(this, (DrawerLayout) findViewById(R.id.drawer_layout),
+                (NavigationView) findViewById(R.id.nav_view), navSelect);
+        setupFragmentContent(savedInstanceState, navSelect);
     }
 
     @Override
@@ -70,37 +71,30 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void setupDrawerContent(final Context context, final DrawerLayout drawerLayout, NavigationView navigationView) {
+    protected void setupDrawerContent(final Context context, final DrawerLayout drawerLayout, NavigationView navigationView, int navSelect) {
         this.drawerLayout = drawerLayout;
-        //final int navSelect = getIntent().getIntExtra("navSelect", 0);
 
-        navigationView.getMenu().getItem(0).setChecked(true);
+        navigationView.getMenu().getItem(navSelect).setChecked(true);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(final MenuItem menuItem) {
                         menuItem.setChecked(true);
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                         switch (menuItem.getItemId()) {
                             case R.id.nav_schedule:
-                                transaction.replace(R.id.content_fragment, new ScheduleMainFragment());
-                                transaction.commit();
+                                switchFragment(new ScheduleMainFragment());
                                 break;
                             case R.id.nav_announcement:
-                                transaction.replace(R.id.content_fragment, new AnnouncementFragment());
-                                transaction.commit();
+                                switchFragment(new AnnouncementFragment());
                                 break;
                             case R.id.nav_twitter:
-                                transaction.replace(R.id.content_fragment, new TwitterFragment());
-                                transaction.commit();
+                                switchFragment(new TwitterFragment());
                                 break;
                             case R.id.nav_map:
-                                transaction.replace(R.id.content_fragment, new MapFragment());
-                                transaction.commit();
+                                switchFragment(new MapFragment());
                                 break;
                             case R.id.nav_sponsors:
-                                transaction.replace(R.id.content_fragment, new SponsorFragment());
-                                transaction.commit();
+                                switchFragment(new SponsorFragment());
                                 break;
                         }
                         drawerLayout.closeDrawers();
@@ -109,14 +103,25 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    protected void setupFragmentContent(Bundle savedInstanceState) {
+    protected void setupFragmentContent(Bundle savedInstanceState, int navSelect) {
         // Setup fragments
         Log.v("main", "before");
         if (savedInstanceState == null) {
             Log.v("main", "start");
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.content_fragment, new ScheduleMainFragment())
-                    .commit();
+            switch (navSelect) {
+                case 0: switchFragment(new ScheduleMainFragment()); break;
+                case 1: switchFragment(new AnnouncementFragment()); break;
+                case 2: switchFragment(new TwitterFragment()); break;
+                case 3: switchFragment(new MapFragment()); break;
+                case 4: switchFragment(new SponsorFragment()); break;
+                default: switchFragment(new ScheduleMainFragment()); break;
+            }
         }
+    }
+
+    protected void switchFragment(BaseFragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.content_fragment, fragment);
+        transaction.commit();
     }
 }

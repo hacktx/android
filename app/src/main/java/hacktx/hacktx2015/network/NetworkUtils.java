@@ -4,10 +4,14 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-/**
- * Created by Drew on 7/25/15.
- */
 public class NetworkUtils {
+
+    /**
+     * Returns if network connection is available.
+     *
+     * @param context Context by which to check network connectivity
+     * @return If network connection is available
+     */
     public static boolean canConnect(Context context) {
         if(context == null) return false;
 

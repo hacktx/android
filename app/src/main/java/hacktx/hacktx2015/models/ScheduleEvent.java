@@ -8,29 +8,25 @@ import java.util.Locale;
 
 import hacktx.hacktx2015.enums.EventType;
 
-/**
- * Created by Drew on 6/27/15.
- */
 public class ScheduleEvent {
     private int id;
     private EventType type;
     private String name;
-    //2001-07-04 12:08:56
+    private String imageUrl;
     private String startDate;
     private String endDate;
     private String location;
     private String description;
     private ArrayList<ScheduleSpeaker> speakerList;
 
-    public ScheduleEvent(int id, EventType type, String name, String startDate, String endTime, String location, String description, ArrayList<ScheduleSpeaker> speakerList) {
+    public ScheduleEvent(int id, EventType type, String name, String imageUrl,
+                         String startDate, String endDate, String location,
+                         String description, ArrayList<ScheduleSpeaker> speakerList) {
         this.id = id;
         this.type = type;
         this.name = name;
-        //this.startDate = Calendar.getInstance();
-        //this.startDate.setTime(startDate);
+        this.imageUrl = imageUrl;
         this.startDate = startDate;
-        //this.endDate = Calendar.getInstance();
-        //this.endDate.setTime(endTime);
         this.endDate = endDate;
         this.location = location;
         this.description = description;
@@ -59,6 +55,14 @@ public class ScheduleEvent {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getStartDate() {
@@ -113,8 +117,23 @@ public class ScheduleEvent {
             e.printStackTrace();
         }
 
+        return getEventTimes() + " | " + getLocation();
+    }
+
+    public String getEventTimes() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        Calendar start = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+
+        try {
+            start.setTime(formatter.parse(startDate));
+            end.setTime(formatter.parse(endDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         String startAmPm = "", endAmPm = "";
-        if(start.get(Calendar.AM_PM) != end.get(Calendar.AM_PM)) {
+        if (start.get(Calendar.AM_PM) != end.get(Calendar.AM_PM)) {
             startAmPm = (start.get(Calendar.AM_PM) == 0) ? " AM" : " PM";
             endAmPm = (end.get(Calendar.AM_PM) == 0) ? " AM" : " PM";
         }
@@ -122,6 +141,6 @@ public class ScheduleEvent {
         return String.format("%01d:%02d", start.get(Calendar.HOUR), start.get(Calendar.MINUTE))
                 + startAmPm + " - "
                 + String.format("%01d:%02d", end.get(Calendar.HOUR), end.get(Calendar.MINUTE))
-                + endAmPm + " | " + getLocation();
+                + endAmPm;
     }
 }

@@ -12,11 +12,10 @@ import retrofit.http.Query;
  * Created by Drew on 7/25/15.
  */
 public interface HackTxService {
-    /*
+
+    /**
      *   SCHEDULE
      */
-
-    // Get all the campaign data from the api
     @GET("/schedule/{day}")
     ArrayList<ScheduleCluster> getScheduleDayData(@Path("day") int day);
 
