@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -99,7 +98,10 @@ public class AnnouncementFragment extends Fragment {
     }
 
     private void createFakeData() {
+        //parse old date format string into date object
         SimpleDateFormat formatFrom = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+
+        //format date object to new date
         SimpleDateFormat formatTo = new SimpleDateFormat("MM-dd hh:mm a", Locale.US);
 
         try {
@@ -145,10 +147,6 @@ public class AnnouncementFragment extends Fragment {
     }
 
     /*
-    time will be returned like this: "ts": "1436149996.000272"
-    so delete last three numbers and decimal place to get actual date of message
-     */
-    /*
     get messages using channel id
      */
     private void test() {
@@ -157,7 +155,7 @@ public class AnnouncementFragment extends Fragment {
                 new Callback<AnnouncementResponse>() {
                     @Override
                     public void success(AnnouncementResponse announcementResponse, Response response) {
-                        Log.d(TAG, "slack messages retrieved!");
+                        Log.d(TAG, "messages retrieved!");
                         //announcements.removeAll(announcements);
                         announcements.clear();
                         announcements.addAll(announcementResponse.getMessages());
