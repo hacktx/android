@@ -119,7 +119,7 @@ public class EventDetailActivity extends AppCompatActivity {
             }
         };
 
-        Picasso.with(this).load("http://i.imgur.com/I5qI3BC.jpg").placeholder(R.color.primary).into(target);
+        Picasso.with(this).load(event.getImageUrl()).placeholder(R.color.primary).into(target);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
