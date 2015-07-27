@@ -72,6 +72,11 @@ public class EventDetailActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.action_map:
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra("navSelect", 3);
+                startActivity(intent);
+                return true;
             case R.id.action_share:
                 String shareBody = getString(R.string.event_share_body, event.getName());
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
