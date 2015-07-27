@@ -1,6 +1,7 @@
 package hacktx.hacktx2015.activities;
 
 import android.app.ActivityManager;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -71,7 +72,13 @@ public class EventDetailActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.action_settings:
+            case R.id.action_share:
+                String shareBody = getString(R.string.event_share_body, event.getName());
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.event_share_subject));
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, getString(R.string.event_share_dialog_title)));
                 return true;
         }
         return super.onOptionsItemSelected(item);

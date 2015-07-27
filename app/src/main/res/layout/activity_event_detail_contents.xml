@@ -38,7 +38,7 @@
                     android:id="@+id/info_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="This event has concluded. Would you like to submit feedback?" />
+                    android:text="@string/event_rate_card_text" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -51,7 +51,7 @@
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="No Thanks"
+                        android:text="@string/no_thanks"
                         android:textColor="@color/button_material_dark" />
 
                     <Button
@@ -59,7 +59,7 @@
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ok"
+                        android:text="@string/ok"
                         android:textColor="@color/primaryDark" />
                 </LinearLayout>
             </LinearLayout>
@@ -124,7 +124,7 @@
                 android:id="@+id/speakersTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Speakers"
+                android:text="@string/event_speakers"
                 android:textStyle="bold" />
 
             <LinearLayout
