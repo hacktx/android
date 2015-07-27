@@ -1,12 +1,10 @@
 package hacktx.hacktx2015.fragments;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,41 +14,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import hacktx.hacktx2015.R;
-import hacktx.hacktx2015.enums.EventType;
+import hacktx.hacktx2015.activities.EventDetailActivity;
 import hacktx.hacktx2015.models.ScheduleCluster;
 import hacktx.hacktx2015.models.ScheduleEvent;
-import hacktx.hacktx2015.models.ScheduleSpeaker;
+import hacktx.hacktx2015.network.FileUtils;
+import hacktx.hacktx2015.network.HackTxClient;
+import hacktx.hacktx2015.network.NetworkUtils;
+import hacktx.hacktx2015.network.UserStateStore;
+import hacktx.hacktx2015.network.services.HackTxService;
 import hacktx.hacktx2015.views.adapters.ScheduleClusterRecyclerView;
 
-/**
- * Created by Drew on 6/28/15.
- */
 public class ScheduleDayFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ArrayList<ScheduleCluster> scheduleList;
+    private boolean doneLoading;
+    private int day;
 
     public static ScheduleDayFragment newInstance(String request) {
         Bundle args = new Bundle();
@@ -67,38 +52,87 @@ public class ScheduleDayFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_schedule_day, container, false);
         scheduleList = new ArrayList<>();
 
+        switch(getArguments().getString("request")) {
+            case "Sept 26": day = 1; break;
+            case "Sept 27": day = 2; break;
+            default: day = 1;
+        }
+
+        setupRecyclerView(root);
+        setupSwipeRefresh(root);
+        setupCollapsibleToolbar((AppBarLayout) getActivity().findViewById(R.id.appBar), swipeRefreshLayout);
+        setupRetryButton(root.findViewById(R.id.scheduleEmptyTryAgain));
+
+        new ScheduleDataAsyncTask(false).execute();
+
+        return root;
+    }
+
+    private void setupRecyclerView(View root) {
+        recyclerView = (RecyclerView) root.findViewById(R.id.scheduleRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(new ScheduleClusterRecyclerView(scheduleList,
+                new ScheduleClusterRecyclerView.ScheduleItemClickListener() {
+            @Override
+            public void onItemClick(View v, ScheduleEvent e) {
+                Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+                intent.putExtra("eventData", new Gson().toJson(e));
+                startActivity(intent);
+            }
+        }));
+    }
+
+    private void setupSwipeRefresh(View root) {
         swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.primary, R.color.accent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                scheduleList.clear();
                 new ScheduleDataAsyncTask(true).execute();
             }
         });
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                if(scheduleList.size() == 0) {
+                if (!doneLoading) {
                     swipeRefreshLayout.setRefreshing(true);
                 }
             }
         });
-
-        new ScheduleDataAsyncTask(false).execute();
-
-        recyclerView = (RecyclerView) root.findViewById(R.id.scheduleRecyclerView);
-        RecyclerView.Adapter scheduleAdapter = new ScheduleClusterRecyclerView(scheduleList);
-        recyclerView.setAdapter(scheduleAdapter);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(mLayoutManager);
-
-        return root;
     }
 
+    private void setupCollapsibleToolbar(AppBarLayout appBarLayout, final SwipeRefreshLayout swipeRefreshLayout) {
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+                if (i == 0) {
+                    swipeRefreshLayout.setEnabled(true);
+                } else {
+                    swipeRefreshLayout.setEnabled(false);
+                }
+            }
+        });
+    }
+
+    private void setupRetryButton(View retryBtn) {
+        retryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ScheduleDataAsyncTask(true).execute();
+            }
+        });
+    }
+
+    /**
+     * <code>AsyncTask</code> which manages the fetching of schedule data either from
+     * the network or from local cache, depending on several conditions. Also handles
+     * caching new data to disk.
+     */
     class ScheduleDataAsyncTask extends AsyncTask<String, String, Void> {
 
-        private JSONArray jsonArray = null;
+        final static int HOUR = 3600000;
+
+        private ArrayList<ScheduleCluster> scheduleClusters;
         private boolean overrideCache;
 
         public ScheduleDataAsyncTask(boolean overrideCache) {
@@ -107,156 +141,59 @@ public class ScheduleDayFragment extends Fragment {
 
         @Override
         protected Void doInBackground(String... params) {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            long lastUpdated = preferences.getLong("scheduleLastUpdated", 0);
-            if(System.currentTimeMillis() - lastUpdated < 3600000 && !overrideCache) {
-                jsonArray = getJsonFromFile();
+            if(willLoadFromFile()) {
+                Log.v("ScheduleDayFragment", "Loading day " + day + " schedule from file.");
+                scheduleClusters = getDataFromFile();
             } else {
-                jsonArray = getJsonFromUrl();
+                Log.v("ScheduleDayFragment", "Loading day " + day + " schedule from URL.");
+                scheduleClusters = getDataFromUrl();
             }
+
+            doneLoading = true;
 
             return null;
         }
 
         protected void onPostExecute(Void v) {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-            try {
-                for (int x = 0; x < jsonArray.length(); x++) {
-                    JSONObject schedClusterJson = jsonArray.getJSONObject(x);
-                    JSONArray eventsArrayJson = schedClusterJson.getJSONArray("eventsList");
-                    ArrayList<ScheduleEvent> events = new ArrayList<>();
-
-                    for (int n = 0; n < eventsArrayJson.length(); n++) {
-                        JSONObject event = eventsArrayJson.getJSONObject(n);
-                        EventType type;
-                        switch (event.getString("type")) {
-                            case "food":
-                                type = EventType.FOOD;
-                                break;
-                            case "education":
-                                type = EventType.EDUCATION;
-                                break;
-                            case "talk":
-                                type = EventType.TALK;
-                                break;
-                            default:
-                                type = EventType.TALK;
-                                break;
-                        }
-
-                        ArrayList<ScheduleSpeaker> speakers = new ArrayList<>();
-                        JSONArray speakerArray = event.getJSONArray("speakerList");
-                        for (int k = 0; k < speakerArray.length(); k++) {
-                            JSONObject speaker = speakerArray.getJSONObject(k);
-                            speakers.add(new ScheduleSpeaker(speaker.getInt("id"), speaker.getString("name"),
-                                    speaker.getString("organization"), speaker.getString("description"),
-                                    speaker.getString("imageUrl")));
-                        }
-
-                        events.add(new ScheduleEvent(event.getInt("id"), type, event.getString("name"),
-                                formatter.parse(event.getString("startDate")),
-                                formatter.parse(event.getString("endDate")),
-                                event.getString("location"), event.getString("description"), speakers));
-                    }
-
-                    scheduleList.add(new ScheduleCluster(schedClusterJson.getInt("id"),
-                            schedClusterJson.getString("name"), events));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if(scheduleClusters.size() == 0) {
+                Log.v("ScheduleDayFragment", "Offline and no cache available for day " + day + " schedule.");
+                swipeRefreshLayout.setVisibility(View.GONE);
+            } else {
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
             }
 
-            RecyclerView.Adapter scheduleAdapter = new ScheduleClusterRecyclerView(scheduleList);
-            recyclerView.setAdapter(scheduleAdapter);
+            scheduleList.clear();
+            scheduleList.addAll(scheduleClusters);
+            recyclerView.getAdapter().notifyDataSetChanged();
 
             swipeRefreshLayout.setRefreshing(false);
         }
 
-        private JSONArray getJsonFromUrl() {
-            String url = "http://texasgamer.me/projects/hacktx/schedule.json";
-            JSONArray result = new JSONArray();
-            try {
-                URL u = new URL(url);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) u.openConnection();
-                httpURLConnection.setRequestMethod("GET");
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
-                StringBuilder stringBuilder = new StringBuilder();
+        private boolean willLoadFromFile() {
+            return (isFileRecent() || !NetworkUtils.canConnect(getActivity()));
+        }
 
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(line + '\n');
-                }
-                saveCache(stringBuilder.toString());
-                result = new JSONArray(stringBuilder.toString());
-                httpURLConnection.disconnect();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
+        private boolean isFileRecent() {
+            return (System.currentTimeMillis() - UserStateStore.getScheduleLastUpdated(getActivity(), day)
+                    < HOUR && !overrideCache);
+        }
+
+        private ArrayList<ScheduleCluster> getDataFromUrl() {
+            HackTxService hackTxService = HackTxClient.getInstance().getApiService();
+            ArrayList<ScheduleCluster> scheduleClusters = hackTxService.getScheduleDayData(day);
+
+            FileUtils.setScheduleCache(getActivity(), day, scheduleClusters);
+            return scheduleClusters;
+        }
+
+        private ArrayList<ScheduleCluster> getDataFromFile() {
+            ArrayList<ScheduleCluster> result = FileUtils.getScheduleCache(getActivity(), day);
+
+            if(result.isEmpty() && NetworkUtils.canConnect(getActivity())) {
+                result = getDataFromUrl();
             }
 
             return result;
-        }
-
-        private JSONArray getJsonFromFile() {
-            try {
-                return new JSONArray(readCache());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return getJsonFromUrl();
-        }
-
-        private void saveCache(String data) {
-            FileOutputStream outputStream;
-            try {
-                outputStream = getActivity().openFileOutput("schedule.json", Context.MODE_PRIVATE);
-                outputStream.write(data.getBytes());
-                outputStream.close();
-
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putLong("scheduleLastUpdated", System.currentTimeMillis());
-                editor.apply();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        private String readCache() {
-            String ret = "";
-
-            try {
-                InputStream inputStream = getActivity().openFileInput("schedule.json");
-
-                if (inputStream != null) {
-                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                    String receiveString;
-                    StringBuilder stringBuilder = new StringBuilder();
-
-                    while ((receiveString = bufferedReader.readLine()) != null) {
-                        stringBuilder.append(receiveString);
-                    }
-
-                    inputStream.close();
-                    ret = stringBuilder.toString();
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return ret;
         }
     }
 }

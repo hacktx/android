@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="8dp">
+
+    <hacktx.hacktx2015.views.CircularImageView
+        android:id="@+id/speakerIcon"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/ic_education" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="24dp">
+
+        <TextView
+            android:id="@+id/speakerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tim Cook - Apple"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/speakerDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tim Cook is the CEO of Apple." />
+    </LinearLayout>
+</LinearLayout>

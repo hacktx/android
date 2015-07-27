@@ -2,11 +2,13 @@ package hacktx.hacktx2015.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,22 +22,23 @@ import hacktx.hacktx2015.R;
 /**
  * Created by Drew on 7/22/2015.
  */
-public class ScheduleMainFragment extends Fragment {
+public class ScheduleMainFragment extends BaseFragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_schedule_main, container, false);
+        final View root = inflater.inflate(R.layout.fragment_schedule_main, container, false);
 
-        Log.v("scheduleMain", "start");
-        ViewPager viewPager = (android.support.v4.view.ViewPager) root.findViewById(R.id.viewpager);
+        setupToolbar((Toolbar) root.findViewById(R.id.toolbar));
+
+        final ViewPager viewPager = (android.support.v4.view.ViewPager) root.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         TabLayout tabLayout = (TabLayout) root.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return root;
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -46,7 +49,7 @@ public class ScheduleMainFragment extends Fragment {
         Log.v("Main", " " + viewPager.getAdapter().getCount());
     }
 
-    static class Adapter extends FragmentPagerAdapter {
+    static class Adapter extends FragmentStatePagerAdapter {
         private final List<Fragment> mFragments = new ArrayList<>();
         private final List<String> mFragmentTitles = new ArrayList<>();
 

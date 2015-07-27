@@ -65,6 +65,9 @@
                 <action android:name="com.parse.push.intent.OPEN" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".activities.EventDetailActivity"/>
+
     </application>
 
 </manifest>

@@ -3,14 +3,13 @@ package hacktx.hacktx2015.fragments;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
+
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,8 @@ import java.text.SimpleDateFormat;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.models.AnnouncementResponse;
 import hacktx.hacktx2015.models.Messages;
-import hacktx.hacktx2015.network.RestAdapterClient;
+import hacktx.hacktx2015.network.HackTxClient;
+import hacktx.hacktx2015.network.services.HackTxService;
 import hacktx.hacktx2015.views.adapters.AnnouncementsRecyclerView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -33,7 +33,8 @@ import retrofit.client.Response;
 /**
  * Created by Drew on 7/22/2015.
  */
-public class AnnouncementFragment extends Fragment {
+
+public class AnnouncementFragment extends BaseFragment {
 
     private static final String TAG = "AnnouncementsActivity";
     private RecyclerView mRecyclerView;
@@ -45,7 +46,6 @@ public class AnnouncementFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_announcement, container, false);
-
         announcements = new ArrayList<>();
 
         swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.announcementsSwipeRefreshLayout);
@@ -74,6 +74,7 @@ public class AnnouncementFragment extends Fragment {
 
         createFakeData();
         setupRecyclerView(root);
+        setupToolbar((Toolbar) root.findViewById(R.id.toolbar));
 
         return root;
     }
@@ -151,23 +152,12 @@ public class AnnouncementFragment extends Fragment {
     get messages using channel id
      */
     private void test() {
+        HackTxService hackTxService = HackTxClient.getInstance().getApiService();
+        List<Messages> newAnn = hackTxService.getMessages();
 
-        RestAdapterClient.getRestClient().getMessages("nucleus something here",
-                new Callback<AnnouncementResponse>() {
-                    @Override
-                    public void success(AnnouncementResponse announcementResponse, Response response) {
-                        Log.d(TAG, "messages retrieved!");
-                        //announcements.removeAll(announcements);
-                        announcements.clear();
-                        announcements.addAll(announcementResponse.getMessages());
-                        mAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.d(TAG, "error retrieving messages: " + error.getMessage());
-                    }
-                });
-
+        Log.d(TAG, "messages retrieved!");
+        announcements.clear();
+        announcements.addAll(newAnn);
+        mAdapter.notifyDataSetChanged();
     }
 }
