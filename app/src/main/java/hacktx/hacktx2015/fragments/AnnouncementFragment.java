@@ -25,6 +25,7 @@ import hacktx.hacktx2015.models.AnnouncementResponse;
 import hacktx.hacktx2015.models.Messages;
 import hacktx.hacktx2015.network.HackTxClient;
 import hacktx.hacktx2015.network.services.HackTxService;
+import hacktx.hacktx2015.views.SpacesItemDecoration;
 import hacktx.hacktx2015.views.adapters.AnnouncementsRecyclerView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -48,10 +49,10 @@ public class AnnouncementFragment extends BaseFragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_announcement, container, false);
         announcements = new ArrayList<>();
 
-        getAnnouncements();
+        setupToolbar((Toolbar) root.findViewById(R.id.toolbar));
         setupSwipeRefreshLayout(root);
         setupRecyclerView(root);
-        setupToolbar((Toolbar) root.findViewById(R.id.toolbar));
+        getAnnouncements();
 
         return root;
     }
@@ -62,16 +63,7 @@ public class AnnouncementFragment extends BaseFragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(false);
-
-                //this is only to test how refreshing looks
-                (new Handler()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                        addNewAnnouncements();
-                    }
-                }, 1000);
+                getAnnouncements();
             }
         });
         swipeRefreshLayout.post(new Runnable() {
@@ -146,6 +138,8 @@ public class AnnouncementFragment extends BaseFragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        mRecyclerView.addItemDecoration(new SpacesItemDecoration(10));
+
         // specify an adapter (see also next example)
         mAdapter = new AnnouncementsRecyclerView(announcements);
         mRecyclerView.setAdapter(mAdapter);
@@ -153,11 +147,23 @@ public class AnnouncementFragment extends BaseFragment {
 
     private void getAnnouncements() {
         HackTxService hackTxService = HackTxClient.getInstance().getApiService();
-        List<Messages> newAnn = hackTxService.getMessages();
-
-        Log.d(TAG, "messages retrieved!");
-        announcements.clear();
-        announcements.addAll(newAnn);
-        mAdapter.notifyDataSetChanged();
+        hackTxService.getMessages(messagesCallback);
     }
+
+    Callback<ArrayList<Messages>> messagesCallback = new Callback<ArrayList<Messages>>() {
+        @Override
+        public void success(ArrayList<Messages> messages, Response response) {
+            Log.d(TAG, "messages retrieved!");
+            announcements.clear();
+            announcements.addAll(messages);
+            mAdapter.notifyDataSetChanged();
+            swipeRefreshLayout.setRefreshing(false);
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+            Log.d(TAG, error.toString());
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    };
 }

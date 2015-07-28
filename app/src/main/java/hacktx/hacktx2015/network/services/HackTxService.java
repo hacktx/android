@@ -22,7 +22,7 @@ public interface HackTxService {
     ArrayList<ScheduleCluster> getScheduleDayData(@Path("day") int day);
 
     @GET("/announcements")
-    ArrayList<Messages> getMessages();
+    void getMessages(Callback<ArrayList<Messages>> messagesList);
 
 
 }
