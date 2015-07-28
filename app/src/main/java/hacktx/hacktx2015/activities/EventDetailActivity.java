@@ -73,9 +73,12 @@ public class EventDetailActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_map:
+                /*
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("navSelect", 3);
                 startActivity(intent);
+                */
+                Snackbar.make(findViewById(android.R.id.content), "To be implemented...", Snackbar.LENGTH_SHORT).show();
                 return true;
             case R.id.action_share:
                 String shareBody = getString(R.string.event_share_body, event.getName());
