@@ -2,6 +2,8 @@ package hacktx.hacktx2015.network.services;
 
 import java.util.ArrayList;
 
+import hacktx.hacktx2015.models.AnnouncementResponse;
+import hacktx.hacktx2015.models.Messages;
 import hacktx.hacktx2015.models.ScheduleCluster;
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -18,6 +20,9 @@ public interface HackTxService {
      */
     @GET("/schedule/{day}")
     ArrayList<ScheduleCluster> getScheduleDayData(@Path("day") int day);
+
+    @GET("/announcements")
+    ArrayList<Messages> getMessages();
 
 
 }
