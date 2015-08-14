@@ -59,11 +59,11 @@ public class SponsorFragment extends BaseFragment {
             @Override
             public int getSpanSize(int position) {
                 switch (mAdapter.getItemViewType(position)) {
-                    case SponsorsRecyclerView.TYPE_ZERO:
-                    case SponsorsRecyclerView.TYPE_ONE:
+                    case 0:
+                    case 1:
                         return 2;
-                    case SponsorsRecyclerView.TYPE_TWO:
-                    case SponsorsRecyclerView.TYPE_THREE:
+                    case 2:
+                    case 3:
                         return 1;
                     default:
                         return -1;  //shouldn't occur

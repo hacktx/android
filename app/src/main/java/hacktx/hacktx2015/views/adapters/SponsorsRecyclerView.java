@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -32,10 +34,6 @@ import hacktx.hacktx2015.models.Sponsors;
 public class SponsorsRecyclerView extends RecyclerView.Adapter<SponsorsRecyclerView.ViewHolder>  {
 
     private static final String TAG = "SponsorsRecycler";
-    public static final int TYPE_ZERO = 0;
-    public static final int TYPE_ONE = 1;
-    public static final int TYPE_TWO = 2;
-    public static final int TYPE_THREE = 3;
     private List<Sponsors> sponsorsList;
     private Context context;
 
@@ -74,25 +72,18 @@ public class SponsorsRecyclerView extends RecyclerView.Adapter<SponsorsRecyclerV
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-        try {
-            Bitmap bm = BitmapFactory.decodeStream(
-                    (InputStream) new URL(sponsorsList.get(position).getLogoImage()).getContent());
-            holder.logo.setImageBitmap(bm);
-            holder.logo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse(sponsorsList.get(position).getWebsite()));
-                    context.startActivity(browserIntent);
-                }
-            });
-        }
-        catch(MalformedURLException e) {
-            Log.d(TAG, e.getMessage());
-        }
-        catch(IOException e) {
-            Log.d(TAG, e.getMessage());
-        }
+        Picasso.with(context).load(sponsorsList.get(position).getLogoImage())
+                .into(holder.logo);
+        holder.logo.setContentDescription(sponsorsList.get(position).getName());
+        holder.logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(sponsorsList.get(position).getWebsite()));
+                context.startActivity(browserIntent);
+            }
+        });
+
     }
 
     @Override
