@@ -13,9 +13,9 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/sponsors_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="sponsors go here"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

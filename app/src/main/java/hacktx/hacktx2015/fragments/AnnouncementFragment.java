@@ -147,23 +147,21 @@ public class AnnouncementFragment extends BaseFragment {
 
     private void getAnnouncements() {
         HackTxService hackTxService = HackTxClient.getInstance().getApiService();
-        hackTxService.getMessages(messagesCallback);
+        hackTxService.getMessages(new Callback<ArrayList<Messages>>() {
+            @Override
+            public void success(ArrayList<Messages> messages, Response response) {
+                Log.d(TAG, "messages retrieved!");
+                announcements.clear();
+                announcements.addAll(messages);
+                mAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(TAG, error.toString());
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
-
-    Callback<ArrayList<Messages>> messagesCallback = new Callback<ArrayList<Messages>>() {
-        @Override
-        public void success(ArrayList<Messages> messages, Response response) {
-            Log.d(TAG, "messages retrieved!");
-            announcements.clear();
-            announcements.addAll(messages);
-            mAdapter.notifyDataSetChanged();
-            swipeRefreshLayout.setRefreshing(false);
-        }
-
-        @Override
-        public void failure(RetrofitError error) {
-            Log.d(TAG, error.toString());
-            swipeRefreshLayout.setRefreshing(false);
-        }
-    };
 }
