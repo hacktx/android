@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -83,6 +84,12 @@ public class SponsorsRecyclerView extends RecyclerView.Adapter<SponsorsRecyclerV
                 context.startActivity(browserIntent);
             }
         });
+
+        ViewGroup.LayoutParams layoutParams = holder.logo.getLayoutParams();
+        layoutParams.height = 300;
+        holder.logo.setLayoutParams(layoutParams);
+
+
 
     }
 

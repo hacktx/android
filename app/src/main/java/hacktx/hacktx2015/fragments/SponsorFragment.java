@@ -71,6 +71,7 @@ public class SponsorFragment extends BaseFragment {
             }
         });
         mRecyclerView.setLayoutManager(manager);
+        mRecyclerView.addItemDecoration(new SpacesItemDecoration(25));
 
     }
 
