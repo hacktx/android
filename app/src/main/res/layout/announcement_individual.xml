@@ -15,21 +15,23 @@
         android:padding="16dp">
 
         <TextView
+            android:id="@+id/announcement_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:text="message text goes here"
+            android:textSize="22sp"/>
+
+        <TextView
             android:id="@+id/announcement_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="date goes here"
-            android:textColor="@color/accent"
-            android:textSize="16sp"/>
-
-        <TextView
-            android:id="@+id/announcement_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/announcement_date"
+            android:layout_below="@id/announcement_message"
             android:layout_marginTop="7dp"
-            android:textColor="@android:color/black"
-            android:text="message text goes here"/>
+            android:layout_alignParentRight="true"
+            android:textColor="@color/accent"
+            android:textSize="10sp"/>
 
     </RelativeLayout>
 
