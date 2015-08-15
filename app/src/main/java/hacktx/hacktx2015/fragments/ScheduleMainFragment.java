@@ -46,7 +46,7 @@ public class ScheduleMainFragment extends BaseFragment {
         adapter.addFragment(new ScheduleDayFragment(), "Sept 26");
         adapter.addFragment(new ScheduleDayFragment(), "Sept 27");
         viewPager.setAdapter(adapter);
-        Log.v("Main", " " + viewPager.getAdapter().getCount());
+        Log.v("ScheduleMainFrag", " " + viewPager.getAdapter().getCount());
     }
 
     static class Adapter extends FragmentStatePagerAdapter {
