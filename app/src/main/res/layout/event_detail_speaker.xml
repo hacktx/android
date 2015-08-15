@@ -9,7 +9,7 @@
         android:id="@+id/speakerIcon"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:src="@drawable/ic_education" />
+        android:src="@drawable/ic_event_education" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"

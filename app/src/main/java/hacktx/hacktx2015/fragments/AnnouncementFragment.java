@@ -138,7 +138,7 @@ public class AnnouncementFragment extends BaseFragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mRecyclerView.addItemDecoration(new SpacesItemDecoration(10));
+        mRecyclerView.addItemDecoration(new SpacesItemDecoration(20));
 
         // specify an adapter (see also next example)
         mAdapter = new AnnouncementsRecyclerView(announcements);

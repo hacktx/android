@@ -8,5 +8,9 @@ public enum EventType {
     @SerializedName("education")
     EDUCATION,
     @SerializedName("talk")
-    TALK
+    TALK,
+    @SerializedName("bus")
+    BUS,
+    @SerializedName("dev")
+    DEV
 }

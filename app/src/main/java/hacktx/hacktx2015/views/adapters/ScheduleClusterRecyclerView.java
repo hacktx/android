@@ -66,10 +66,12 @@ public class ScheduleClusterRecyclerView extends RecyclerView.Adapter<ScheduleCl
 
             int eventIconId;
             switch(curEvent.getType()) {
-                case TALK: eventIconId = R.drawable.ic_event; break;
-                case EDUCATION: eventIconId = R.drawable.ic_education; break;
-                case FOOD: eventIconId = R.drawable.ic_food; break;
-                default: eventIconId = R.drawable.ic_event; break;
+                case TALK: eventIconId = R.drawable.ic_event_talk; break;
+                case EDUCATION: eventIconId = R.drawable.ic_event_education; break;
+                case BUS: eventIconId = R.drawable.ic_event_bus; break;
+                case FOOD: eventIconId = R.drawable.ic_event_food; break;
+                case DEV: eventIconId = R.drawable.ic_event_dev; break;
+                default: eventIconId = R.drawable.ic_event_default; break;
             }
 
             ImageView eventIcon = (ImageView) childView.findViewById(R.id.eventIcon);
