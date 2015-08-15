@@ -11,7 +11,7 @@
         android:id="@+id/eventIcon"
         android:paddingRight="24dp"
         android:paddingLeft="24dp"
-        android:src="@drawable/ic_event"
+        android:src="@drawable/ic_event_default"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <LinearLayout

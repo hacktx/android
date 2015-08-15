@@ -50,10 +50,9 @@ public class EventDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
 
-        Picasso.with(this).load("http://i.imgur.com/I5qI3BC.jpg").into((ImageView) findViewById(R.id.header));
-
         setupEventData(getIntent().getExtras().getString("eventData"));
         setupToolbar((Toolbar) findViewById(R.id.toolbar));
+        setupTaskActivityInfo();
         setupCards();
         setupEventDetails();
         setupEventDescription();
@@ -104,25 +103,7 @@ public class EventDetailActivity extends AppCompatActivity {
     }
 
     private void setupToolbar(Toolbar toolbar) {
-        Target target = new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                ((ImageView) findViewById(R.id.header)).setImageBitmap(bitmap);
-                setupPalette(bitmap);
-            }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-            }
-        };
-
-        Picasso.with(this).load(event.getImageUrl()).placeholder(R.color.primary).into(target);
+        Picasso.with(this).load(event.getImageUrl()).into((ImageView) findViewById(R.id.header));
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -131,26 +112,14 @@ public class EventDetailActivity extends AppCompatActivity {
         collapsingToolbar.setTitle(event.getName());
     }
 
-    private void setupPalette(Bitmap bitmap) {
-        Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
-            @Override
-            public void onGenerated(Palette palette) {
-                collapsingToolbar.setContentScrimColor(palette.getMutedColor(R.attr.colorPrimary));
-                collapsingToolbar.setStatusBarScrimColor(palette.getDarkMutedColor(R.color.primaryDark));
-                ((Button) findViewById(R.id.rateEventCardOk)).setTextColor(palette.getMutedColor(R.color.primaryDark));
-                ((TextView) findViewById(R.id.speakersTitle)).setTextColor(palette.getDarkMutedColor(R.color.primaryDark));
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    findViewById(R.id.fab).setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantColor(R.color.accent)));
-
-                    String appName = getString(R.string.app_name);
-                    Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-                    int color = palette.getDarkMutedColor(R.color.primaryDark);
-                    ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(appName, icon, color);
-                    setTaskDescription(taskDesc);
-                }
-            }
-        });
+    private void setupTaskActivityInfo() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            String appName = getString(R.string.app_name);
+            Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+            int color = getResources().getColor(R.color.primaryDark);
+            ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(appName, icon, color);
+            setTaskDescription(taskDesc);
+        }
     }
 
     private void setupCards() {
@@ -187,10 +156,12 @@ public class EventDetailActivity extends AppCompatActivity {
     private void setupEventDetails() {
         int eventIconId;
         switch(event.getType()) {
-            case TALK: eventIconId = R.drawable.ic_event; break;
-            case EDUCATION: eventIconId = R.drawable.ic_education; break;
-            case FOOD: eventIconId = R.drawable.ic_food; break;
-            default: eventIconId = R.drawable.ic_event; break;
+            case TALK: eventIconId = R.drawable.ic_event_talk; break;
+            case EDUCATION: eventIconId = R.drawable.ic_event_education; break;
+            case BUS: eventIconId = R.drawable.ic_event_bus; break;
+            case FOOD: eventIconId = R.drawable.ic_event_food; break;
+            case DEV: eventIconId = R.drawable.ic_event_dev; break;
+            default: eventIconId = R.drawable.ic_event_default; break;
         }
 
         ImageView eventIcon = (ImageView) findViewById(R.id.eventIcon);
@@ -219,6 +190,11 @@ public class EventDetailActivity extends AppCompatActivity {
         LinearLayout speakersContainer = (LinearLayout) findViewById(R.id.speakerHolderLayout);
         ArrayList<ScheduleSpeaker> speakers = event.getSpeakerList();
         speakersContainer.removeAllViews();
+
+        if(speakers.size() == 0) {
+            View speakerTitle = findViewById(R.id.speakersTitle);
+            speakerTitle.setVisibility(View.GONE);
+        }
 
         for(int child = 0; child < speakers.size(); child++) {
             final ScheduleSpeaker speaker = speakers.get(child);
