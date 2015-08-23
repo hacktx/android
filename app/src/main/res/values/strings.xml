@@ -1,6 +1,6 @@
 <resources>
     <!-- Global -->
-    <string name="app_name">HackTX 2015</string>
+    <string name="app_name">HackTX</string>
     <string name="ok">OK</string>
     <string name="no_thanks">No Thanks</string>
 
