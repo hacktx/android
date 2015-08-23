@@ -2,13 +2,20 @@ package hacktx.hacktx2015.views.adapters;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.parse.Parse;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.models.Messages;
@@ -57,10 +64,28 @@ public class AnnouncementsRecyclerView extends RecyclerView.Adapter<Announcement
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        holder.date.setText(announcementsList.get(position).getTs());
+        String date = convertDate(position);
+
+        if (date != null)
+            holder.date.setText(date);
+
         holder.message.setText(announcementsList.get(position).getText());
+    }
+
+    private String convertDate(int position) {
+        SimpleDateFormat formatFrom = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+
+        //format date object to new date
+        SimpleDateFormat formatTo = new SimpleDateFormat("MMM dd, hh:mma", Locale.US);
+
+        try {
+            Date newDate = formatFrom.parse(announcementsList.get(position).getTs());
+            return formatTo.format(newDate);
+        }
+        catch (ParseException e) {
+            Log.d("AnnouncementsRecycler", e.getMessage());
+            return null;
+        }
     }
 
     @Override
