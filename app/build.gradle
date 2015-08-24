@@ -15,6 +15,9 @@ apply plugin: 'io.fabric'
 repositories {
     jcenter()
     maven { url 'https://maven.fabric.io/public' }
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 def retrieveProp(String key) {
@@ -46,6 +49,8 @@ android {
         buildConfigField "String", "SLACK_ANNOUNCEMENT_ID", "\"${retrieveProp('SLACK_ANNOUNCEMENT_ID')}\""
         buildConfigField "String", "PARSE_APP_ID", "\"${retrieveProp('PARSE_APP_ID')}\""
         buildConfigField "String", "PARSE_CLIENT_ID", "\"${retrieveProp('PARSE_CLIENT_ID')}\""
+        buildConfigField "String", "ESTIMOTE_APP_ID", "\"${retrieveProp('ESTIMOTE_APP_ID')}\""
+        buildConfigField "String", "ESTIMOTE_APP_TOKEN", "\"${retrieveProp('ESTIMOTE_APP_TOKEN')}\""
     }
     buildTypes {
         release {
@@ -71,4 +76,5 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.4.0'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile(name:'estimote-sdk', ext:'aar')
 }
