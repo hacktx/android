@@ -1,26 +1,26 @@
-package hacktx.hacktx2015.activities;
+package hacktx.hacktx2015;
 
 import android.app.Application;
 import android.util.Log;
 
+import com.estimote.sdk.EstimoteSDK;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.SaveCallback;
 
-import hacktx.hacktx2015.BuildConfig;
-
-/**
- * Created by britne on 7/20/15.
- */
-public class AppParseSetUp extends Application {
+public class HackTXApplication extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        //real one!!!
+        initParse();
+        initBeacons();
+    }
+
+    private void initParse() {
         Parse.initialize(this, BuildConfig.PARSE_APP_ID, BuildConfig.PARSE_CLIENT_ID);
         ParseInstallation.getCurrentInstallation().saveInBackground();
 
@@ -34,5 +34,10 @@ public class AppParseSetUp extends Application {
                 }
             }
         });
+    }
+
+    private void initBeacons() {
+        EstimoteSDK.initialize(this, BuildConfig.ESTIMOTE_APP_ID, BuildConfig.ESTIMOTE_APP_TOKEN);
+        EstimoteSDK.enableDebugLogging(true);
     }
 }
