@@ -38,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
         setupTaskActivityInfo();
         setupDrawerContent(this, (DrawerLayout) findViewById(R.id.drawer_layout), (NavigationView) findViewById(R.id.nav_view));
         setupFragmentContent(savedInstanceState);
+
+        String extra = getIntent().getStringExtra("open");
+        if (extra != null && extra.equals("announcements")) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_fragment, new AnnouncementFragment());
+            transaction.commit();
+        }
     }
 
     @Override
