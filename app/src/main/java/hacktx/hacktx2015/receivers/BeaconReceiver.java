@@ -15,8 +15,7 @@ public class BeaconReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
         if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
-            final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
-                    BluetoothAdapter.ERROR);
+            final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
             switch (state) {
                 case BluetoothAdapter.STATE_TURNING_OFF:
                     if (beaconServiceIntent != null) {
@@ -26,11 +25,15 @@ public class BeaconReceiver extends BroadcastReceiver {
                     break;
                 case BluetoothAdapter.STATE_ON:
                     if (beaconServiceIntent == null) {
-                        beaconServiceIntent = new Intent(context,
-                                BeaconService.class);
+                        beaconServiceIntent = new Intent(context, BeaconService.class);
                         context.startService(beaconServiceIntent);
                     }
                     break;
+            }
+        } else {
+            if (beaconServiceIntent == null) {
+                beaconServiceIntent = new Intent(context, BeaconService.class);
+                context.startService(beaconServiceIntent);
             }
         }
     }

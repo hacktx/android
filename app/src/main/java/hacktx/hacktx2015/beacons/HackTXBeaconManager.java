@@ -18,10 +18,10 @@ import java.util.concurrent.TimeUnit;
 import hacktx.hacktx2015.R;
 
 public class HackTXBeaconManager {
-    private static final int NOTIFICATION_ID = 123;
+
+    private static final int NOTIFICATION_ID = 22;
     private static BeaconManager beaconManager;
     private static NotificationManager notificationManager;
-    public static final String EXTRAS_BEACON = "extrasBeacon";
     private static final String ESTIMOTE_PROXIMITY_UUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
     private static final Region ALL_ESTIMOTE_BEACONS = new Region("hacktx", ESTIMOTE_PROXIMITY_UUID, null, null);
     private static Context currentContext;

@@ -17,11 +17,12 @@ public class BeaconService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
-            HackTXBeaconManager.start((NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE)
-                    , this, intent);
+            HackTXBeaconManager.start((NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE),
+                    this, intent);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return START_STICKY;
     }
 
