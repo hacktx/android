@@ -12,7 +12,7 @@ public class UserStateStore {
      * Quickly get default <code>SharedPreferences</code> for a given <code>Context</code>.
      *
      * @param context Context by which to get default <code>SharedPreferences</code>
-     * @return
+     * @return SharedPreferences instance
      */
     public static SharedPreferences getPrefs(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
@@ -38,5 +38,15 @@ public class UserStateStore {
      */
     public static void setScheduleLastUpdated(Context context, int day, Long scheduleLastUpdated) {
         getPrefs(context).edit().putLong(context.getString(R.string.prefs_schedule_last_updated) + day, scheduleLastUpdated).apply();
+    }
+
+    /**
+     * Get if beacons are enabled by the user.
+     *
+     * @param context Context by which to retrieve data
+     * @return <code>boolean</code> representing if beacons are enabled
+     */
+    public static boolean getBeaconsEnabled(Context context) {
+        return getPrefs(context).getBoolean(context.getString(R.string.prefs_beacons_enabled), true);
     }
 }

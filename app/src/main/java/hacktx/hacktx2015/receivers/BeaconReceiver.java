@@ -5,8 +5,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.util.Log;
 
+import hacktx.hacktx2015.network.UserStateStore;
 import hacktx.hacktx2015.services.BeaconService;
 
 public class BeaconReceiver extends BroadcastReceiver {
@@ -16,28 +18,32 @@ public class BeaconReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (doesDeviceSupportBle(context)) {
-            final String action = intent.getAction();
-            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
-                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
-                switch (state) {
-                    case BluetoothAdapter.STATE_TURNING_OFF:
-                        if (beaconServiceIntent != null) {
-                            context.stopService(beaconServiceIntent);
-                            beaconServiceIntent = null;
-                        }
-                        break;
-                    case BluetoothAdapter.STATE_ON:
-                        if (beaconServiceIntent == null) {
-                            beaconServiceIntent = new Intent(context, BeaconService.class);
-                            context.startService(beaconServiceIntent);
-                        }
-                        break;
+            if(UserStateStore.getBeaconsEnabled(context)) {
+                final String action = intent.getAction();
+                if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+                    final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
+                    switch (state) {
+                        case BluetoothAdapter.STATE_TURNING_OFF:
+                            if (beaconServiceIntent != null) {
+                                context.stopService(beaconServiceIntent);
+                                beaconServiceIntent = null;
+                            }
+                            break;
+                        case BluetoothAdapter.STATE_ON:
+                            if (beaconServiceIntent == null) {
+                                beaconServiceIntent = new Intent(context, BeaconService.class);
+                                context.startService(beaconServiceIntent);
+                            }
+                            break;
+                    }
+                } else {
+                    if (beaconServiceIntent == null) {
+                        beaconServiceIntent = new Intent(context, BeaconService.class);
+                        context.startService(beaconServiceIntent);
+                    }
                 }
             } else {
-                if (beaconServiceIntent == null) {
-                    beaconServiceIntent = new Intent(context, BeaconService.class);
-                    context.startService(beaconServiceIntent);
-                }
+                Log.i("BeaconReceiver", "User has disabled beacons, not starting BeaconService.");
             }
         } else {
             Log.i("BeaconReceiver", "Device does not support BLE, not starting BeaconService.");
@@ -45,7 +51,8 @@ public class BeaconReceiver extends BroadcastReceiver {
     }
 
     private boolean doesDeviceSupportBle(Context context) {
-        return BluetoothAdapter.getDefaultAdapter() != null &&
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 &&
+                BluetoothAdapter.getDefaultAdapter() != null &&
                 context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE);
     }
 }

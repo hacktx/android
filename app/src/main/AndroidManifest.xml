@@ -80,6 +80,7 @@
         <service android:name=".services.BeaconService" />
 
         <activity android:name=".activities.EventDetailActivity"/>
+        <activity android:name=".activities.PreferencesActivity"/>
 
     </application>
 

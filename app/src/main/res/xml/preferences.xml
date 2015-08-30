@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/fragment_settings_privacy">
+
+        <CheckBoxPreference
+            android:key="@string/prefs_beacons_enabled"
+            android:title="@string/fragment_settings_beacons"
+            android:summaryOn="@string/fragment_settings_beacons_desc_on"
+            android:summaryOff="@string/fragment_settings_beacons_desc_off"
+            android:defaultValue="true"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>
