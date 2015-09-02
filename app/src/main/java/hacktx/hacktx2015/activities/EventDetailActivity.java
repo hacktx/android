@@ -176,7 +176,7 @@ public class EventDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        ((TextView) findViewById(R.id.eventLocation)).setText(event.getLocation());
+        ((TextView) findViewById(R.id.eventLocation)).setText(event.getLocation().getLocationDetails());
         ((TextView) findViewById(R.id.eventDateTime)).setText(start.getDisplayName(Calendar.MONTH,
                 Calendar.LONG, Locale.getDefault()) + " " + start.get(Calendar.DAY_OF_MONTH)
                 + " | " + event.getEventTimes());
