@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import hacktx.hacktx2015.R;
+import hacktx.hacktx2015.activities.CheckInActivity;
 
 public class HackTXBeaconManager {
 
@@ -26,7 +27,7 @@ public class HackTXBeaconManager {
     private static final Region HACKTX_BEACONS = new Region("hacktx", HACKTX_PROXIMITY_UUID, null, null);
     private static Context currentContext;
 
-    public static void start(NotificationManager notificationMngr, Context context, final Intent i) {
+    public static void start(NotificationManager notificationMngr, Context context) {
         try {
             notificationManager = notificationMngr;
             currentContext = context;
@@ -38,7 +39,7 @@ public class HackTXBeaconManager {
                 @Override
                 public void onEnteredRegion(Region region, List<Beacon> beacons) {
                     postNotificationIntent(currentContext.getString(R.string.notif_sign_in_title),
-                            currentContext.getString(R.string.notif_sign_in_text), i);
+                            currentContext.getString(R.string.notif_sign_in_text));
                 }
 
                 @Override
@@ -62,11 +63,9 @@ public class HackTXBeaconManager {
         }
     }
 
-    public static void postNotificationIntent(String title, String msg, Intent i) {
-        i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivities(
-                currentContext, 0, new Intent[]{i},
-                PendingIntent.FLAG_UPDATE_CURRENT);
+    public static void postNotificationIntent(String title, String msg) {
+        Intent intent = new Intent(currentContext, CheckInActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(currentContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         Notification notification = new NotificationCompat.Builder(currentContext)
                 .setSmallIcon(R.drawable.ic_alert).setContentTitle(title)
                 .setContentText(msg).setAutoCancel(true)

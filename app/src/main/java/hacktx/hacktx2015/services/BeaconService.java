@@ -24,7 +24,7 @@ public class BeaconService extends Service {
         if(UserStateStore.getBeaconsEnabled(getApplicationContext())) {
             try {
                 HackTXBeaconManager.start((NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE),
-                        this, intent);
+                        this);
             } catch (Exception e) {
                 e.printStackTrace();
             }
