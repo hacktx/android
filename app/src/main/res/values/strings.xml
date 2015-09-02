@@ -31,4 +31,8 @@
     <!-- SharedPreferences Keys -->
     <string name="prefs_schedule_last_updated">scheduleLastUpdated</string>
     <string name="prefs_beacons_enabled">beaconsEnabled</string>
+
+    <!-- Notifications -->
+    <string name="notif_sign_in_title">HackTX</string>
+    <string name="notif_sign_in_text">Welcome to HackTX! Tap to sign in.</string>
 </resources>

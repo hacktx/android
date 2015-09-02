@@ -22,8 +22,8 @@ public class HackTXBeaconManager {
     private static final int NOTIFICATION_ID = 22;
     private static BeaconManager beaconManager;
     private static NotificationManager notificationManager;
-    private static final String ESTIMOTE_PROXIMITY_UUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
-    private static final Region ALL_ESTIMOTE_BEACONS = new Region("hacktx", ESTIMOTE_PROXIMITY_UUID, null, null);
+    private static final String HACKTX_PROXIMITY_UUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
+    private static final Region HACKTX_BEACONS = new Region("hacktx", HACKTX_PROXIMITY_UUID, null, null);
     private static Context currentContext;
 
     public static void start(NotificationManager notificationMngr, Context context, final Intent i) {
@@ -37,8 +37,8 @@ public class HackTXBeaconManager {
             beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
                 @Override
                 public void onEnteredRegion(Region region, List<Beacon> beacons) {
-                    postNotificationIntent("HackTX",
-                            "Welcome to HackTX. Let's get signed in.", i);
+                    postNotificationIntent(currentContext.getString(R.string.notif_sign_in_title),
+                            currentContext.getString(R.string.notif_sign_in_text), i);
                 }
 
                 @Override
@@ -51,7 +51,7 @@ public class HackTXBeaconManager {
                 @Override
                 public void onServiceReady() {
                     try {
-                        beaconManager.startMonitoring(ALL_ESTIMOTE_BEACONS);
+                        beaconManager.startMonitoring(HACKTX_BEACONS);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -71,6 +71,7 @@ public class HackTXBeaconManager {
                 .setSmallIcon(R.drawable.ic_alert).setContentTitle(title)
                 .setContentText(msg).setAutoCancel(true)
                 .setColor(ContextCompat.getColor(currentContext, R.color.accent))
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setContentIntent(pendingIntent).build();
 
         notificationManager.notify(NOTIFICATION_ID, notification);
@@ -78,7 +79,7 @@ public class HackTXBeaconManager {
 
     public static void stop() {
         try {
-            beaconManager.stopMonitoring(ALL_ESTIMOTE_BEACONS);
+            beaconManager.stopMonitoring(HACKTX_BEACONS);
             beaconManager.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
