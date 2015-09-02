@@ -72,7 +72,6 @@
         </receiver>
         <receiver android:name=".receivers.BeaconReceiver" >
             <intent-filter>
-                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
