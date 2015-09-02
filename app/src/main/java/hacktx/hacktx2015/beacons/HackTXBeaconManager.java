@@ -32,7 +32,7 @@ public class HackTXBeaconManager {
             currentContext = context;
 
             beaconManager = new BeaconManager(currentContext);
-            beaconManager.setBackgroundScanPeriod(TimeUnit.SECONDS.toMillis(1), 0);
+            beaconManager.setBackgroundScanPeriod(TimeUnit.SECONDS.toMillis(5), TimeUnit.SECONDS.toMillis(25));
 
             beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
                 @Override
