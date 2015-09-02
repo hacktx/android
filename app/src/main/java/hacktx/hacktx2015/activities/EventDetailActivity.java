@@ -1,15 +1,20 @@
 package hacktx.hacktx2015.activities;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.ActivityManager;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
@@ -38,12 +43,46 @@ import java.util.Locale;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.models.ScheduleEvent;
 import hacktx.hacktx2015.models.ScheduleSpeaker;
+import hacktx.hacktx2015.utils.AlphaSatColorMatrixEvaluator;
 import hacktx.hacktx2015.views.CircularImageView;
 
 public class EventDetailActivity extends AppCompatActivity {
 
     private CollapsingToolbarLayout collapsingToolbar;
     private ScheduleEvent event;
+    private Target target = new Target() {
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            ImageView imageView = (ImageView)findViewById(R.id.header);
+            final BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
+            imageView.setImageDrawable(drawable);
+            AlphaSatColorMatrixEvaluator evaluator = new AlphaSatColorMatrixEvaluator ();
+            final ColorMatrixColorFilter filter = new ColorMatrixColorFilter(evaluator.getColorMatrix());
+            drawable.setColorFilter(filter);
+
+            ObjectAnimator animator = ObjectAnimator.ofObject(filter, "colorMatrix", evaluator, evaluator.getColorMatrix());
+
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    drawable.setColorFilter(filter);
+                }
+            });
+            animator.setDuration(1500);
+            animator.start();
+            setupPalette(bitmap);
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +130,7 @@ public class EventDetailActivity extends AppCompatActivity {
     private void setupEventData(String eventData) {
         Log.i("EventDetailActivity", "Passed event data: " + eventData);
         try {
-            event = new Gson().fromJson(eventData, new TypeToken<ScheduleEvent>() {
-            }.getType());
+            event = new Gson().fromJson(eventData, new TypeToken<ScheduleEvent>() {}.getType());
         } catch (Exception e) {
             e.printStackTrace();
             // TODO: Gracefully handle JSON parse error
@@ -100,13 +138,34 @@ public class EventDetailActivity extends AppCompatActivity {
     }
 
     private void setupToolbar(Toolbar toolbar) {
-        Picasso.with(this).load(event.getImageUrl()).into((ImageView) findViewById(R.id.header));
+        Picasso.with(this).load(event.getImageUrl()).placeholder(R.color.primary).into(target);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);
         collapsingToolbar.setTitle(event.getName());
+    }
+
+    private void setupPalette(Bitmap bitmap) {
+        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+            public void onGenerated(Palette p) {
+                collapsingToolbar.setContentScrimColor(p.getMutedColor(ContextCompat.getColor(getBaseContext(), R.color.primary)));
+                collapsingToolbar.setStatusBarScrimColor(p.getDarkMutedColor(ContextCompat.getColor(getBaseContext(), R.color.primaryDark)));
+                ((Button) findViewById(R.id.rateEventCardOk)).setTextColor(p.getMutedColor(ContextCompat.getColor(getBaseContext(), R.color.primaryDark)));
+                ((TextView) findViewById(R.id.speakersTitle)).setTextColor(p.getVibrantColor(ContextCompat.getColor(getBaseContext(), R.color.accent)));
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    findViewById(R.id.fab).setBackgroundTintList(ColorStateList.valueOf(p.getVibrantColor(ContextCompat.getColor(getBaseContext(), R.color.accent))));
+
+                    String appName = getString(R.string.app_name);
+                    Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                    int color = p.getDarkMutedColor(ContextCompat.getColor(getBaseContext(), R.color.primaryDark));
+                    ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(appName, icon, color);
+                    setTaskDescription(taskDesc);
+                }
+            }
+        });
     }
 
     private void setupTaskActivityInfo() {
