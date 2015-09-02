@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,6 +52,7 @@ public class AnnouncementFragment extends BaseFragment {
 
         setupToolbar((Toolbar) root.findViewById(R.id.toolbar));
         setupSwipeRefreshLayout(root);
+        setupCollapsibleToolbar((AppBarLayout) root.findViewById(R.id.appBar), swipeRefreshLayout);
         setupRecyclerView(root);
         getAnnouncements();
 
@@ -70,6 +72,19 @@ public class AnnouncementFragment extends BaseFragment {
             @Override
             public void run() {
                 swipeRefreshLayout.setRefreshing(true);
+            }
+        });
+    }
+
+    private void setupCollapsibleToolbar(AppBarLayout appBarLayout, final SwipeRefreshLayout swipeRefreshLayout) {
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+                if (i == 0) {
+                    swipeRefreshLayout.setEnabled(true);
+                } else {
+                    swipeRefreshLayout.setEnabled(false);
+                }
             }
         });
     }
