@@ -138,9 +138,12 @@ public class ScheduleEvent {
             endAmPm = (end.get(Calendar.AM_PM) == 0) ? " AM" : " PM";
         }
 
-        return String.format("%01d:%02d", start.get(Calendar.HOUR), start.get(Calendar.MINUTE))
+        int startHourOfDay = (start.get(Calendar.HOUR) == 0) ? 12 : start.get(Calendar.HOUR);
+        int endHourOfDay = (end.get(Calendar.HOUR) == 0) ? 12 : end.get(Calendar.HOUR);
+
+        return String.format("%01d:%02d", startHourOfDay, start.get(Calendar.MINUTE))
                 + startAmPm + " - "
-                + String.format("%01d:%02d", end.get(Calendar.HOUR), end.get(Calendar.MINUTE))
+                + String.format("%01d:%02d", endHourOfDay, end.get(Calendar.MINUTE))
                 + endAmPm;
     }
 }
