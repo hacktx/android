@@ -41,8 +41,14 @@ public class MainActivity extends AppCompatActivity {
 
         String extra = getIntent().getStringExtra("open");
         if (extra != null && extra.equals("announcements")) {
+            ((NavigationView) findViewById(R.id.nav_view)).getMenu().getItem(1).setChecked(true);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_fragment, new AnnouncementFragment());
+            transaction.commit();
+        } else if(extra != null && extra.equals("maps")) {
+            ((NavigationView) findViewById(R.id.nav_view)).getMenu().getItem(3).setChecked(true);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_fragment, new MapFragment());
             transaction.commit();
         }
     }

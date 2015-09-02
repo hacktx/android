@@ -9,18 +9,19 @@ import java.util.Locale;
 import hacktx.hacktx2015.enums.EventType;
 
 public class ScheduleEvent {
+
     private int id;
     private EventType type;
     private String name;
     private String imageUrl;
     private String startDate;
     private String endDate;
-    private String location;
+    private EventLocation location;
     private String description;
     private ArrayList<ScheduleSpeaker> speakerList;
 
     public ScheduleEvent(int id, EventType type, String name, String imageUrl,
-                         String startDate, String endDate, String location,
+                         String startDate, String endDate, EventLocation location,
                          String description, ArrayList<ScheduleSpeaker> speakerList) {
         this.id = id;
         this.type = type;
@@ -81,11 +82,11 @@ public class ScheduleEvent {
         this.endDate = endDate;
     }
 
-    public String getLocation() {
+    public EventLocation getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(EventLocation location) {
         this.location = location;
     }
 
@@ -117,7 +118,7 @@ public class ScheduleEvent {
             e.printStackTrace();
         }
 
-        return getEventTimes() + " | " + getLocation();
+        return getEventTimes() + " | " + getLocation().getLocationDetails();
     }
 
     public String getEventTimes() {
