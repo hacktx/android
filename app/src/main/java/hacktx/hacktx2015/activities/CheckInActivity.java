@@ -27,6 +27,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 import hacktx.hacktx2015.R;
+import hacktx.hacktx2015.network.UserStateStore;
 import hacktx.hacktx2015.utils.HackTXUtils;
 
 public class CheckInActivity extends AppCompatActivity {
@@ -77,13 +78,39 @@ public class CheckInActivity extends AppCompatActivity {
         } else if(HackTXUtils.hasHackTxEnded()) {
             findViewById(R.id.welcomeCard).setVisibility(View.GONE);
             findViewById(R.id.emailCard).setVisibility(View.GONE);
+            findViewById(R.id.codeCard).setVisibility(View.GONE);
             findViewById(R.id.endedCard).setVisibility(View.VISIBLE);
+        }
+
+        if(UserStateStore.isUserEmailSet(this)) {
+            findViewById(R.id.emailCard).setVisibility(View.GONE);
+            if(!HackTXUtils.hasHackTxStarted()) {
+                findViewById(R.id.finishedSoonCard).setVisibility(View.VISIBLE);
+            } else if(!HackTXUtils.hasHackTxEnded()) {
+                findViewById(R.id.codeCard).setVisibility(View.VISIBLE);
+                loadQrCode(UserStateStore.getUserEmail(this));
+            }
         }
 
         View.OnClickListener backOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        };
+
+        View.OnClickListener resetOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserStateStore.setUserEmail(CheckInActivity.this, "");
+
+                findViewById(R.id.codeCard).setVisibility(View.GONE);
+                findViewById(R.id.codeCardCode).setVisibility(View.GONE);
+                findViewById(R.id.codeCardButtons).setVisibility(View.GONE);
+                findViewById(R.id.codeCardProgressBar).setVisibility(View.VISIBLE);
+                findViewById(R.id.finishedSoonCard).setVisibility(View.GONE);
+                ((EditText) findViewById(R.id.emailCardEditText)).setText("");
+                findViewById(R.id.emailCard).setVisibility(View.VISIBLE);
             }
         };
 
@@ -102,6 +129,7 @@ public class CheckInActivity extends AppCompatActivity {
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            UserStateStore.setUserEmail(CheckInActivity.this, email);
                             findViewById(R.id.emailCard).setVisibility(View.GONE);
                             if(!HackTXUtils.hasHackTxStarted()) {
                                 findViewById(R.id.finishedSoonCard).setVisibility(View.VISIBLE);
@@ -122,20 +150,10 @@ public class CheckInActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.finishedSoonCardReset).setOnClickListener(resetOnClickListener);
+        findViewById(R.id.codeCardReset).setOnClickListener(resetOnClickListener);
+
         findViewById(R.id.emailCardCancel).setOnClickListener(backOnClickListener);
-
-        findViewById(R.id.codeCardReset).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                findViewById(R.id.codeCard).setVisibility(View.GONE);
-                findViewById(R.id.codeCardCode).setVisibility(View.GONE);
-                findViewById(R.id.codeCardButtons).setVisibility(View.GONE);
-                findViewById(R.id.codeCardProgressBar).setVisibility(View.VISIBLE);
-                ((EditText) findViewById(R.id.emailCardEditText)).setText("");
-                findViewById(R.id.emailCard).setVisibility(View.VISIBLE);
-            }
-        });
-
         findViewById(R.id.codeCardDone).setOnClickListener(backOnClickListener);
         findViewById(R.id.finishedSoonOk).setOnClickListener(backOnClickListener);
         findViewById(R.id.endedCardOk).setOnClickListener(backOnClickListener);

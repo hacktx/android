@@ -49,4 +49,34 @@ public class UserStateStore {
     public static boolean getBeaconsEnabled(Context context) {
         return getPrefs(context).getBoolean(context.getString(R.string.prefs_beacons_enabled), true);
     }
+
+    /**
+     * Get the user's email address. Returns an empty string if not set.
+     *
+     * @param context Context by which to retrieve data
+     * @return <code>String</code> representing the user's email address
+     */
+    public static String getUserEmail(Context context) {
+        return getPrefs(context).getString(context.getString(R.string.prefs_user_email), "");
+    }
+
+    /**
+     * Set the user's email address.
+     *
+     * @param context Context by which to save data
+     * @param email User email address to store
+     */
+    public static void setUserEmail(Context context, String email) {
+        getPrefs(context).edit().putString(context.getString(R.string.prefs_user_email), email).apply();
+    }
+
+    /**
+     * Get if the user's email address has been stored.
+     *
+     * @param context Context by which to retrieve data
+     * @return <code>boolean</code> representing if the user's email address is stored
+     */
+    public static boolean isUserEmailSet(Context context) {
+        return !getUserEmail(context).isEmpty();
+    }
 }
