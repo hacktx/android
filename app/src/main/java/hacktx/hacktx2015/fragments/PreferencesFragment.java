@@ -32,7 +32,6 @@ public class PreferencesFragment extends PreferenceFragment {
                     if(doesDeviceSupportBle()) {
                         Log.i("PreferencesFragment", "Starting BeaconService.");
                         getActivity().startService(new Intent(getActivity(), BeaconService.class));
-                        Snackbar.make(getView(), R.string.fragment_settings_beacons_failed, Snackbar.LENGTH_SHORT).show();
                     } else {
                         Snackbar.make(getView(), R.string.fragment_settings_beacons_failed, Snackbar.LENGTH_SHORT).show();
                     }
