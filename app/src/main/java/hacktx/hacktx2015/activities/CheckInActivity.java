@@ -16,7 +16,7 @@ public class CheckInActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preferences);
+        setContentView(R.layout.activity_check_in);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -46,7 +46,8 @@ public class CheckInActivity extends AppCompatActivity {
             int color = ContextCompat.getColor(this, R.color.primaryDark);
             ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(appName, icon, color);
             setTaskDescription(taskDesc);
-            getWindow().setStatusBarColor(color);
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.hacktx_blue_dark));
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.hacktx_red));
         }
     }
 
