@@ -52,21 +52,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            case R.id.action_settings:
-                Intent intent = new Intent(this, PreferencesActivity.class);
-                startActivity(intent);
                 return true;
         }
 
@@ -114,6 +103,12 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.nav_sponsors:
                                 transaction.replace(R.id.content_fragment, new SponsorFragment());
                                 transaction.commit();
+                                break;
+                            case R.id.nav_check_in:
+                                startActivity(new Intent(MainActivity.this, CheckInActivity.class));
+                                break;
+                            case R.id.nav_settings:
+                                startActivity(new Intent(MainActivity.this, PreferencesActivity.class));
                                 break;
                         }
                         drawerLayout.closeDrawers();
