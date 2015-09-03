@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
@@ -83,12 +84,16 @@ public class CheckInActivity extends AppCompatActivity {
         }
 
         if(UserStateStore.isUserEmailSet(this)) {
+            String email = UserStateStore.getUserEmail(this);
+
             findViewById(R.id.emailCard).setVisibility(View.GONE);
             if(!HackTXUtils.hasHackTxStarted()) {
                 findViewById(R.id.finishedSoonCard).setVisibility(View.VISIBLE);
+                ((TextView) findViewById(R.id.finishedSoonCardText)).setText(getString(R.string.activity_check_in_finish_soon_text, email));
             } else if(!HackTXUtils.hasHackTxEnded()) {
                 findViewById(R.id.codeCard).setVisibility(View.VISIBLE);
-                loadQrCode(UserStateStore.getUserEmail(this));
+                ((TextView) findViewById(R.id.codeCardText)).setText(getString(R.string.activity_check_in_code_text, email));
+                loadQrCode(email);
             }
         }
 
@@ -133,9 +138,11 @@ public class CheckInActivity extends AppCompatActivity {
                             findViewById(R.id.emailCard).setVisibility(View.GONE);
                             if(!HackTXUtils.hasHackTxStarted()) {
                                 findViewById(R.id.finishedSoonCard).setVisibility(View.VISIBLE);
+                                ((TextView) findViewById(R.id.finishedSoonCardText)).setText(getString(R.string.activity_check_in_finish_soon_text, email));
                                 dialog.dismiss();
                             } else {
                                 findViewById(R.id.codeCard).setVisibility(View.VISIBLE);
+                                ((TextView) findViewById(R.id.codeCardText)).setText(getString(R.string.activity_check_in_code_text, email));
                                 dialog.dismiss();
 
                                 loadQrCode(email);

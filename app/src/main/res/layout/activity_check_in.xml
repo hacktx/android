@@ -238,7 +238,7 @@
                         android:id="@+id/codeCardText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Get this code scanned by a volunteer to finish." />
+                        android:text="@string/activity_check_in_code_text" />
 
                     <ProgressBar
                         style="?android:attr/progressBarStyle"
@@ -312,7 +312,7 @@
                         android:id="@+id/finishedSoonCardText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Check back here on September 26th to get your QR code for check in." />
+                        android:text="@string/activity_check_in_finish_soon_text" />
 
                     <LinearLayout
                         android:orientation="horizontal"
