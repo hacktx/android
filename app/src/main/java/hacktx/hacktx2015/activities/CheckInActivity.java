@@ -74,6 +74,10 @@ public class CheckInActivity extends AppCompatActivity {
         if(!HackTXUtils.hasHackTxStarted()) {
             findViewById(R.id.welcomeCard).setVisibility(View.GONE);
             findViewById(R.id.comingSoonCard).setVisibility(View.VISIBLE);
+        } else if(HackTXUtils.hasHackTxEnded()) {
+            findViewById(R.id.welcomeCard).setVisibility(View.GONE);
+            findViewById(R.id.emailCard).setVisibility(View.GONE);
+            findViewById(R.id.endedCard).setVisibility(View.VISIBLE);
         }
 
         View.OnClickListener backOnClickListener = new View.OnClickListener() {
@@ -134,6 +138,7 @@ public class CheckInActivity extends AppCompatActivity {
 
         findViewById(R.id.codeCardDone).setOnClickListener(backOnClickListener);
         findViewById(R.id.finishedSoonOk).setOnClickListener(backOnClickListener);
+        findViewById(R.id.endedCardOk).setOnClickListener(backOnClickListener);
     }
 
     private void loadQrCode(final String email) {
