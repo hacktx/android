@@ -1,8 +1,10 @@
 package hacktx.hacktx2015.activities;
 
 import android.app.ActivityManager;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -16,6 +18,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import hacktx.hacktx2015.R;
@@ -25,6 +30,7 @@ import hacktx.hacktx2015.fragments.ScheduleMainFragment;
 import hacktx.hacktx2015.fragments.SponsorFragment;
 import hacktx.hacktx2015.fragments.TwitterFragment;
 import hacktx.hacktx2015.network.UserStateStore;
+import hacktx.hacktx2015.utils.HackTXUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
             transaction.replace(R.id.content_fragment, new MapFragment());
             transaction.commit();
         }
+
+        displayWelcome();
     }
 
     @Override
@@ -134,5 +142,69 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.content_fragment, new ScheduleMainFragment())
                     .commit();
         }
+    }
+
+    private void displayWelcome() {
+        if(UserStateStore.isFirstLaunch(this)) {
+            if(!HackTXUtils.hasHackTxStarted()) {
+                final Dialog d = displayDialog(R.layout.dialog_welcome_early);
+                d.findViewById(R.id.welcomeDialogStart).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        d.dismiss();
+                        startActivity(new Intent(MainActivity.this, CheckInActivity.class));
+                    }
+                });
+
+                d.findViewById(R.id.welcomeDialogNo).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        d.dismiss();
+                    }
+                });
+            } else if(!HackTXUtils.hasHackTxEnded()) {
+                final Dialog d = displayDialog(R.layout.dialog_welcome);
+                d.findViewById(R.id.welcomeDialogStart).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        d.dismiss();
+                        startActivity(new Intent(MainActivity.this, CheckInActivity.class));
+                    }
+                });
+
+                d.findViewById(R.id.welcomeDialogNo).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        d.dismiss();
+                    }
+                });
+            } else {
+                final Dialog d = displayDialog(R.layout.dialog_welcome_late);
+                d.findViewById(R.id.welcomeDialogOk).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        d.dismiss();
+                    }
+                });
+            }
+
+            UserStateStore.setFirstLaunch(this, false);
+        }
+    }
+
+    private Dialog displayDialog(int layout) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(layout);
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        dialog.getWindow().setAttributes(params);
+        dialog.show();
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            dialog.findViewById(R.id.skyline).setVisibility(View.GONE);
+        }
+
+        return dialog;
     }
 }

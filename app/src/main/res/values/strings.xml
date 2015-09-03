@@ -40,6 +40,7 @@
     <string name="prefs_schedule_last_updated">scheduleLastUpdated</string>
     <string name="prefs_beacons_enabled">beaconsEnabled</string>
     <string name="prefs_user_email">userEmail</string>
+    <string name="prefs_first_launch">firstLaunch</string>
 
     <!-- Notifications -->
     <string name="notif_sign_in_title">HackTX</string>

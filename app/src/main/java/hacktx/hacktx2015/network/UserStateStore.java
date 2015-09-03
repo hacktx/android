@@ -79,4 +79,24 @@ public class UserStateStore {
     public static boolean isUserEmailSet(Context context) {
         return !getUserEmail(context).isEmpty();
     }
+
+    /**
+     * Set if the application has never run before.
+     *
+     * @param context Context by which to retrieve data
+     * @param firstLaunch If the app has never run before
+     */
+    public static void setFirstLaunch(Context context, boolean firstLaunch) {
+        getPrefs(context).edit().putBoolean(context.getString(R.string.prefs_first_launch), firstLaunch).apply();
+    }
+
+    /**
+     * Get if the application has never been run before.
+     *
+     * @param context Context by which to retrieve data
+     * @return <code>boolean</code> representing if the app has never been run before
+     */
+    public static boolean isFirstLaunch(Context context) {
+        return getPrefs(context).getBoolean(context.getString(R.string.prefs_first_launch), true);
+    }
 }
