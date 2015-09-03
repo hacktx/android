@@ -2,6 +2,7 @@
     <!-- Global -->
     <string name="app_name">HackTX</string>
     <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
     <string name="no_thanks">No Thanks</string>
 
     <!-- MainActivity -->
@@ -30,6 +31,8 @@
 
     <!-- CheckInActivity -->
     <string name="activity_check_in_title">Check In</string>
+    <string name="activity_check_in_reset">Reset</string>
+    <string name="activity_check_in_done">Done</string>
 
     <!-- SharedPreferences Keys -->
     <string name="prefs_schedule_last_updated">scheduleLastUpdated</string>

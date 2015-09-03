@@ -77,5 +77,6 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.4.0'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.wnafee:vector-compat:1.0.5'
+    compile 'com.google.zxing:core:3.0.0'
     compile(name:'estimote-sdk', ext:'aar')
 }

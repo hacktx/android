@@ -6,105 +6,6 @@
     android:background="@color/hacktx_blue"
     android:fitsSystemWindows="true" >
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="12dp">
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/welcomeCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            card_view:cardCornerRadius="4dp"
-            card_view:contentPadding="24dp">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/welcomeCardTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Welcome to HackTX!"
-                    android:textSize="22sp" />
-
-                <TextView
-                    android:id="@+id/welcomeCardText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Let&apos;s get you checked in." />
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/emailCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            card_view:cardCornerRadius="4dp"
-            card_view:contentPaddingTop="24dp"
-            card_view:contentPaddingRight="24dp"
-            card_view:contentPaddingLeft="24dp"
-            card_view:contentPaddingBottom="12dp">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:focusable="true" android:focusableInTouchMode="true"
-                    android:layout_width="0px" android:layout_height="0px"/>
-
-                <TextView
-                    android:id="@+id/emailCardTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="About You"
-                    android:textSize="22sp" />
-
-                <TextView
-                    android:id="@+id/emailCardText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Enter the email you used during registration." />
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/text_input_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp">
-
-                    <EditText
-                        android:id="@+id/emailCardEditText"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:ems="10"
-                        android:nextFocusUp="@id/emailCardEditText"
-                        android:nextFocusLeft="@id/emailCardEditText"
-                        android:hint="Email Address" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <Button
-                    android:id="@+id/emailCardOk"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ok"
-                    android:textColor="@color/hacktx_red"
-                    android:layout_gravity="right" />
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-    </LinearLayout>
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="150dp"
@@ -115,5 +16,197 @@
         android:layout_alignParentStart="true"
         android:layout_centerHorizontal="true"
         android:scaleType="centerCrop" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/welcomeCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="4dp"
+                card_view:contentPadding="24dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/welcomeCardTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Welcome to HackTX!"
+                        android:textSize="22sp" />
+
+                    <TextView
+                        android:id="@+id/welcomeCardText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Let&apos;s get you checked in." />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/emailCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                card_view:cardCornerRadius="4dp"
+                card_view:contentPaddingTop="24dp"
+                card_view:contentPaddingRight="24dp"
+                card_view:contentPaddingLeft="24dp"
+                card_view:contentPaddingBottom="12dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:focusable="true" android:focusableInTouchMode="true"
+                        android:layout_width="0px" android:layout_height="0px"/>
+
+                    <TextView
+                        android:id="@+id/emailCardTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="About You"
+                        android:textSize="22sp" />
+
+                    <TextView
+                        android:id="@+id/emailCardText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Enter the email you used during registration." />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/text_input_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp">
+
+                        <EditText
+                            android:id="@+id/emailCardEditText"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress"
+                            android:ems="10"
+                            android:nextFocusUp="@id/emailCardEditText"
+                            android:nextFocusLeft="@id/emailCardEditText"
+                            android:hint="Email Address" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end">
+
+                        <Button
+                            android:id="@+id/emailCardCancel"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/cancel" />
+
+                        <Button
+                            android:id="@+id/emailCardOk"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ok"
+                            android:textColor="@color/hacktx_red" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/codeCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                card_view:cardCornerRadius="4dp"
+                card_view:contentPaddingTop="24dp"
+                card_view:contentPaddingRight="24dp"
+                card_view:contentPaddingLeft="24dp"
+                card_view:contentPaddingBottom="12dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/codeCardTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Almost there!"
+                        android:textSize="22sp" />
+
+                    <TextView
+                        android:id="@+id/codeCardText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Get this code scanned by a volunteer to finish." />
+
+                    <ProgressBar
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/codeCardProgressBar"
+                        android:layout_gravity="center_horizontal"
+                        android:indeterminate="true"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="12dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/codeCardCode"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="12dp" />
+
+                    <LinearLayout
+                        android:id="@+id/codeCardButtons"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:visibility="gone">
+
+                        <Button
+                            android:id="@+id/codeCardReset"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/activity_check_in_reset" />
+
+                        <Button
+                            android:id="@+id/codeCardDone"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/activity_check_in_done"
+                            android:textColor="@color/hacktx_red" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
