@@ -12,7 +12,7 @@ public class UserStateStore {
      * Quickly get default <code>SharedPreferences</code> for a given <code>Context</code>.
      *
      * @param context Context by which to get default <code>SharedPreferences</code>
-     * @return
+     * @return SharedPreferences instance
      */
     public static SharedPreferences getPrefs(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
@@ -38,5 +38,65 @@ public class UserStateStore {
      */
     public static void setScheduleLastUpdated(Context context, int day, Long scheduleLastUpdated) {
         getPrefs(context).edit().putLong(context.getString(R.string.prefs_schedule_last_updated) + day, scheduleLastUpdated).apply();
+    }
+
+    /**
+     * Get if beacons are enabled by the user.
+     *
+     * @param context Context by which to retrieve data
+     * @return <code>boolean</code> representing if beacons are enabled
+     */
+    public static boolean getBeaconsEnabled(Context context) {
+        return getPrefs(context).getBoolean(context.getString(R.string.prefs_beacons_enabled), true);
+    }
+
+    /**
+     * Get the user's email address. Returns an empty string if not set.
+     *
+     * @param context Context by which to retrieve data
+     * @return <code>String</code> representing the user's email address
+     */
+    public static String getUserEmail(Context context) {
+        return getPrefs(context).getString(context.getString(R.string.prefs_user_email), "");
+    }
+
+    /**
+     * Set the user's email address.
+     *
+     * @param context Context by which to save data
+     * @param email User email address to store
+     */
+    public static void setUserEmail(Context context, String email) {
+        getPrefs(context).edit().putString(context.getString(R.string.prefs_user_email), email).apply();
+    }
+
+    /**
+     * Get if the user's email address has been stored.
+     *
+     * @param context Context by which to retrieve data
+     * @return <code>boolean</code> representing if the user's email address is stored
+     */
+    public static boolean isUserEmailSet(Context context) {
+        return !getUserEmail(context).isEmpty();
+    }
+
+    /**
+     * Set if the application has never run before.
+     *
+     * @param context Context by which to retrieve data
+     * @param firstLaunch If the app has never run before
+     */
+    public static void setFirstLaunch(Context context, boolean firstLaunch) {
+        getPrefs(context).edit().putBoolean(context.getString(R.string.prefs_first_launch), firstLaunch).apply();
+    }
+
+    /**
+     * Get if the application has never been run before.
+     *
+     * @param context Context by which to retrieve data
+     * @return <code>boolean</code> representing if the app has never been run before
+     */
+    public static boolean isFirstLaunch(Context context) {
+        return getPrefs(context).getBoolean(context.getString(R.string.prefs_first_launch), true);
     }
 }

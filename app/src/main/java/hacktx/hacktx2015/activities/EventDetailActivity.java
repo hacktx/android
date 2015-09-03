@@ -53,24 +53,29 @@ public class EventDetailActivity extends AppCompatActivity {
     private Target target = new Target() {
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            ImageView imageView = (ImageView)findViewById(R.id.header);
-            final BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
-            imageView.setImageDrawable(drawable);
-            AlphaSatColorMatrixEvaluator evaluator = new AlphaSatColorMatrixEvaluator ();
-            final ColorMatrixColorFilter filter = new ColorMatrixColorFilter(evaluator.getColorMatrix());
-            drawable.setColorFilter(filter);
+            Log.i("FROM", from.name());
+            if(from == Picasso.LoadedFrom.MEMORY) {
+                ((ImageView) findViewById(R.id.header)).setImageBitmap(bitmap);
+            } else {
+                ImageView imageView = (ImageView) findViewById(R.id.header);
+                final BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
+                imageView.setImageDrawable(drawable);
+                AlphaSatColorMatrixEvaluator evaluator = new AlphaSatColorMatrixEvaluator();
+                final ColorMatrixColorFilter filter = new ColorMatrixColorFilter(evaluator.getColorMatrix());
+                drawable.setColorFilter(filter);
 
-            ObjectAnimator animator = ObjectAnimator.ofObject(filter, "colorMatrix", evaluator, evaluator.getColorMatrix());
+                ObjectAnimator animator = ObjectAnimator.ofObject(filter, "colorMatrix", evaluator, evaluator.getColorMatrix());
 
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    drawable.setColorFilter(filter);
-                }
-            });
-            animator.setDuration(1500);
-            animator.start();
-            setupPalette(bitmap);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        drawable.setColorFilter(filter);
+                    }
+                });
+                animator.setDuration(1500);
+                animator.start();
+                setupPalette(bitmap);
+            }
         }
 
         @Override
@@ -152,7 +157,7 @@ public class EventDetailActivity extends AppCompatActivity {
             public void onGenerated(Palette p) {
                 collapsingToolbar.setContentScrimColor(p.getMutedColor(ContextCompat.getColor(getBaseContext(), R.color.primary)));
                 collapsingToolbar.setStatusBarScrimColor(p.getDarkMutedColor(ContextCompat.getColor(getBaseContext(), R.color.primaryDark)));
-                ((Button) findViewById(R.id.rateEventCardOk)).setTextColor(p.getMutedColor(ContextCompat.getColor(getBaseContext(), R.color.primaryDark)));
+                ((Button) findViewById(R.id.rateEventCardOk)).setTextColor(p.getVibrantColor(ContextCompat.getColor(getBaseContext(), R.color.accent)));
                 ((TextView) findViewById(R.id.speakersTitle)).setTextColor(p.getVibrantColor(ContextCompat.getColor(getBaseContext(), R.color.accent)));
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -172,7 +177,7 @@ public class EventDetailActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             String appName = getString(R.string.app_name);
             Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-            int color = getResources().getColor(R.color.primaryDark);
+            int color = ContextCompat.getColor(this, R.color.primaryDark);
             ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(appName, icon, color);
             setTaskDescription(taskDesc);
         }
