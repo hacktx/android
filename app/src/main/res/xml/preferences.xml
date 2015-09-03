@@ -11,4 +11,16 @@
             android:defaultValue="true"/>
 
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/fragment_settings_about">
+
+        <PreferenceScreen
+            android:key="@string/prefs_about"
+            android:title="@string/app_name" />
+        <PreferenceScreen
+            android:key="@string/prefs_licenses"
+            android:title="@string/fragment_settings_licenses" />
+
+    </PreferenceCategory>
 </PreferenceScreen>
