@@ -3,6 +3,7 @@ package hacktx.hacktx2015.activities;
 import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +16,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -26,6 +28,12 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.network.UserStateStore;
@@ -73,24 +81,24 @@ public class CheckInActivity extends AppCompatActivity {
 
     private void setupCards() {
 
-        if(!HackTXUtils.hasHackTxStarted()) {
+        if (!HackTXUtils.hasHackTxStarted()) {
             findViewById(R.id.welcomeCard).setVisibility(View.GONE);
             findViewById(R.id.comingSoonCard).setVisibility(View.VISIBLE);
-        } else if(HackTXUtils.hasHackTxEnded()) {
+        } else if (HackTXUtils.hasHackTxEnded()) {
             findViewById(R.id.welcomeCard).setVisibility(View.GONE);
             findViewById(R.id.emailCard).setVisibility(View.GONE);
             findViewById(R.id.codeCard).setVisibility(View.GONE);
             findViewById(R.id.endedCard).setVisibility(View.VISIBLE);
         }
 
-        if(UserStateStore.isUserEmailSet(this)) {
+        if (UserStateStore.isUserEmailSet(this)) {
             String email = UserStateStore.getUserEmail(this);
 
             findViewById(R.id.emailCard).setVisibility(View.GONE);
-            if(!HackTXUtils.hasHackTxStarted()) {
+            if (!HackTXUtils.hasHackTxStarted()) {
                 findViewById(R.id.finishedSoonCard).setVisibility(View.VISIBLE);
                 ((TextView) findViewById(R.id.finishedSoonCardText)).setText(getString(R.string.activity_check_in_finish_soon_text, email));
-            } else if(!HackTXUtils.hasHackTxEnded()) {
+            } else if (!HackTXUtils.hasHackTxEnded()) {
                 findViewById(R.id.codeCard).setVisibility(View.VISIBLE);
                 ((TextView) findViewById(R.id.codeCardText)).setText(getString(R.string.activity_check_in_code_text, email));
                 loadQrCode(email);
@@ -108,6 +116,7 @@ public class CheckInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 UserStateStore.setUserEmail(CheckInActivity.this, "");
+                deleteSavedCode();
 
                 findViewById(R.id.codeCard).setVisibility(View.GONE);
                 findViewById(R.id.codeCardCode).setVisibility(View.GONE);
@@ -124,7 +133,7 @@ public class CheckInActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText emailEditText = (EditText) findViewById(R.id.emailCardEditText);
                 final String email = emailEditText.getText().toString();
-                if(!email.isEmpty() && email.contains("@")) {
+                if (!email.isEmpty() && email.contains("@")) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(emailEditText.getWindowToken(), 0);
 
@@ -136,17 +145,16 @@ public class CheckInActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             UserStateStore.setUserEmail(CheckInActivity.this, email);
                             findViewById(R.id.emailCard).setVisibility(View.GONE);
-                            if(!HackTXUtils.hasHackTxStarted()) {
+                            if (!HackTXUtils.hasHackTxStarted()) {
                                 findViewById(R.id.finishedSoonCard).setVisibility(View.VISIBLE);
                                 ((TextView) findViewById(R.id.finishedSoonCardText)).setText(getString(R.string.activity_check_in_finish_soon_text, email));
-                                dialog.dismiss();
                             } else {
                                 findViewById(R.id.codeCard).setVisibility(View.VISIBLE);
                                 ((TextView) findViewById(R.id.codeCardText)).setText(getString(R.string.activity_check_in_code_text, email));
-                                dialog.dismiss();
-
-                                loadQrCode(email);
                             }
+
+                            dialog.dismiss();
+                            loadQrCode(email);
                         }
                     });
                     builder.setNegativeButton("No", null);
@@ -170,21 +178,28 @@ public class CheckInActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             public void run() {
                 QRCodeWriter writer = new QRCodeWriter();
+                final Bitmap code;
                 try {
-                    BitMatrix bitMatrix = writer.encode(email, BarcodeFormat.QR_CODE, 512, 512);
-                    int width = bitMatrix.getWidth();
-                    int height = bitMatrix.getHeight();
-                    final Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-                    for (int x = 0; x < width; x++) {
-                        for (int y = 0; y < height; y++) {
-                            bmp.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : ContextCompat.getColor(CheckInActivity.this, R.color.cardview_light_background));
+                    if(!isCodeSaved()) {
+                        BitMatrix bitMatrix = writer.encode(email, BarcodeFormat.QR_CODE, 512, 512);
+                        int width = bitMatrix.getWidth();
+                        int height = bitMatrix.getHeight();
+                        code = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+                        for (int x = 0; x < width; x++) {
+                            for (int y = 0; y < height; y++) {
+                                code.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : ContextCompat.getColor(CheckInActivity.this, R.color.cardview_light_background));
+                            }
                         }
+
+                        saveCodeToInternalStorage(code);
+                    } else {
+                        code = loadCodeFromInternalStorage();
                     }
 
                     CheckInActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            ((ImageView) findViewById(R.id.codeCardCode)).setImageBitmap(bmp);
+                            ((ImageView) findViewById(R.id.codeCardCode)).setImageBitmap(code);
                             findViewById(R.id.codeCardProgressBar).setVisibility(View.GONE);
                             findViewById(R.id.codeCardCode).setVisibility(View.VISIBLE);
                             findViewById(R.id.codeCardButtons).setVisibility(View.VISIBLE);
@@ -195,6 +210,38 @@ public class CheckInActivity extends AppCompatActivity {
                 }
             }
         }).start();
+    }
+
+    public boolean saveCodeToInternalStorage(Bitmap image) {
+        try {
+            FileOutputStream fos = this.openFileOutput("qr.png", Context.MODE_PRIVATE);
+            image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    private Bitmap loadCodeFromInternalStorage() {
+        try {
+            File f = new File(getFilesDir().getPath(), "qr.png");
+            return BitmapFactory.decodeStream(new FileInputStream(f));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private boolean isCodeSaved() {
+        return new File(getFilesDir().getPath(), "qr.png").exists();
+    }
+
+    private boolean deleteSavedCode() {
+        return new File(getFilesDir().getPath(), "qr.png").delete();
     }
 
 }
