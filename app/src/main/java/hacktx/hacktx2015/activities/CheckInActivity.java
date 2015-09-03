@@ -27,6 +27,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 import hacktx.hacktx2015.R;
+import hacktx.hacktx2015.utils.HackTXUtils;
 
 public class CheckInActivity extends AppCompatActivity {
 
@@ -43,7 +44,7 @@ public class CheckInActivity extends AppCompatActivity {
         }
 
         setupTaskActivityInfo();
-        setupEmailCard();
+        setupCards();
     }
 
     @Override
@@ -68,7 +69,20 @@ public class CheckInActivity extends AppCompatActivity {
         }
     }
 
-    private void setupEmailCard() {
+    private void setupCards() {
+
+        if(!HackTXUtils.hasHackTxStarted()) {
+            findViewById(R.id.welcomeCard).setVisibility(View.GONE);
+            findViewById(R.id.comingSoonCard).setVisibility(View.VISIBLE);
+        }
+
+        View.OnClickListener backOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        };
+
         findViewById(R.id.emailCardOk).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,37 +99,15 @@ public class CheckInActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             findViewById(R.id.emailCard).setVisibility(View.GONE);
-                            findViewById(R.id.codeCard).setVisibility(View.VISIBLE);
-                            dialog.dismiss();
+                            if(!HackTXUtils.hasHackTxStarted()) {
+                                findViewById(R.id.finishedSoonCard).setVisibility(View.VISIBLE);
+                                dialog.dismiss();
+                            } else {
+                                findViewById(R.id.codeCard).setVisibility(View.VISIBLE);
+                                dialog.dismiss();
 
-                            new Thread(new Runnable() {
-                                public void run() {
-                                    QRCodeWriter writer = new QRCodeWriter();
-                                    try {
-                                        BitMatrix bitMatrix = writer.encode(email, BarcodeFormat.QR_CODE, 512, 512);
-                                        int width = bitMatrix.getWidth();
-                                        int height = bitMatrix.getHeight();
-                                        final Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-                                        for (int x = 0; x < width; x++) {
-                                            for (int y = 0; y < height; y++) {
-                                                bmp.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : ContextCompat.getColor(CheckInActivity.this, R.color.cardview_light_background));
-                                            }
-                                        }
-
-                                        CheckInActivity.this.runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ((ImageView) findViewById(R.id.codeCardCode)).setImageBitmap(bmp);
-                                                findViewById(R.id.codeCardProgressBar).setVisibility(View.GONE);
-                                                findViewById(R.id.codeCardCode).setVisibility(View.VISIBLE);
-                                                findViewById(R.id.codeCardButtons).setVisibility(View.VISIBLE);
-                                            }
-                                        });
-                                    } catch (WriterException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }).start();
+                                loadQrCode(email);
+                            }
                         }
                     });
                     builder.setNegativeButton("No", null);
@@ -126,12 +118,7 @@ public class CheckInActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.emailCardCancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        findViewById(R.id.emailCardCancel).setOnClickListener(backOnClickListener);
 
         findViewById(R.id.codeCardReset).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,12 +132,39 @@ public class CheckInActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.codeCardDone).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
+        findViewById(R.id.codeCardDone).setOnClickListener(backOnClickListener);
+        findViewById(R.id.finishedSoonOk).setOnClickListener(backOnClickListener);
+    }
+
+    private void loadQrCode(final String email) {
+        new Thread(new Runnable() {
+            public void run() {
+                QRCodeWriter writer = new QRCodeWriter();
+                try {
+                    BitMatrix bitMatrix = writer.encode(email, BarcodeFormat.QR_CODE, 512, 512);
+                    int width = bitMatrix.getWidth();
+                    int height = bitMatrix.getHeight();
+                    final Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+                    for (int x = 0; x < width; x++) {
+                        for (int y = 0; y < height; y++) {
+                            bmp.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : ContextCompat.getColor(CheckInActivity.this, R.color.cardview_light_background));
+                        }
+                    }
+
+                    CheckInActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((ImageView) findViewById(R.id.codeCardCode)).setImageBitmap(bmp);
+                            findViewById(R.id.codeCardProgressBar).setVisibility(View.GONE);
+                            findViewById(R.id.codeCardCode).setVisibility(View.VISIBLE);
+                            findViewById(R.id.codeCardButtons).setVisibility(View.VISIBLE);
+                        }
+                    });
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
             }
-        });
+        }).start();
     }
 
 }
