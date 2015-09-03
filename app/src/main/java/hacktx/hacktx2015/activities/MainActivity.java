@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.fragments.AnnouncementFragment;
@@ -23,6 +24,7 @@ import hacktx.hacktx2015.fragments.MapFragment;
 import hacktx.hacktx2015.fragments.ScheduleMainFragment;
 import hacktx.hacktx2015.fragments.SponsorFragment;
 import hacktx.hacktx2015.fragments.TwitterFragment;
+import hacktx.hacktx2015.network.UserStateStore;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        ((TextView) drawerLayout.findViewById(R.id.navHeaderEmail)).setText(UserStateStore.getUserEmail(this));
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -74,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected void setupDrawerContent(final Context context, final DrawerLayout drawerLayout, NavigationView navigationView) {
         this.drawerLayout = drawerLayout;
-        //final int navSelect = getIntent().getIntExtra("navSelect", 0);
+        ((TextView) drawerLayout.findViewById(R.id.navHeaderEmail)).setText(UserStateStore.getUserEmail(this));
 
         navigationView.getMenu().getItem(0).setChecked(true);
         navigationView.setNavigationItemSelectedListener(
