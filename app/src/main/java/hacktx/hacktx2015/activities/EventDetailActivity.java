@@ -13,6 +13,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import hacktx.hacktx2015.BuildConfig;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.fragments.MapFragment;
 import hacktx.hacktx2015.models.ScheduleEvent;
@@ -140,7 +143,6 @@ public class EventDetailActivity extends AppCompatActivity {
             event = new Gson().fromJson(eventData, new TypeToken<ScheduleEvent>() {}.getType());
         } catch (Exception e) {
             e.printStackTrace();
-            // TODO: Gracefully handle JSON parse error
         }
     }
 
@@ -176,7 +178,7 @@ public class EventDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if(true) { // TODO: rating system
+        if(!end.before(now)) {
             findViewById(R.id.rateEventCard).setVisibility(View.GONE);
         } else {
             findViewById(R.id.rateEventCardOk).setOnClickListener(new View.OnClickListener() {
@@ -192,6 +194,16 @@ public class EventDetailActivity extends AppCompatActivity {
                     rateEventCard.setVisibility(View.GONE);
                 }
             });
+        }
+
+        if(!BuildConfig.IN_APP_FEEDBACK) {
+            Log.i("THOMAS", "HIDING");
+            findViewById(R.id.rateEventCard).setVisibility(View.GONE);
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            CoordinatorLayout.LayoutParams p = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+            p.setAnchorId(View.NO_ID);
+            fab.setLayoutParams(p);
+            fab.setVisibility(View.GONE);
         }
     }
 
