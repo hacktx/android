@@ -21,7 +21,7 @@ public class BeaconService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(UserStateStore.getBeaconsEnabled(getApplicationContext())) {
+        if(doesDeviceSupportBle() && UserStateStore.getBeaconsEnabled(getApplicationContext())) {
             try {
                 HackTXBeaconManager.start((NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE),
                         this);
