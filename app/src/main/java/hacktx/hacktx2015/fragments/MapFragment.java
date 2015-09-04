@@ -19,8 +19,12 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 
+import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
 
 /**
@@ -33,6 +37,7 @@ public class MapFragment extends BaseFragment {
 
     private ImageView floorImage;
     private LinearLayout levelLayout;
+    private Tracker mTracker;
 
 
     @Nullable
@@ -45,6 +50,25 @@ public class MapFragment extends BaseFragment {
         setupMapButtons(root);
 
         return root;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setupGoogleAnalyticsTracker();
+    }
+
+    private void setupGoogleAnalyticsTracker() {
+        // Obtain the shared Tracker instance.
+        HackTXApplication application = (HackTXApplication) getActivity().getApplication();
+        mTracker = application.getDefaultTracker();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTracker.setScreenName("Screen~" + "Maps");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

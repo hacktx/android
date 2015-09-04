@@ -31,6 +31,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
@@ -42,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.BuildConfig;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.fragments.MapFragment;
@@ -52,6 +55,7 @@ import hacktx.hacktx2015.views.CircularImageView;
 
 public class EventDetailActivity extends AppCompatActivity {
 
+    private Tracker mTracker;
     private CollapsingToolbarLayout collapsingToolbar;
     private ScheduleEvent event;
     private Target target = new Target() {
@@ -96,6 +100,7 @@ public class EventDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
+        setupGoogleAnalyticsTracker();
 
         setupEventData(getIntent().getExtras().getString("eventData"));
         setupToolbar((Toolbar) findViewById(R.id.toolbar));
@@ -104,6 +109,19 @@ public class EventDetailActivity extends AppCompatActivity {
         setupEventDetails();
         setupEventDescription();
         setupSpeakers();
+    }
+
+    private void setupGoogleAnalyticsTracker() {
+        // Obtain the shared Tracker instance.
+        HackTXApplication application = (HackTXApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mTracker.setScreenName("Screen~" + "EventDetail-id:" + event.getId());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

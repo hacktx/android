@@ -20,7 +20,7 @@
         <item
             android:id="@+id/nav_sponsors"
             android:icon="@drawable/ic_grade"
-            android:title="Sponsors" />
+            android:title="Partners" />
     </group>
 
     <group android:id="@+id/group_other">

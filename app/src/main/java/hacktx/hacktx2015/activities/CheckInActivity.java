@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -31,6 +33,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
+import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.network.UserStateStore;
 import hacktx.hacktx2015.utils.HackTXUtils;
@@ -40,10 +43,14 @@ public class CheckInActivity extends AppCompatActivity {
     private static final int NOTIFICATION_ID = 22;
     private boolean previousNotifStatus;
     private boolean shouldStopBeaconNotif = false;
+    private Tracker mTracker;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in);
+
+        setupGoogleAnalyticsTracker();
 
         previousNotifStatus = UserStateStore.getBeaconNotifEnabled(this);
 
@@ -58,6 +65,19 @@ public class CheckInActivity extends AppCompatActivity {
         hideNotification();
         setupTaskActivityInfo();
         setupCards();
+    }
+
+    private void setupGoogleAnalyticsTracker() {
+        // Obtain the shared Tracker instance.
+        HackTXApplication application = (HackTXApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mTracker.setScreenName("Screen~" + "CheckIn");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override
