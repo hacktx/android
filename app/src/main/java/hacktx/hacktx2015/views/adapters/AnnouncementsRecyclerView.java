@@ -64,28 +64,13 @@ public class AnnouncementsRecyclerView extends RecyclerView.Adapter<Announcement
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String date = convertDate(position);
+        Messages message = announcementsList.get(position);
+        String date = message.getFormattedTsString();
 
         if (date != null)
             holder.date.setText(date);
 
         holder.message.setText(announcementsList.get(position).getText());
-    }
-
-    private String convertDate(int position) {
-        SimpleDateFormat formatFrom = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-
-        //format date object to new date
-        SimpleDateFormat formatTo = new SimpleDateFormat("MMM dd, hh:mma", Locale.US);
-
-        try {
-            Date newDate = formatFrom.parse(announcementsList.get(position).getTs());
-            return formatTo.format(newDate);
-        }
-        catch (ParseException e) {
-            Log.d("AnnouncementsRecycler", e.getMessage());
-            return null;
-        }
     }
 
     @Override
