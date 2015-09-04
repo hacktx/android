@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.support.design.widget.Snackbar;
@@ -17,7 +18,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
 
+import hacktx.hacktx2015.BuildConfig;
 import hacktx.hacktx2015.R;
+import hacktx.hacktx2015.activities.DebugActivity;
 import hacktx.hacktx2015.services.BeaconService;
 
 public class PreferencesFragment extends PreferenceFragment {
@@ -26,6 +29,20 @@ public class PreferencesFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.preferences);
+
+        final PreferenceScreen debug = (PreferenceScreen) findPreference(getString(R.string.prefs_debug));
+        debug.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                getActivity().startActivity(new Intent(getActivity(), DebugActivity.class));
+                return false;
+            }
+        });
+
+        if(!BuildConfig.IN_APP_DEBUG) {
+            final PreferenceCategory debugCategory = (PreferenceCategory) findPreference(getString(R.string.fragment_preferences_debug_key));
+            getPreferenceScreen().removePreference(debugCategory);
+        }
 
         final CheckBoxPreference beaconPreference = (CheckBoxPreference) findPreference(getString(R.string.prefs_beacons_enabled));
         beaconPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

@@ -42,6 +42,7 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField "boolean", "IN_APP_DEBUG", "true"
         buildConfigField "boolean", "IN_APP_CHECK_IN", "true"
         buildConfigField "boolean", "IN_APP_FEEDBACK", "false"
         buildConfigField "String", "TWITTER_KEY", "\"${retrieveProp('TWITTER_KEY')}\""

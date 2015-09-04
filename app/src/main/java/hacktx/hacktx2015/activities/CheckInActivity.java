@@ -98,10 +98,10 @@ public class CheckInActivity extends AppCompatActivity {
     }
 
     private void setupCards() {
-        if (!HackTXUtils.hasHackTxStarted()) {
+        if (!HackTXUtils.hasHackTxStarted(CheckInActivity.this)) {
             findViewById(R.id.welcomeCard).setVisibility(View.GONE);
             findViewById(R.id.comingSoonCard).setVisibility(View.VISIBLE);
-        } else if (HackTXUtils.hasHackTxEnded()) {
+        } else if (HackTXUtils.hasHackTxEnded(CheckInActivity.this)) {
             findViewById(R.id.welcomeCard).setVisibility(View.GONE);
             findViewById(R.id.emailCard).setVisibility(View.GONE);
             findViewById(R.id.codeCard).setVisibility(View.GONE);
@@ -112,10 +112,10 @@ public class CheckInActivity extends AppCompatActivity {
             String email = UserStateStore.getUserEmail(this);
 
             findViewById(R.id.emailCard).setVisibility(View.GONE);
-            if (!HackTXUtils.hasHackTxStarted()) {
+            if (!HackTXUtils.hasHackTxStarted(CheckInActivity.this)) {
                 findViewById(R.id.finishedSoonCard).setVisibility(View.VISIBLE);
                 ((TextView) findViewById(R.id.finishedSoonCardText)).setText(getString(R.string.activity_check_in_finish_soon_text, email));
-            } else if (!HackTXUtils.hasHackTxEnded()) {
+            } else if (!HackTXUtils.hasHackTxEnded(CheckInActivity.this)) {
                 shouldStopBeaconNotif = true;
                 findViewById(R.id.codeCard).setVisibility(View.VISIBLE);
                 ((TextView) findViewById(R.id.codeCardText)).setText(getString(R.string.activity_check_in_code_text, email));
@@ -164,7 +164,7 @@ public class CheckInActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             UserStateStore.setUserEmail(CheckInActivity.this, email);
                             findViewById(R.id.emailCard).setVisibility(View.GONE);
-                            if (!HackTXUtils.hasHackTxStarted()) {
+                            if (!HackTXUtils.hasHackTxStarted(CheckInActivity.this)) {
                                 findViewById(R.id.finishedSoonCard).setVisibility(View.VISIBLE);
                                 ((TextView) findViewById(R.id.finishedSoonCardText)).setText(getString(R.string.activity_check_in_finish_soon_text, email));
                             } else {

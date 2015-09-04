@@ -71,7 +71,8 @@
         <service android:name=".services.BeaconService" />
 
         <activity android:name=".activities.EventDetailActivity"/>
-        <activity android:name=".activities.PreferencesActivity"/>
+        <activity android:name=".activities.PreferencesActivity"/>\
+        <activity android:name=".activities.DebugActivity"/>
         <activity android:name=".activities.CheckInActivity"/>
 
     </application>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/debug_build_config">
+
+        <PreferenceScreen
+            android:key="@string/debug_build_config_check_in_key"
+            android:title="@string/debug_build_config_check_in" />
+
+        <PreferenceScreen
+            android:key="@string/debug_build_config_feedback_key"
+            android:title="@string/debug_build_config_feedback" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/debug_beacons">
+
+        <CheckBoxPreference
+            android:key="@string/prefs_beacon_notif"
+            android:title="@string/debug_beacon_notifs"
+            android:summaryOn="@string/debug_beacon_notifs_on"
+            android:summaryOff="@string/debug_beacon_notifs_off"
+            android:defaultValue="true"/>
+
+        <PreferenceScreen
+            android:key="@string/debug_beacon_status_key"
+            android:title="@string/debug_ble_support" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/debug_hacktx_utils">
+
+        <CheckBoxPreference
+            android:key="@string/debug_hacktx_utils_override_key"
+            android:title="@string/debug_hacktx_utils_override"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="@string/debug_hacktx_utils_started_key"
+            android:title="@string/debug_hacktx_utils_started"
+            android:defaultValue="false"
+            android:enabled="false"/>
+
+        <CheckBoxPreference
+            android:key="@string/debug_hacktx_utils_ended_key"
+            android:title="@string/debug_hacktx_utils_ended"
+            android:defaultValue="false"
+            android:enabled="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
