@@ -1,9 +1,8 @@
 package hacktx.hacktx2015.activities;
 
 import android.app.ActivityManager;
-import android.app.ProgressDialog;
+import android.app.NotificationManager;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,9 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -33,7 +30,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.network.UserStateStore;
@@ -41,9 +37,15 @@ import hacktx.hacktx2015.utils.HackTXUtils;
 
 public class CheckInActivity extends AppCompatActivity {
 
+    private static final int NOTIFICATION_ID = 22;
+    private boolean previousNotifStatus;
+    private boolean shouldStopBeaconNotif = false;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in);
+
+        previousNotifStatus = UserStateStore.getBeaconNotifEnabled(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -53,6 +55,7 @@ public class CheckInActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(R.string.activity_check_in_title);
         }
 
+        hideNotification();
         setupTaskActivityInfo();
         setupCards();
     }
@@ -67,6 +70,15 @@ public class CheckInActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        if(previousNotifStatus) {
+            UserStateStore.setBeaconNotifEnabled(CheckInActivity.this, !shouldStopBeaconNotif);
+        }
+
+        super.onBackPressed();
+    }
+
     protected void setupTaskActivityInfo() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             String appName = getString(R.string.app_name);
@@ -79,8 +91,13 @@ public class CheckInActivity extends AppCompatActivity {
         }
     }
 
-    private void setupCards() {
+    private void hideNotification() {
+        UserStateStore.setBeaconNotifEnabled(this, false);
+        NotificationManager notifMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notifMgr.cancel(NOTIFICATION_ID);
+    }
 
+    private void setupCards() {
         if (!HackTXUtils.hasHackTxStarted()) {
             findViewById(R.id.welcomeCard).setVisibility(View.GONE);
             findViewById(R.id.comingSoonCard).setVisibility(View.VISIBLE);
@@ -99,6 +116,7 @@ public class CheckInActivity extends AppCompatActivity {
                 findViewById(R.id.finishedSoonCard).setVisibility(View.VISIBLE);
                 ((TextView) findViewById(R.id.finishedSoonCardText)).setText(getString(R.string.activity_check_in_finish_soon_text, email));
             } else if (!HackTXUtils.hasHackTxEnded()) {
+                shouldStopBeaconNotif = true;
                 findViewById(R.id.codeCard).setVisibility(View.VISIBLE);
                 ((TextView) findViewById(R.id.codeCardText)).setText(getString(R.string.activity_check_in_code_text, email));
                 loadQrCode(email);
@@ -117,6 +135,7 @@ public class CheckInActivity extends AppCompatActivity {
             public void onClick(View v) {
                 UserStateStore.setUserEmail(CheckInActivity.this, "");
                 deleteSavedCode();
+                shouldStopBeaconNotif = false;
 
                 findViewById(R.id.codeCard).setVisibility(View.GONE);
                 findViewById(R.id.codeCardCode).setVisibility(View.GONE);
@@ -149,6 +168,7 @@ public class CheckInActivity extends AppCompatActivity {
                                 findViewById(R.id.finishedSoonCard).setVisibility(View.VISIBLE);
                                 ((TextView) findViewById(R.id.finishedSoonCardText)).setText(getString(R.string.activity_check_in_finish_soon_text, email));
                             } else {
+                                shouldStopBeaconNotif = true;
                                 findViewById(R.id.codeCard).setVisibility(View.VISIBLE);
                                 ((TextView) findViewById(R.id.codeCardText)).setText(getString(R.string.activity_check_in_code_text, email));
                             }

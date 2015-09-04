@@ -17,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.activities.CheckInActivity;
+import hacktx.hacktx2015.network.UserStateStore;
+import hacktx.hacktx2015.utils.HackTXUtils;
 
 public class HackTXBeaconManager {
 
@@ -38,8 +40,10 @@ public class HackTXBeaconManager {
             beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
                 @Override
                 public void onEnteredRegion(Region region, List<Beacon> beacons) {
-                    postNotificationIntent(currentContext.getString(R.string.notif_sign_in_title),
-                            currentContext.getString(R.string.notif_sign_in_text));
+                    if(HackTXUtils.hasHackTxStarted() && UserStateStore.isBeaconNotifEnabled(currentContext)) {
+                        postNotificationIntent(currentContext.getString(R.string.notif_sign_in_title),
+                                currentContext.getString(R.string.notif_sign_in_text));
+                    }
                 }
 
                 @Override

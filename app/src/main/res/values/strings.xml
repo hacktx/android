@@ -46,6 +46,7 @@
     <string name="prefs_licenses">licenses</string>
     <string name="prefs_user_email">userEmail</string>
     <string name="prefs_first_launch">firstLaunch</string>
+    <string name="prefs_beacon_notif">beaconNotif</string>
 
     <!-- Notifications -->
     <string name="notif_sign_in_title">HackTX</string>
