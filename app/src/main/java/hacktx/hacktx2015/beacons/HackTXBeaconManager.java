@@ -40,7 +40,7 @@ public class HackTXBeaconManager {
             beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
                 @Override
                 public void onEnteredRegion(Region region, List<Beacon> beacons) {
-                    if(HackTXUtils.hasHackTxStarted() && UserStateStore.isBeaconNotifEnabled(currentContext)) {
+                    if(HackTXUtils.hasHackTxStarted() && UserStateStore.getBeaconNotifEnabled(currentContext)) {
                         postNotificationIntent(currentContext.getString(R.string.notif_sign_in_title),
                                 currentContext.getString(R.string.notif_sign_in_text));
                     }
