@@ -54,7 +54,7 @@ public class MapFragment extends BaseFragment {
         Spinner buildingSpinner = (Spinner) MenuItemCompat.getActionView(item);
         String[] data = {"SAC", "CLA"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, data);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.row_spinner_text);
         buildingSpinner.setAdapter(adapter); // set the adapter to provide layout of rows and content
         buildingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
