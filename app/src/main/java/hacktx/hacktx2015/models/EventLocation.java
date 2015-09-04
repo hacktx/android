@@ -37,7 +37,7 @@ public class EventLocation {
     }
 
     public String getLocationDetails() {
-        return building + " " + room;
+        return building + " " + level + " - " + room;
     }
 
 }

@@ -41,6 +41,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import hacktx.hacktx2015.R;
+import hacktx.hacktx2015.fragments.MapFragment;
 import hacktx.hacktx2015.models.ScheduleEvent;
 import hacktx.hacktx2015.models.ScheduleSpeaker;
 import hacktx.hacktx2015.utils.AlphaSatColorMatrixEvaluator;
@@ -74,7 +75,6 @@ public class EventDetailActivity extends AppCompatActivity {
                 });
                 animator.setDuration(1500);
                 animator.start();
-                setupPalette(bitmap);
             }
         }
 
@@ -118,6 +118,8 @@ public class EventDetailActivity extends AppCompatActivity {
             case R.id.action_map:
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("open", "maps");
+                intent.putExtra("building", (event.getLocation().getBuilding().equalsIgnoreCase("CLA")) ? MapFragment.CLA : MapFragment.SAC);
+                intent.putExtra("level", Integer.parseInt(event.getLocation().getLevel()));
                 startActivity(intent);
                 return true;
             case R.id.action_share:
@@ -152,27 +154,6 @@ public class EventDetailActivity extends AppCompatActivity {
         collapsingToolbar.setTitle(event.getName());
     }
 
-    private void setupPalette(Bitmap bitmap) {
-        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-            public void onGenerated(Palette p) {
-                collapsingToolbar.setContentScrimColor(p.getMutedColor(ContextCompat.getColor(getBaseContext(), R.color.primary)));
-                collapsingToolbar.setStatusBarScrimColor(p.getDarkMutedColor(ContextCompat.getColor(getBaseContext(), R.color.primaryDark)));
-                ((Button) findViewById(R.id.rateEventCardOk)).setTextColor(p.getVibrantColor(ContextCompat.getColor(getBaseContext(), R.color.accent)));
-                ((TextView) findViewById(R.id.speakersTitle)).setTextColor(p.getVibrantColor(ContextCompat.getColor(getBaseContext(), R.color.accent)));
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    findViewById(R.id.fab).setBackgroundTintList(ColorStateList.valueOf(p.getVibrantColor(ContextCompat.getColor(getBaseContext(), R.color.accent))));
-
-                    String appName = getString(R.string.app_name);
-                    Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-                    int color = p.getDarkMutedColor(ContextCompat.getColor(getBaseContext(), R.color.primaryDark));
-                    ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(appName, icon, color);
-                    setTaskDescription(taskDesc);
-                }
-            }
-        });
-    }
-
     private void setupTaskActivityInfo() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             String appName = getString(R.string.app_name);
@@ -195,7 +176,7 @@ public class EventDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if(!end.before(now)) {
+        if(true) { // TODO: rating system
             findViewById(R.id.rateEventCard).setVisibility(View.GONE);
         } else {
             findViewById(R.id.rateEventCardOk).setOnClickListener(new View.OnClickListener() {

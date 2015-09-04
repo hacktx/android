@@ -1,7 +1,6 @@
 package hacktx.hacktx2015.fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 
 import android.support.design.widget.AppBarLayout;
@@ -17,18 +16,18 @@ import android.view.ViewGroup;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
 
 import hacktx.hacktx2015.R;
-import hacktx.hacktx2015.models.AnnouncementResponse;
 import hacktx.hacktx2015.models.Messages;
-import hacktx.hacktx2015.network.HackTxClient;
 import hacktx.hacktx2015.network.services.HackTxService;
 import hacktx.hacktx2015.views.SpacesItemDecoration;
 import hacktx.hacktx2015.views.adapters.AnnouncementsRecyclerView;
 import retrofit.Callback;
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -161,13 +160,18 @@ public class AnnouncementFragment extends BaseFragment {
     }
 
     private void getAnnouncements() {
-        HackTxService hackTxService = HackTxClient.getInstance().getApiService();
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint("https://my.hacktx.com/api/")
+                .build();
+
+        HackTxService hackTxService = restAdapter.create(HackTxService.class);
         hackTxService.getMessages(new Callback<ArrayList<Messages>>() {
             @Override
             public void success(ArrayList<Messages> messages, Response response) {
                 Log.d(TAG, "messages retrieved!");
                 announcements.clear();
                 announcements.addAll(messages);
+                Collections.sort(announcements, Messages.MessagesComparator);
                 mAdapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
             }
