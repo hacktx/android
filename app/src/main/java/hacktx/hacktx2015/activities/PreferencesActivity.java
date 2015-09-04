@@ -24,7 +24,7 @@ public class PreferencesActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
 
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(R.string.activity_settings_title);
+            getSupportActionBar().setTitle(R.string.activity_preferences_title);
         }
 
         setupTaskActivityInfo();
