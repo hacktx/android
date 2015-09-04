@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayWelcome() {
-        if(UserStateStore.isFirstLaunch(this)) {
+        if(UserStateStore.isFirstLaunch(this) && !UserStateStore.isUserEmailSet(this)) {
             if(!HackTXUtils.hasHackTxStarted()) {
                 final Dialog d = displayDialog(R.layout.dialog_welcome_early);
                 d.findViewById(R.id.welcomeDialogStart).setOnClickListener(new View.OnClickListener() {

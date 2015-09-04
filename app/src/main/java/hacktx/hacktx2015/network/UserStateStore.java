@@ -99,4 +99,24 @@ public class UserStateStore {
     public static boolean isFirstLaunch(Context context) {
         return getPrefs(context).getBoolean(context.getString(R.string.prefs_first_launch), true);
     }
+
+    /**
+     * Set if Bluetooth beacon notifications are enabled.
+     *
+     * @param context Context by which to retrieve data
+     * @param enabled If Bluetooth beacon notifications are enabled
+     */
+    public static void setBeaconNotifEnabled(Context context, boolean enabled) {
+        getPrefs(context).edit().putBoolean(context.getString(R.string.prefs_beacon_notif), enabled).apply();
+    }
+
+    /**
+     * Get if Bluetooth beacon notifications are enabled.
+     *
+     * @param context Context by which to retrieve data
+     * @return <code>boolean</code> representing if Bluetooth beacon notifications are enabled
+     */
+    public static boolean getBeaconNotifEnabled(Context context) {
+        return getPrefs(context).getBoolean(context.getString(R.string.prefs_beacon_notif), true);
+    }
 }

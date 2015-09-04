@@ -12,13 +12,10 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.support.design.widget.Snackbar;
-import android.text.Html;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
-import android.widget.TextView;
 
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.services.BeaconService;
@@ -42,7 +39,7 @@ public class PreferencesFragment extends PreferenceFragment {
                         Log.i("PreferencesFragment", "Starting BeaconService.");
                         getActivity().startService(new Intent(getActivity(), BeaconService.class));
                     } else {
-                        Snackbar.make(getView(), R.string.fragment_settings_beacons_failed, Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(getView(), R.string.fragment_preferences_beacons_failed, Snackbar.LENGTH_SHORT).show();
                     }
                 }
 
@@ -59,7 +56,7 @@ public class PreferencesFragment extends PreferenceFragment {
             e.printStackTrace();
             version = "???";
         }
-        about.setSummary(getString(R.string.fragment_settings_about_version, version));
+        about.setSummary(getString(R.string.fragment_preferences_about_version, version));
 
         final PreferenceScreen licenses = (PreferenceScreen) findPreference(getString(R.string.prefs_licenses));
         licenses.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

@@ -10,7 +10,7 @@ public class HackTXUtils {
         hackTx.set(Calendar.MONTH, Calendar.SEPTEMBER);
         hackTx.set(Calendar.DAY_OF_MONTH, 24);
 
-        return now.after(hackTx);
+        return true;
     }
 
     public static boolean hasHackTxEnded() {
