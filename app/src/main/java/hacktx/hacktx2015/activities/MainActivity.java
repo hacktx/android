@@ -23,6 +23,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import hacktx.hacktx2015.BuildConfig;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.fragments.AnnouncementFragment;
 import hacktx.hacktx2015.fragments.MapFragment;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setupTaskActivityInfo();
-        setupDrawerContent(this, (DrawerLayout) findViewById(R.id.drawer_layout), (NavigationView) findViewById(R.id.nav_view));
+        setupDrawerContent((DrawerLayout) findViewById(R.id.drawer_layout), (NavigationView) findViewById(R.id.nav_view));
         setupFragmentContent(savedInstanceState);
 
         String extra = getIntent().getStringExtra("open");
@@ -88,9 +89,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void setupDrawerContent(final Context context, final DrawerLayout drawerLayout, NavigationView navigationView) {
+    protected void setupDrawerContent(final DrawerLayout drawerLayout, NavigationView navigationView) {
         this.drawerLayout = drawerLayout;
         ((TextView) drawerLayout.findViewById(R.id.navHeaderEmail)).setText(UserStateStore.getUserEmail(this));
+
+        if(!BuildConfig.IN_APP_CHECK_IN) {
+            navigationView.getMenu().getItem(5).setEnabled(false);
+            navigationView.getMenu().getItem(5).setVisible(false);
+        }
 
         navigationView.getMenu().getItem(0).setChecked(true);
         navigationView.setNavigationItemSelectedListener(
@@ -134,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void setupFragmentContent(Bundle savedInstanceState) {
-        // Setup fragments
         Log.v("main", "before");
         if (savedInstanceState == null) {
             Log.v("main", "start");
@@ -145,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayWelcome() {
-        if(UserStateStore.isFirstLaunch(this) && !UserStateStore.isUserEmailSet(this)) {
+        if(UserStateStore.isFirstLaunch(this) && !UserStateStore.isUserEmailSet(this) && BuildConfig.IN_APP_CHECK_IN) {
             if(!HackTXUtils.hasHackTxStarted()) {
                 final Dialog d = displayDialog(R.layout.dialog_welcome_early);
                 d.findViewById(R.id.welcomeDialogStart).setOnClickListener(new View.OnClickListener() {
