@@ -15,6 +15,7 @@ import com.estimote.sdk.Region;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import hacktx.hacktx2015.BuildConfig;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.activities.CheckInActivity;
 import hacktx.hacktx2015.network.UserStateStore;
@@ -40,7 +41,9 @@ public class HackTXBeaconManager {
             beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
                 @Override
                 public void onEnteredRegion(Region region, List<Beacon> beacons) {
-                    if(HackTXUtils.hasHackTxStarted() && UserStateStore.getBeaconNotifEnabled(currentContext)) {
+                    if(HackTXUtils.hasHackTxStarted()
+                            && UserStateStore.getBeaconNotifEnabled(currentContext)
+                            && BuildConfig.IN_APP_CHECK_IN) {
                         postNotificationIntent(currentContext.getString(R.string.notif_sign_in_title),
                                 currentContext.getString(R.string.notif_sign_in_text));
                     }
