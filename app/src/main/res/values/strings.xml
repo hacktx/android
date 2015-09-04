@@ -2,10 +2,24 @@
     <!-- Global -->
     <string name="app_name">HackTX</string>
     <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
     <string name="no_thanks">No Thanks</string>
 
     <!-- MainActivity -->
     <string name="action_settings">Settings</string>
+
+    <!-- SettingsActivity -->
+    <string name="activity_settings_title">Settings</string>
+
+    <!-- SettingsFragment -->
+    <string name="fragment_settings_privacy">Privacy</string>
+    <string name="fragment_settings_beacons">Beacons</string>
+    <string name="fragment_settings_beacons_desc_on">Use nearby Bluetooth beacons to deliver location based notifications.</string>
+    <string name="fragment_settings_beacons_desc_off">Do not use nearby Bluetooth beacons to deliver location based notifications.</string>
+    <string name="fragment_settings_beacons_failed">This device does not support BLE.</string>
+    <string name="fragment_settings_about">About</string>
+    <string name="fragment_settings_about_version">Version %1$s</string>
+    <string name="fragment_settings_licenses">Open Source Licenses</string>
 
     <!-- EventDetailActivity -->
     <string name="event_rate_card_text">This event has concluded. Would you like to submit feedback?</string>
@@ -18,6 +32,23 @@
     <string name="sched_day_empty_title">Unable to fetch schedule</string>
     <string name="sched_day_empty_btn">Try Again</string>
 
-    <!-- -->
+    <!-- CheckInActivity -->
+    <string name="activity_check_in_title">Check In</string>
+    <string name="activity_check_in_reset">Reset</string>
+    <string name="activity_check_in_done">Done</string>
+    <string name="activity_check_in_code_text">Get this code scanned by a volunteer to finish.\n\nYour email is %1$s.</string>
+    <string name="activity_check_in_finish_soon_text">Check back here on September 26th to get your QR code for check in.\n\nYour email is %1$s.</string>
+
+    <!-- SharedPreferences Keys -->
     <string name="prefs_schedule_last_updated">scheduleLastUpdated</string>
+    <string name="prefs_beacons_enabled">beaconsEnabled</string>
+    <string name="prefs_about">about</string>
+    <string name="prefs_licenses">licenses</string>
+    <string name="prefs_user_email">userEmail</string>
+    <string name="prefs_first_launch">firstLaunch</string>
+
+    <!-- Notifications -->
+    <string name="notif_sign_in_title">HackTX</string>
+    <string name="notif_sign_in_text">Welcome to HackTX! Tap to check in.</string>
+
 </resources>
