@@ -21,15 +21,20 @@ public class BeaconService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(doesDeviceSupportBle() && UserStateStore.getBeaconsEnabled(getApplicationContext())) {
-            try {
-                HackTXBeaconManager.start((NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE),
-                        this);
-            } catch (Exception e) {
-                e.printStackTrace();
+        if(doesDeviceSupportBle()) {
+            if (UserStateStore.getBeaconsEnabled(getApplicationContext())) {
+                try {
+                    HackTXBeaconManager.start((NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE),
+                            this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.i("BeaconService", "User has disabled beacons, stopping BeaconService.");
+                stopSelf();
             }
         } else {
-            Log.i("BeaconReceiver", "User has disabled beacons, stopping BeaconService.");
+            Log.i("BeaconService", "Device does not support BLE, stopping BeaconService.");
             stopSelf();
         }
 
