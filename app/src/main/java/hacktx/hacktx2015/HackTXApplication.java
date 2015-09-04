@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.estimote.sdk.EstimoteSDK;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
@@ -14,6 +16,7 @@ import com.parse.SaveCallback;
 import hacktx.hacktx2015.services.BeaconService;
 
 public class HackTXApplication extends Application {
+    private Tracker mTracker;
 
     @Override
     public void onCreate() {
@@ -21,6 +24,26 @@ public class HackTXApplication extends Application {
 
         initParse();
         initBeacons();
+
+    }
+
+    /**
+     * Gets the default {@link Tracker} for this {@link Application}.
+     * @return tracker
+     */
+    synchronized public Tracker getDefaultTracker() {
+        if (mTracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+            mTracker = analytics.newTracker(BuildConfig.GOOG_ANALYTICS_ID);
+
+            // Provide unhandled exceptions reports. Do that first after creating the tracker
+            mTracker.enableExceptionReporting(true);
+
+            // Enable automatic activity tracking for your app
+            mTracker.enableAutoActivityTracking(true);
+        }
+        return mTracker;
     }
 
     private void initParse() {

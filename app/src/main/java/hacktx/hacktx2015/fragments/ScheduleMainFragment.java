@@ -14,15 +14,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
 
 /**
  * Created by Drew on 7/22/2015.
  */
 public class ScheduleMainFragment extends BaseFragment {
+
+    private Tracker mTracker;
 
     @Nullable
     @Override
@@ -39,6 +45,25 @@ public class ScheduleMainFragment extends BaseFragment {
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
         return root;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setupGoogleAnalyticsTracker();
+    }
+
+    private void setupGoogleAnalyticsTracker() {
+        // Obtain the shared Tracker instance.
+        HackTXApplication application = (HackTXApplication) getActivity().getApplication();
+        mTracker = application.getDefaultTracker();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTracker.setScreenName("Screen~" + "Schedule");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void setupViewPager(ViewPager viewPager) {

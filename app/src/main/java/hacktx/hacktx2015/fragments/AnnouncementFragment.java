@@ -14,6 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
 
+import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.models.Messages;
 import hacktx.hacktx2015.network.services.HackTxService;
@@ -42,6 +46,7 @@ public class AnnouncementFragment extends BaseFragment {
     private RecyclerView.Adapter mAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private List<Messages> announcements;
+    private Tracker mTracker;
 
     @Nullable
     @Override
@@ -56,6 +61,25 @@ public class AnnouncementFragment extends BaseFragment {
         getAnnouncements();
 
         return root;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setupGoogleAnalyticsTracker();
+    }
+
+    private void setupGoogleAnalyticsTracker() {
+        // Obtain the shared Tracker instance.
+        HackTXApplication application = (HackTXApplication) getActivity().getApplication();
+        mTracker = application.getDefaultTracker();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTracker.setScreenName("Screen~" + "Announcements");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void setupSwipeRefreshLayout(ViewGroup root) {

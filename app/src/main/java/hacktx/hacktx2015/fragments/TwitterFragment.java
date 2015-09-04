@@ -10,12 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 import com.twitter.sdk.android.tweetui.UserTimeline;
 
 import hacktx.hacktx2015.BuildConfig;
+import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
 import io.fabric.sdk.android.Fabric;
 
@@ -24,8 +27,9 @@ import io.fabric.sdk.android.Fabric;
  */
 public class TwitterFragment extends BaseFragment {
 
-    SwipeRefreshLayout swipeRefreshLayout;
-    ListView twitterListView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private ListView twitterListView;
+    private Tracker mTracker;
 
     @Nullable
     @Override
@@ -37,6 +41,25 @@ public class TwitterFragment extends BaseFragment {
         setupSwipeRefreshLayout(root);
 
         return root;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setupGoogleAnalyticsTracker();
+    }
+
+    private void setupGoogleAnalyticsTracker() {
+        // Obtain the shared Tracker instance.
+        HackTXApplication application = (HackTXApplication) getActivity().getApplication();
+        mTracker = application.getDefaultTracker();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTracker.setScreenName("Screen~" + "Twitter");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void setupTwitter(ViewGroup root) {
