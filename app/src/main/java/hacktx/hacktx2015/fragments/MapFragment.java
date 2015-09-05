@@ -87,7 +87,7 @@ public class MapFragment extends BaseFragment {
                 if (position == CLA) {
                     setMapView(CLA, 1);
                 } else {
-                    setMapView(SAC, getActivity().getIntent().getIntExtra("level", 2));
+                    setMapView(SAC, getActivity().getIntent().getIntExtra("level", 1));
                 }
             }
 
@@ -108,7 +108,7 @@ public class MapFragment extends BaseFragment {
         final Button floor2 = (Button) root.findViewById(R.id.button2);
         final Button floor3 = (Button) root.findViewById(R.id.button3);
 
-        floor2.setBackgroundColor(getResources().getColor(R.color.tw__medium_gray));
+        floor1.setBackgroundColor(getResources().getColor(R.color.tw__medium_gray));
 
         floor1.setOnClickListener(new View.OnClickListener() {
             @Override

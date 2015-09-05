@@ -23,7 +23,7 @@
             android:id="@+id/mapImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/sac_second_level"/>
+            android:src="@drawable/sac_first_level"/>
 
         <LinearLayout
             android:id="@+id/levelLayout"
