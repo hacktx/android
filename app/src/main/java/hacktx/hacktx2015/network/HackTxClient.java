@@ -7,7 +7,7 @@ import retrofit.RestAdapter;
  * Created by Drew on 7/25/15.
  */
 public class HackTxClient {
-    private static final String HACKTX_BASE_URL = "http://hacktx.getsandbox.com/";
+    private static final String HACKTX_BASE_URL = "https://my.hacktx.com/api/";
     private HackTxService mHackTxService;
 
     private static HackTxClient instance = null;
