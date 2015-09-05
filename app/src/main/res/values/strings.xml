@@ -12,6 +12,8 @@
     <string name="activity_preferences_title">Settings</string>
 
     <!-- PreferencesFragment -->
+    <string name="fragment_preferences_debug_key">debugCategory</string>
+    <string name="fragment_preferences_debug">Debug</string>
     <string name="fragment_preferences_privacy">Privacy</string>
     <string name="fragment_preferences_beacons">Beacons</string>
     <string name="fragment_preferences_beacons_desc_on">Use nearby Bluetooth beacons to deliver location based notifications.</string>
@@ -41,6 +43,7 @@
 
     <!-- SharedPreferences Keys -->
     <string name="prefs_schedule_last_updated">scheduleLastUpdated</string>
+    <string name="prefs_debug">debug</string>
     <string name="prefs_beacons_enabled">beaconsEnabled</string>
     <string name="prefs_about">about</string>
     <string name="prefs_licenses">licenses</string>
@@ -51,5 +54,32 @@
     <!-- Notifications -->
     <string name="notif_sign_in_title">HackTX</string>
     <string name="notif_sign_in_text">Welcome to HackTX! Tap to check in.</string>
+
+    <!-- DebugFragment -->
+    <string name="debug_title">Debug</string>
+    <string name="debug_dialog_title">Attention</string>
+    <string name="debug_dialog_text">Changing these values may result in unexpected behavior.\n\nProceed with caution.</string>
+    <string name="debug_build_config">Build Config</string>
+    <string name="debug_build_config_check_in_key">buildConfigCheckIn</string>
+    <string name="debug_build_config_check_in">Check In</string>
+    <string name="debug_build_config_feedback_key">buildConfigFeedback</string>
+    <string name="debug_build_config_feedback">Feedback</string>
+    <string name="debug_build_config_enabled">Enabled</string>
+    <string name="debug_build_config_disabled">Disabled</string>
+    <string name="debug_beacons">Beacons</string>
+    <string name="debug_beacon_notifs">Beacon Notifications</string>
+    <string name="debug_beacon_notifs_on">Display notification when within range of a Bluetooth beacon.</string>
+    <string name="debug_beacon_notifs_off">Do not display notification when within range of a Bluetooth beacon.</string>
+    <string name="debug_beacon_status_key">beaconStatus</string>
+    <string name="debug_ble_support">BLE Support</string>
+    <string name="debug_ble_support_true">This device supports BLE.</string>
+    <string name="debug_ble_support_false">This device does not support BLE.</string>
+    <string name="debug_hacktx_utils">HackTXUtils</string>
+    <string name="debug_hacktx_utils_override_key">hacktxUtilsOverride</string>
+    <string name="debug_hacktx_utils_override">Enable Override</string>
+    <string name="debug_hacktx_utils_started_key">hacktxUtilsStarted</string>
+    <string name="debug_hacktx_utils_started">HackTX Started</string>
+    <string name="debug_hacktx_utils_ended_key">hacktxUtilsEnded</string>
+    <string name="debug_hacktx_utils_ended">HackTX Ended</string>
 
 </resources>

@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayWelcome() {
         if(UserStateStore.isFirstLaunch(this) && !UserStateStore.isUserEmailSet(this) && BuildConfig.IN_APP_CHECK_IN) {
-            if(!HackTXUtils.hasHackTxStarted()) {
+            if(!HackTXUtils.hasHackTxStarted(MainActivity.this)) {
                 final Dialog d = displayDialog(R.layout.dialog_welcome_early);
                 d.findViewById(R.id.welcomeDialogStart).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                         d.dismiss();
                     }
                 });
-            } else if(!HackTXUtils.hasHackTxEnded()) {
+            } else if(!HackTXUtils.hasHackTxEnded(MainActivity.this)) {
                 final Dialog d = displayDialog(R.layout.dialog_welcome);
                 d.findViewById(R.id.welcomeDialogStart).setOnClickListener(new View.OnClickListener() {
                     @Override
