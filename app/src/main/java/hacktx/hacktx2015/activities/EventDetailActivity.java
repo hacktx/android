@@ -325,6 +325,6 @@ public class EventDetailActivity extends AppCompatActivity {
     }
 
     private boolean shouldShowFeedbackCard() {
-        return UserStateStore.getFeedbackIgnored(this, event.getId()) || UserStateStore.getFeedbackSubmitted(this, event.getId());
+        return !UserStateStore.getFeedbackIgnored(this, event.getId()) && !UserStateStore.getFeedbackSubmitted(this, event.getId());
     }
 }
