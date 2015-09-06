@@ -29,7 +29,7 @@
     <string name="event_share_dialog_title">Share to</string>
     <string name="event_share_subject">HackTX 2015</string>
     <string name="event_share_body">Check out %1$s at HackTX 2015!</string>
-    <string name="event_feedback_submitted">Feedback submitted.</string>
+    <string name="event_feedback_submitted">Thanks! Feedback submitted.</string>
     <string name="event_feedback_already_submitted">Feedback already submitted.</string>
 
     <!-- FeedbackDialog -->
