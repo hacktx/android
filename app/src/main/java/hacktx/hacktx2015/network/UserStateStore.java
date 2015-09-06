@@ -41,6 +41,52 @@ public class UserStateStore {
     }
 
     /**
+     * Get if the user has submitted feedback for an event for a given <code>id</code>.
+     *
+     * @param context Context by which to retrieve data
+     * @param id Event id
+     * @return <code>boolean</code> representing if the user has submitted feedback for the respective event
+     */
+    public static Boolean getFeedbackSubmitted(Context context, int id) {
+        return getPrefs(context).getBoolean(context.getString(R.string.prefs_feedback_submitted) + id, false);
+    }
+
+    /**
+     * Set if the user has submitted feedback for an event for a given <code>id</code>.
+     *
+     * @param context Context by which to save data
+     * @param id Event id
+     * @param feedbackSubmitted <code>boolean</code> representing if feedback was submitted for the respective event
+     */
+    public static void setFeedbackSubmitted(Context context, int id, boolean feedbackSubmitted) {
+        getPrefs(context).edit().putBoolean(context.getString(R.string.prefs_feedback_submitted) + id, feedbackSubmitted).apply();
+    }
+
+    /**
+     * Get if the user has elected to not send feedback for an event for a given <code>id</code>.
+     *
+     * @param context Context by which to retrieve data
+     * @param id Event id
+     * @return <code>boolean</code> representing if the user has elected to not send feedback for the respective event
+     */
+    public static Boolean getFeedbackIgnored(Context context, int id) {
+        return getPrefs(context).getBoolean(context.getString(R.string.prefs_feedback_ignore) + id, false);
+    }
+
+    /**
+     * Set if the user has elected to not send feedback for an event for a given <code>id</code>.
+     *
+     * @param context Context by which to save data
+     * @param id Event id
+     * @param ignored <code>boolean</code> representing if the user has elected to not send feedback for the respective event
+     */
+    public static void setFeedbackIgnored(Context context, int id, boolean ignored) {
+        getPrefs(context).edit().putBoolean(context.getString(R.string.prefs_feedback_ignore) + id, ignored).apply();
+    }
+
+
+
+    /**
      * Get if beacons are enabled by the user.
      *
      * @param context Context by which to retrieve data

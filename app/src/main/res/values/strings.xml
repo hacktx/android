@@ -29,6 +29,8 @@
     <string name="event_share_dialog_title">Share to</string>
     <string name="event_share_subject">HackTX 2015</string>
     <string name="event_share_body">Check out %1$s at HackTX 2015!</string>
+    <string name="event_feedback_submitted">Feedback submitted.</string>
+    <string name="event_feedback_already_submitted">Feedback already submitted.</string>
 
     <!-- FeedbackDialog -->
     <string name="dialog_feedback_title">Event Feedback</string>
@@ -47,6 +49,8 @@
 
     <!-- SharedPreferences Keys -->
     <string name="prefs_schedule_last_updated">scheduleLastUpdated</string>
+    <string name="prefs_feedback_submitted">feedbackSubmitted</string>
+    <string name="prefs_feedback_ignore">feedbackIgnore</string>
     <string name="prefs_debug">debug</string>
     <string name="prefs_beacons_enabled">beaconsEnabled</string>
     <string name="prefs_about">about</string>
