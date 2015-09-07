@@ -14,7 +14,6 @@ import android.view.MenuItem;
 
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.fragments.DebugFragment;
-import hacktx.hacktx2015.fragments.PreferencesFragment;
 
 public class DebugActivity extends AppCompatActivity {
 

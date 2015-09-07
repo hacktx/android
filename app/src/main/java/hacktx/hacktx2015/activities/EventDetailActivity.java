@@ -3,8 +3,8 @@ package hacktx.hacktx2015.activities;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.ActivityManager;
+import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ColorMatrixColorFilter;
@@ -17,8 +17,8 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -26,11 +26,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.estimote.sdk.cloud.internal.User;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
@@ -44,12 +47,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.BuildConfig;
+import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.fragments.MapFragment;
 import hacktx.hacktx2015.models.ScheduleEvent;
 import hacktx.hacktx2015.models.ScheduleSpeaker;
+import hacktx.hacktx2015.network.UserStateStore;
 import hacktx.hacktx2015.utils.AlphaSatColorMatrixEvaluator;
 import hacktx.hacktx2015.views.CircularImageView;
 
@@ -61,7 +65,6 @@ public class EventDetailActivity extends AppCompatActivity {
     private Target target = new Target() {
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            Log.i("FROM", from.name());
             if(from == Picasso.LoadedFrom.MEMORY) {
                 ((ImageView) findViewById(R.id.header)).setImageBitmap(bitmap);
             } else {
@@ -190,32 +193,65 @@ public class EventDetailActivity extends AppCompatActivity {
         Calendar end = Calendar.getInstance();
         final CardView rateEventCard = (CardView) findViewById(R.id.rateEventCard);
 
+        View.OnClickListener feedbackOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!UserStateStore.getFeedbackSubmitted(EventDetailActivity.this, event.getId())) {
+                    final Dialog dialog = new Dialog(EventDetailActivity.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.dialog_feedback);
+                    WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+                    params.width = WindowManager.LayoutParams.MATCH_PARENT;
+                    dialog.getWindow().setAttributes(params);
+                    dialog.show();
+
+                    RatingBar ratingBar = (RatingBar) dialog.findViewById(R.id.feedbackDialogRatingBar);
+                    Drawable progress = ratingBar.getProgressDrawable();
+                    DrawableCompat.setTint(progress, ContextCompat.getColor(EventDetailActivity.this, R.color.primaryDark));
+                    dialog.findViewById(R.id.feedbackDialogCancel).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.findViewById(R.id.feedbackDialogSubmit).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // TODO: Submit to Nucleus
+                            UserStateStore.setFeedbackSubmitted(EventDetailActivity.this, event.getId(), true);
+                            dialog.dismiss();
+                            Snackbar.make(findViewById(android.R.id.content), R.string.event_feedback_submitted, Snackbar.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    Snackbar.make(findViewById(android.R.id.content), R.string.event_feedback_already_submitted, Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        };
+
         try {
             end.setTime(formatter.parse(event.getEndDate()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        if(!end.before(now)) {
+        findViewById(R.id.fab).setOnClickListener(feedbackOnClickListener);
+
+        if(!end.before(now) && !shouldShowFeedbackCard()) {
             findViewById(R.id.rateEventCard).setVisibility(View.GONE);
         } else {
-            findViewById(R.id.rateEventCardOk).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Snackbar.make(findViewById(android.R.id.content), "Rate event", Snackbar.LENGTH_SHORT).show();
-                }
-            });
+            findViewById(R.id.rateEventCardOk).setOnClickListener(feedbackOnClickListener);
 
             findViewById(R.id.rateEventCardNoThanks).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    UserStateStore.setFeedbackIgnored(EventDetailActivity.this, event.getId(), true);
                     rateEventCard.setVisibility(View.GONE);
                 }
             });
         }
 
         if(!BuildConfig.IN_APP_FEEDBACK) {
-            Log.i("THOMAS", "HIDING");
             findViewById(R.id.rateEventCard).setVisibility(View.GONE);
             FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
             CoordinatorLayout.LayoutParams p = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
@@ -285,5 +321,9 @@ public class EventDetailActivity extends AppCompatActivity {
 
             speakersContainer.addView(childView);
         }
+    }
+
+    private boolean shouldShowFeedbackCard() {
+        return !UserStateStore.getFeedbackIgnored(this, event.getId()) && !UserStateStore.getFeedbackSubmitted(this, event.getId());
     }
 }

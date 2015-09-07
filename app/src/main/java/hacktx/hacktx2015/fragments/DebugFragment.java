@@ -1,9 +1,6 @@
 package hacktx.hacktx2015.fragments;
 
-import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,16 +8,9 @@ import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.Window;
-import android.view.WindowManager;
-import android.webkit.WebView;
 
 import hacktx.hacktx2015.BuildConfig;
 import hacktx.hacktx2015.R;
-import hacktx.hacktx2015.activities.DebugActivity;
-import hacktx.hacktx2015.services.BeaconService;
 
 public class DebugFragment extends PreferenceFragment {
 
