@@ -1,10 +1,12 @@
-package hacktx.hacktx2015.activities;
+package hacktx.hacktx2015.receivers;
 
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
 import com.parse.ParsePushBroadcastReceiver;
+
+import hacktx.hacktx2015.activities.MainActivity;
 
 /**
  * Created by britne on 7/22/15.
