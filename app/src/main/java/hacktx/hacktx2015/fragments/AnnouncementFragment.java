@@ -25,6 +25,7 @@ import java.util.Locale;
 import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.models.Messages;
+import hacktx.hacktx2015.network.HackTxClient;
 import hacktx.hacktx2015.network.services.HackTxService;
 import hacktx.hacktx2015.views.SpacesItemDecoration;
 import hacktx.hacktx2015.views.adapters.AnnouncementsRecyclerView;
@@ -182,11 +183,7 @@ public class AnnouncementFragment extends BaseFragment {
     }
 
     private void getAnnouncements() {
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("https://my.hacktx.com/api/")
-                .build();
-
-        HackTxService hackTxService = restAdapter.create(HackTxService.class);
+        HackTxService hackTxService = HackTxClient.getInstance().getApiService();
         hackTxService.getMessages(new Callback<ArrayList<Messages>>() {
             @Override
             public void success(ArrayList<Messages> messages, Response response) {
