@@ -59,7 +59,7 @@
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/ok"
+                        android:text="@string/yes"
                         android:textColor="@color/primaryDark" />
                 </LinearLayout>
             </LinearLayout>

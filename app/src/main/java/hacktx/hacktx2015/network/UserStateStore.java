@@ -84,8 +84,6 @@ public class UserStateStore {
         getPrefs(context).edit().putBoolean(context.getString(R.string.prefs_feedback_ignore) + id, ignored).apply();
     }
 
-
-
     /**
      * Get if beacons are enabled by the user.
      *

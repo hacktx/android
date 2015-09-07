@@ -65,7 +65,6 @@ public class EventDetailActivity extends AppCompatActivity {
     private Target target = new Target() {
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            Log.i("FROM", from.name());
             if(from == Picasso.LoadedFrom.MEMORY) {
                 ((ImageView) findViewById(R.id.header)).setImageBitmap(bitmap);
             } else {
@@ -238,7 +237,7 @@ public class EventDetailActivity extends AppCompatActivity {
 
         findViewById(R.id.fab).setOnClickListener(feedbackOnClickListener);
 
-        if(!end.before(now) && shouldShowFeedbackCard()) {
+        if(!end.before(now) && !shouldShowFeedbackCard()) {
             findViewById(R.id.rateEventCard).setVisibility(View.GONE);
         } else {
             findViewById(R.id.rateEventCardOk).setOnClickListener(feedbackOnClickListener);
