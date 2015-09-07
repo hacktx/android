@@ -50,7 +50,7 @@ public class PreferencesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mTracker.setScreenName("Screen~" + "CheckIn");
+        mTracker.setScreenName("Screen~" + "Preferences");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
