@@ -55,7 +55,7 @@
                 <category android:name="hacktx.hacktx2015" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".activities.ParseNotificationReceiver" android:exported="false">
+        <receiver android:name=".receivers.ParseNotificationReceiver" android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
                 <action android:name="com.parse.push.intent.DELETE" />

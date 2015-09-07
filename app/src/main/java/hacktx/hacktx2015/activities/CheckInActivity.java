@@ -103,7 +103,7 @@ public class CheckInActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             String appName = getString(R.string.app_name);
             Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-            int color = ContextCompat.getColor(this, R.color.primaryDark);
+            int color = ContextCompat.getColor(this, R.color.taskbarColor);
             ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(appName, icon, color);
             setTaskDescription(taskDesc);
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.hacktx_blue_dark));

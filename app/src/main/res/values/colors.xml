@@ -5,9 +5,11 @@
     <color name="primary">#7DD3F4</color>
     <color name="primaryDark">#65A9C2</color>
     <color name="accent">#F04650</color>
+    <color name="taskbarColor">#5B98AF</color>
 
     <color name="hacktx_red">#F04650</color>
     <color name="hacktx_white">#FEF0D9</color>
     <color name="hacktx_blue">#7DD3F4</color>
     <color name="hacktx_blue_dark">#65A9C2</color>
+
 </resources>
