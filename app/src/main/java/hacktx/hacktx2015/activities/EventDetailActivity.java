@@ -51,11 +51,17 @@ import hacktx.hacktx2015.BuildConfig;
 import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.fragments.MapFragment;
+import hacktx.hacktx2015.models.EventFeedback;
 import hacktx.hacktx2015.models.ScheduleEvent;
 import hacktx.hacktx2015.models.ScheduleSpeaker;
+import hacktx.hacktx2015.network.HackTxClient;
 import hacktx.hacktx2015.network.UserStateStore;
+import hacktx.hacktx2015.network.services.HackTxService;
 import hacktx.hacktx2015.utils.AlphaSatColorMatrixEvaluator;
 import hacktx.hacktx2015.views.CircularImageView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class EventDetailActivity extends AppCompatActivity {
 
@@ -205,7 +211,7 @@ public class EventDetailActivity extends AppCompatActivity {
                     dialog.getWindow().setAttributes(params);
                     dialog.show();
 
-                    RatingBar ratingBar = (RatingBar) dialog.findViewById(R.id.feedbackDialogRatingBar);
+                    final RatingBar ratingBar = (RatingBar) dialog.findViewById(R.id.feedbackDialogRatingBar);
                     Drawable progress = ratingBar.getProgressDrawable();
                     DrawableCompat.setTint(progress, ContextCompat.getColor(EventDetailActivity.this, R.color.primaryDark));
                     dialog.findViewById(R.id.feedbackDialogCancel).setOnClickListener(new View.OnClickListener() {
@@ -217,10 +223,22 @@ public class EventDetailActivity extends AppCompatActivity {
                     dialog.findViewById(R.id.feedbackDialogSubmit).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // TODO: Submit to Nucleus
-                            UserStateStore.setFeedbackSubmitted(EventDetailActivity.this, event.getId(), true);
-                            dialog.dismiss();
-                            Snackbar.make(findViewById(android.R.id.content), R.string.event_feedback_submitted, Snackbar.LENGTH_SHORT).show();
+                            HackTxService hackTxService = HackTxClient.getInstance().getApiService();
+                            hackTxService.sendFeedback(new EventFeedback(event.getId(), (int) ratingBar.getRating()), new Callback<EventFeedback>() {
+                                @Override
+                                public void success(EventFeedback feedback, Response response) {
+                                    UserStateStore.setFeedbackSubmitted(EventDetailActivity.this, event.getId(), true);
+                                    dialog.dismiss();
+                                    Snackbar.make(findViewById(android.R.id.content), R.string.event_feedback_submitted, Snackbar.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    Log.e("EventDetailActivity", "Error when submitting feedback: " + error.getMessage());
+                                    dialog.dismiss();
+                                    Snackbar.make(findViewById(android.R.id.content), R.string.event_feedback_failed, Snackbar.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     });
                 } else {

@@ -2,11 +2,14 @@ package hacktx.hacktx2015.network.services;
 
 import java.util.ArrayList;
 
+import hacktx.hacktx2015.models.EventFeedback;
 import hacktx.hacktx2015.models.Messages;
 import hacktx.hacktx2015.models.ScheduleCluster;
 import hacktx.hacktx2015.models.Sponsors;
 import retrofit.Callback;
+import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Path;
 
 /**
@@ -26,5 +29,7 @@ public interface HackTxService {
     @GET("/sponsors")
     void getSponsors(Callback<ArrayList<Sponsors>> sponsorsList);
 
+    @POST("/feedback")
+    void sendFeedback(@Body EventFeedback feedback, Callback<EventFeedback> cb);
 
 }
