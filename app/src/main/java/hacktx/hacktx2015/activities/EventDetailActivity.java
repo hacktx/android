@@ -213,7 +213,8 @@ public class EventDetailActivity extends AppCompatActivity {
 
                     final RatingBar ratingBar = (RatingBar) dialog.findViewById(R.id.feedbackDialogRatingBar);
                     Drawable progress = ratingBar.getProgressDrawable();
-                    DrawableCompat.setTint(progress, ContextCompat.getColor(EventDetailActivity.this, R.color.primaryDark));
+                    Drawable wrapDrawable = DrawableCompat.wrap(progress);
+                    DrawableCompat.setTint(wrapDrawable, ContextCompat.getColor(EventDetailActivity.this, R.color.primaryDark));
                     dialog.findViewById(R.id.feedbackDialogCancel).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
