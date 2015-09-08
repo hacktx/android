@@ -212,9 +212,6 @@ public class EventDetailActivity extends AppCompatActivity {
                     dialog.show();
 
                     final RatingBar ratingBar = (RatingBar) dialog.findViewById(R.id.feedbackDialogRatingBar);
-                    Drawable progress = ratingBar.getProgressDrawable();
-                    Drawable wrapDrawable = DrawableCompat.wrap(progress);
-                    DrawableCompat.setTint(wrapDrawable, ContextCompat.getColor(EventDetailActivity.this, R.color.primaryDark));
                     dialog.findViewById(R.id.feedbackDialogCancel).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -255,8 +252,6 @@ public class EventDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        findViewById(R.id.fab).setOnClickListener(feedbackOnClickListener);
-
         if(!end.before(now) && !shouldShowFeedbackCard()) {
             findViewById(R.id.rateEventCard).setVisibility(View.GONE);
         } else {
@@ -273,11 +268,6 @@ public class EventDetailActivity extends AppCompatActivity {
 
         if(!BuildConfig.IN_APP_FEEDBACK) {
             findViewById(R.id.rateEventCard).setVisibility(View.GONE);
-            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-            CoordinatorLayout.LayoutParams p = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
-            p.setAnchorId(View.NO_ID);
-            fab.setLayoutParams(p);
-            fab.setVisibility(View.GONE);
         }
     }
 
