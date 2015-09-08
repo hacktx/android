@@ -228,6 +228,7 @@ public class EventDetailActivity extends AppCompatActivity {
                                 @Override
                                 public void success(EventFeedback feedback, Response response) {
                                     UserStateStore.setFeedbackSubmitted(EventDetailActivity.this, event.getId(), true);
+                                    findViewById(R.id.rateEventCard).setVisibility(View.GONE);
                                     dialog.dismiss();
                                     Snackbar.make(findViewById(android.R.id.content), R.string.event_feedback_submitted, Snackbar.LENGTH_SHORT).show();
                                 }
