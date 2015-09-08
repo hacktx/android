@@ -7,7 +7,8 @@ import hacktx.hacktx2015.models.Messages;
 import hacktx.hacktx2015.models.ScheduleCluster;
 import hacktx.hacktx2015.models.Sponsors;
 import retrofit.Callback;
-import retrofit.http.Body;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
@@ -17,9 +18,6 @@ import retrofit.http.Path;
  */
 public interface HackTxService {
 
-    /**
-     *   SCHEDULE
-     */
     @GET("/schedule/{day}")
     ArrayList<ScheduleCluster> getScheduleDayData(@Path("day") int day);
 
@@ -29,7 +27,8 @@ public interface HackTxService {
     @GET("/sponsors")
     void getSponsors(Callback<ArrayList<Sponsors>> sponsorsList);
 
+    @FormUrlEncoded
     @POST("/feedback")
-    void sendFeedback(@Body EventFeedback feedback, Callback<EventFeedback> cb);
+    void sendFeedback(@Field("id") int id, @Field("rating") int rating, Callback<EventFeedback> cb);
 
 }
