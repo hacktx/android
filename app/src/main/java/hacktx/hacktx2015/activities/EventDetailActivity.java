@@ -224,7 +224,7 @@ public class EventDetailActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             HackTxService hackTxService = HackTxClient.getInstance().getApiService();
-                            hackTxService.sendFeedback(new EventFeedback(event.getId(), (int) ratingBar.getRating()), new Callback<EventFeedback>() {
+                            hackTxService.sendFeedback(event.getId(), (int) ratingBar.getRating(), new Callback<EventFeedback>() {
                                 @Override
                                 public void success(EventFeedback feedback, Response response) {
                                     UserStateStore.setFeedbackSubmitted(EventDetailActivity.this, event.getId(), true);
