@@ -42,7 +42,8 @@ public class SponsorFragment extends BaseFragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_sponsors, container, false);
         sponsorsList = new ArrayList<>();
 
-        setupToolbar((Toolbar) root.findViewById(R.id.toolbar));
+        setupToolbar((Toolbar) root.findViewById(R.id.toolbar), "Partners");
+
         getSponsors();
         setupRecyclerView(root);
 

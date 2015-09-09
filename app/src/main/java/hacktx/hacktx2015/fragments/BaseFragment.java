@@ -9,10 +9,11 @@ import hacktx.hacktx2015.R;
 
 public class BaseFragment extends Fragment {
 
-    protected void setupToolbar(Toolbar toolbar) {
+    protected void setupToolbar(Toolbar toolbar, String title) {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle(title);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
         actionBar.setDisplayHomeAsUpEnabled(true);
     }

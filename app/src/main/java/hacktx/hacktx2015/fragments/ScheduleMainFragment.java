@@ -34,7 +34,7 @@ public class ScheduleMainFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.fragment_schedule_main, container, false);
 
-        setupToolbar((Toolbar) root.findViewById(R.id.toolbar));
+        setupToolbar((Toolbar) root.findViewById(R.id.toolbar), "Schedule");
 
         final ViewPager viewPager = (android.support.v4.view.ViewPager) root.findViewById(R.id.viewpager);
         setupViewPager(viewPager);

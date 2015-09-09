@@ -35,7 +35,8 @@ public class TwitterFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_twitter, container, false);
 
-        setupToolbar((Toolbar) root.findViewById(R.id.toolbar));
+        setupToolbar((Toolbar) root.findViewById(R.id.toolbar), "Twitter");
+
         setupTwitter(root);
         setupSwipeRefreshLayout(root);
 
