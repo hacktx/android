@@ -9,7 +9,7 @@ import hacktx.hacktx2015.R;
 
 public class BaseFragment extends Fragment {
 
-    protected void setupToolbar(Toolbar toolbar, String title) {
+    protected void setupToolbar(Toolbar toolbar, int title) {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();

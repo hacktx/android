@@ -9,6 +9,21 @@
     <!-- MainActivity -->
     <string name="action_settings">Settings</string>
 
+    <!-- ScheduleMainFragment -->
+    <string name="fragment_schedule_main_title">Schedule</string>
+
+    <!-- AnnouncementFragment -->
+    <string name="fragment_announcement_title">Announcements</string>
+
+    <!-- TwitterFragment -->
+    <string name="fragment_twitter_title">Twitter</string>
+
+    <!-- MapsFragment -->
+    <string name="fragment_maps_title">Maps</string>
+
+    <!-- SponsorFragment -->
+    <string name="fragment_sponsor_title">Partners</string>
+
     <!-- PreferencesActivity -->
     <string name="activity_preferences_title">Settings</string>
 

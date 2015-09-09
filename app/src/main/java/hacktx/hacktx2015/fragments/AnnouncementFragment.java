@@ -53,7 +53,7 @@ public class AnnouncementFragment extends BaseFragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_announcement, container, false);
         announcements = new ArrayList<>();
 
-        setupToolbar((Toolbar) root.findViewById(R.id.toolbar), "Announcements");
+        setupToolbar((Toolbar) root.findViewById(R.id.toolbar), R.string.fragment_announcement_title);
 
         setupSwipeRefreshLayout(root);
         setupCollapsibleToolbar((AppBarLayout) root.findViewById(R.id.appBar), swipeRefreshLayout);

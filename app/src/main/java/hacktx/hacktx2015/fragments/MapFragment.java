@@ -42,7 +42,7 @@ public class MapFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_map, container, false);
 
-        setupToolbar((Toolbar) root.findViewById(R.id.toolbar), "Maps");
+        setupToolbar((Toolbar) root.findViewById(R.id.toolbar), R.string.fragment_maps_title);
 
         setHasOptionsMenu(true);
         setupMapButtons(root);
