@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -140,6 +141,7 @@ public class CheckInActivity extends AppCompatActivity {
                 findViewById(R.id.codeCard).setVisibility(View.VISIBLE);
                 ((TextView) findViewById(R.id.codeCardText)).setText(getString(R.string.activity_check_in_code_text, email));
                 loadQrCode(email);
+                increaseBrightness();
             }
         }
 
@@ -191,6 +193,7 @@ public class CheckInActivity extends AppCompatActivity {
                                 shouldStopBeaconNotif = true;
                                 findViewById(R.id.codeCard).setVisibility(View.VISIBLE);
                                 ((TextView) findViewById(R.id.codeCardText)).setText(getString(R.string.activity_check_in_code_text, email));
+                                increaseBrightness();
                             }
 
                             dialog.dismiss();
@@ -282,6 +285,12 @@ public class CheckInActivity extends AppCompatActivity {
 
     private boolean deleteSavedCode() {
         return new File(getFilesDir().getPath(), "qr.png").delete();
+    }
+
+    private void increaseBrightness() {
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        layoutParams.screenBrightness = 1;
+        getWindow().setAttributes(layoutParams);
     }
 
 }
