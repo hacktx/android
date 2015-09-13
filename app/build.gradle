@@ -33,7 +33,7 @@ def retrieveProp(String key) {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.0"
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "hacktx.hacktx2015"
@@ -42,7 +42,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        buildConfigField "boolean", "IN_APP_DEBUG", "true"
+        buildConfigField "boolean", "IN_APP_DEBUG", "false"
         buildConfigField "boolean", "IN_APP_CHECK_IN", "true"
         buildConfigField "boolean", "IN_APP_FEEDBACK", "true"
         buildConfigField "String", "TWITTER_KEY", "\"${retrieveProp('TWITTER_KEY')}\""

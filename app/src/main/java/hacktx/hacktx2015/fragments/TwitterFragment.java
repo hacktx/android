@@ -19,6 +19,7 @@ import com.twitter.sdk.android.tweetui.UserTimeline;
 import hacktx.hacktx2015.BuildConfig;
 import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
+import hacktx.hacktx2015.utils.HackTXUtils;
 import io.fabric.sdk.android.Fabric;
 
 /**
@@ -28,7 +29,6 @@ public class TwitterFragment extends BaseFragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView twitterListView;
-    private Tracker mTracker;
 
     @Nullable
     @Override
@@ -44,22 +44,10 @@ public class TwitterFragment extends BaseFragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setupGoogleAnalyticsTracker();
-    }
-
-    private void setupGoogleAnalyticsTracker() {
-        // Obtain the shared Tracker instance.
-        HackTXApplication application = (HackTXApplication) getActivity().getApplication();
-        mTracker = application.getDefaultTracker();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        mTracker.setScreenName("Screen~" + "Twitter");
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).setScreenName("Screen~" + "Twitter");
+        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void setupTwitter(ViewGroup root) {

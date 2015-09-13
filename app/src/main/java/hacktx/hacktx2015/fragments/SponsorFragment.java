@@ -20,6 +20,7 @@ import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.models.Sponsors;
 import hacktx.hacktx2015.network.HackTxClient;
 import hacktx.hacktx2015.network.services.HackTxService;
+import hacktx.hacktx2015.utils.HackTXUtils;
 import hacktx.hacktx2015.views.SpacesItemDecoration;
 import hacktx.hacktx2015.views.adapters.SponsorsRecyclerView;
 import retrofit.Callback;
@@ -34,7 +35,6 @@ public class SponsorFragment extends BaseFragment {
     private ArrayList<Sponsors> sponsorsList;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private Tracker mTracker;
 
     @Nullable
     @Override
@@ -51,22 +51,10 @@ public class SponsorFragment extends BaseFragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setupGoogleAnalyticsTracker();
-    }
-
-    private void setupGoogleAnalyticsTracker() {
-        // Obtain the shared Tracker instance.
-        HackTXApplication application = (HackTXApplication) getActivity().getApplication();
-        mTracker = application.getDefaultTracker();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        mTracker.setScreenName("Screen~" + "Sponsor");
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).setScreenName("Screen~" + "Sponsor");
+        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void setupRecyclerView(ViewGroup root) {

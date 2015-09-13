@@ -27,6 +27,7 @@ import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.models.Messages;
 import hacktx.hacktx2015.network.HackTxClient;
 import hacktx.hacktx2015.network.services.HackTxService;
+import hacktx.hacktx2015.utils.HackTXUtils;
 import hacktx.hacktx2015.views.SpacesItemDecoration;
 import hacktx.hacktx2015.views.adapters.AnnouncementsRecyclerView;
 import retrofit.Callback;
@@ -45,7 +46,6 @@ public class AnnouncementFragment extends BaseFragment {
     private RecyclerView.Adapter mAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private List<Messages> announcements;
-    private Tracker mTracker;
 
     @Nullable
     @Override
@@ -64,22 +64,10 @@ public class AnnouncementFragment extends BaseFragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setupGoogleAnalyticsTracker();
-    }
-
-    private void setupGoogleAnalyticsTracker() {
-        // Obtain the shared Tracker instance.
-        HackTXApplication application = (HackTXApplication) getActivity().getApplication();
-        mTracker = application.getDefaultTracker();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        mTracker.setScreenName("Screen~" + "Announcements");
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).setScreenName("Screen~" + "Announcements");
+        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void setupSwipeRefreshLayout(ViewGroup root) {

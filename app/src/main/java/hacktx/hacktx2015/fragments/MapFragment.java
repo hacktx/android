@@ -23,6 +23,7 @@ import com.google.android.gms.analytics.Tracker;
 
 import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
+import hacktx.hacktx2015.utils.HackTXUtils;
 
 /**
  * Created by Drew on 7/22/2015.
@@ -34,7 +35,6 @@ public class MapFragment extends BaseFragment {
 
     private ImageView floorImage;
     private LinearLayout levelLayout;
-    private Tracker mTracker;
 
 
     @Nullable
@@ -51,22 +51,10 @@ public class MapFragment extends BaseFragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setupGoogleAnalyticsTracker();
-    }
-
-    private void setupGoogleAnalyticsTracker() {
-        // Obtain the shared Tracker instance.
-        HackTXApplication application = (HackTXApplication) getActivity().getApplication();
-        mTracker = application.getDefaultTracker();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        mTracker.setScreenName("Screen~" + "Maps");
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).setScreenName("Screen~" + "Maps");
+        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

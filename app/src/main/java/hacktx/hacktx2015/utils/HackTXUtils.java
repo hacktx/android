@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.Calendar;
 
+import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
 
 public class HackTXUtils {
@@ -50,5 +53,10 @@ public class HackTXUtils {
 
     private static boolean getEndOverride(Context context) {
         return getPrefs(context).getBoolean(context.getString(R.string.debug_hacktx_utils_ended_key), false);
+    }
+
+    public static Tracker getGoogleAnalyticsTracker(Context context) {
+        HackTXApplication application = (HackTXApplication) context.getApplicationContext();
+        return application.getDefaultTracker();
     }
 }

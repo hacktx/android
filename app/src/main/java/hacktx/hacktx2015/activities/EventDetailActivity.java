@@ -54,6 +54,7 @@ import hacktx.hacktx2015.network.HackTxClient;
 import hacktx.hacktx2015.network.UserStateStore;
 import hacktx.hacktx2015.network.services.HackTxService;
 import hacktx.hacktx2015.utils.AlphaSatColorMatrixEvaluator;
+import hacktx.hacktx2015.utils.HackTXUtils;
 import hacktx.hacktx2015.views.CircularImageView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -61,7 +62,6 @@ import retrofit.client.Response;
 
 public class EventDetailActivity extends AppCompatActivity {
 
-    private Tracker mTracker;
     private CollapsingToolbarLayout collapsingToolbar;
     private ScheduleEvent event;
     private Target target = new Target() {
@@ -105,7 +105,6 @@ public class EventDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
-        setupGoogleAnalyticsTracker();
 
         setupEventData(getIntent().getExtras().getString("eventData"));
         setupToolbar((Toolbar) findViewById(R.id.toolbar));
@@ -116,17 +115,11 @@ public class EventDetailActivity extends AppCompatActivity {
         setupSpeakers();
     }
 
-    private void setupGoogleAnalyticsTracker() {
-        // Obtain the shared Tracker instance.
-        HackTXApplication application = (HackTXApplication) getApplication();
-        mTracker = application.getDefaultTracker();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        mTracker.setScreenName("Screen~" + "EventDetail-id:" + event.getId());
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        HackTXUtils.getGoogleAnalyticsTracker(this).setScreenName("Screen~" + "EventDetail-id:" + event.getId());
+        HackTXUtils.getGoogleAnalyticsTracker(this).send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

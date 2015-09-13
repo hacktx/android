@@ -16,15 +16,13 @@ import com.google.android.gms.analytics.Tracker;
 import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.fragments.PreferencesFragment;
+import hacktx.hacktx2015.utils.HackTXUtils;
 
 public class PreferencesActivity extends AppCompatActivity {
-
-    private Tracker mTracker;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
-        setupGoogleAnalyticsTracker();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -41,17 +39,11 @@ public class PreferencesActivity extends AppCompatActivity {
                 .commit();
     }
 
-    private void setupGoogleAnalyticsTracker() {
-        // Obtain the shared Tracker instance.
-        HackTXApplication application = (HackTXApplication) getApplication();
-        mTracker = application.getDefaultTracker();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        mTracker.setScreenName("Screen~" + "Preferences");
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        HackTXUtils.getGoogleAnalyticsTracker(this).setScreenName("Screen~" + "Preferences");
+        HackTXUtils.getGoogleAnalyticsTracker(this).send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override
