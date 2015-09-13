@@ -19,9 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
-import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.utils.HackTXUtils;
 

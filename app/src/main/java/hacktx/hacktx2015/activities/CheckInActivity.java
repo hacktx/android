@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -34,7 +33,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
-import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.network.UserStateStore;
 import hacktx.hacktx2015.utils.HackTXUtils;

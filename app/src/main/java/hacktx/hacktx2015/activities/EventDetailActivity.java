@@ -31,7 +31,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
@@ -44,7 +43,6 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import hacktx.hacktx2015.BuildConfig;
-import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.fragments.MapFragment;
 import hacktx.hacktx2015.models.EventFeedback;
@@ -183,9 +181,6 @@ public class EventDetailActivity extends AppCompatActivity {
     }
 
     private void setupCards() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-        Calendar now = Calendar.getInstance();
-        Calendar end = Calendar.getInstance();
         final CardView rateEventCard = (CardView) findViewById(R.id.rateEventCard);
 
         View.OnClickListener feedbackOnClickListener = new View.OnClickListener() {
@@ -235,15 +230,7 @@ public class EventDetailActivity extends AppCompatActivity {
             }
         };
 
-        try {
-            end.setTime(formatter.parse(event.getEndDate()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        if(!end.before(now) && !shouldShowFeedbackCard()) {
-            findViewById(R.id.rateEventCard).setVisibility(View.GONE);
-        } else {
+        if(shouldShowFeedbackCard()) {
             findViewById(R.id.rateEventCardOk).setOnClickListener(feedbackOnClickListener);
 
             findViewById(R.id.rateEventCardNoThanks).setOnClickListener(new View.OnClickListener() {
@@ -253,6 +240,8 @@ public class EventDetailActivity extends AppCompatActivity {
                     rateEventCard.setVisibility(View.GONE);
                 }
             });
+        } else {
+            findViewById(R.id.rateEventCard).setVisibility(View.GONE);
         }
 
         if(!BuildConfig.IN_APP_FEEDBACK) {
@@ -322,7 +311,21 @@ public class EventDetailActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Returns if the feedback card should be displayed given current date and feedback status.
+     * @return true if feedback hasn't been submitted, isn't ignored, and the event has ended
+     */
     private boolean shouldShowFeedbackCard() {
-        return !UserStateStore.getFeedbackIgnored(this, event.getId()) && !UserStateStore.getFeedbackSubmitted(this, event.getId());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        Calendar now = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+
+        try {
+            end.setTime(formatter.parse(event.getEndDate()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return now.after(end) && !UserStateStore.getFeedbackIgnored(this, event.getId()) && !UserStateStore.getFeedbackSubmitted(this, event.getId());
     }
 }

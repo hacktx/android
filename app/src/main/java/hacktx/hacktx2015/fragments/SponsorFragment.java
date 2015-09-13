@@ -11,11 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
 
-import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.models.Sponsors;
 import hacktx.hacktx2015.network.HackTxClient;

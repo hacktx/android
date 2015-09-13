@@ -10,14 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 import com.twitter.sdk.android.tweetui.UserTimeline;
 
 import hacktx.hacktx2015.BuildConfig;
-import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.utils.HackTXUtils;
 import io.fabric.sdk.android.Fabric;

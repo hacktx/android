@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,7 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import hacktx.hacktx2015.HackTXApplication;
 import hacktx.hacktx2015.R;
 import hacktx.hacktx2015.models.Messages;
 import hacktx.hacktx2015.network.HackTxClient;
@@ -31,7 +29,6 @@ import hacktx.hacktx2015.utils.HackTXUtils;
 import hacktx.hacktx2015.views.SpacesItemDecoration;
 import hacktx.hacktx2015.views.adapters.AnnouncementsRecyclerView;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
