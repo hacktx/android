@@ -74,7 +74,7 @@ public class HackTXBeaconManager {
         Intent intent = new Intent(currentContext, CheckInActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(currentContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         Notification notification = new NotificationCompat.Builder(currentContext)
-                .setSmallIcon(R.drawable.ic_alert).setContentTitle(title)
+                .setSmallIcon(R.drawable.ic_beacon_alert).setContentTitle(title)
                 .setContentText(msg).setAutoCancel(true)
                 .setColor(ContextCompat.getColor(currentContext, R.color.accent))
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
