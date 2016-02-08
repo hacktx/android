@@ -141,12 +141,17 @@ public class ScheduleDayFragment extends Fragment {
 
         @Override
         protected Void doInBackground(String... params) {
-            if(willLoadFromFile()) {
-                Log.v("ScheduleDayFragment", "Loading day " + day + " schedule from file.");
-                scheduleClusters = getDataFromFile();
-            } else {
-                Log.v("ScheduleDayFragment", "Loading day " + day + " schedule from URL.");
-                scheduleClusters = getDataFromUrl();
+            try {
+                if (willLoadFromFile()) {
+                    Log.v("ScheduleDayFragment", "Loading day " + day + " schedule from file.");
+                    scheduleClusters = getDataFromFile();
+                } else {
+                    Log.v("ScheduleDayFragment", "Loading day " + day + " schedule from URL.");
+                    scheduleClusters = getDataFromUrl();
+                }
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+                scheduleClusters = new ArrayList<>();
             }
 
             doneLoading = true;
