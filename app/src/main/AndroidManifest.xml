@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="hacktx.hacktx2015" >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.hacktx.android" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -7,18 +7,13 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="false"/>
 
-    <permission android:protectionLevel="signature"
-        android:name="hacktx.hacktx2015.permission.C2D_MESSAGE" />
-    <uses-permission android:name="hacktx.hacktx2015.permission.C2D_MESSAGE" />
-
     <application
-        android:name="hacktx.hacktx2015.HackTXApplication"
+        android:name="com.hacktx.android.HackTXApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -27,10 +22,10 @@
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="42c2a8bebb5aae94883c4014c65157a9fa006afa" />
+            android:value="${fabricApiKey}" />
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.hacktx.android.activities.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,41 +34,18 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.parse.PushService" />
-        <receiver android:name="com.parse.ParseBroadcastReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.USER_PRESENT" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name="com.parse.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-                <category android:name="hacktx.hacktx2015" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".receivers.ParseNotificationReceiver" android:exported="false">
-            <intent-filter>
-                <action android:name="com.parse.push.intent.RECEIVE" />
-                <action android:name="com.parse.push.intent.DELETE" />
-                <action android:name="com.parse.push.intent.OPEN" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".receivers.BeaconReceiver" >
+        <receiver android:name="com.hacktx.android.receivers.BeaconReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
 
-        <service android:name=".services.BeaconService" />
+        <service android:name="com.hacktx.android.services.BeaconService" />
 
-        <activity android:name=".activities.EventDetailActivity"/>
-        <activity android:name=".activities.PreferencesActivity"/>\
-        <activity android:name=".activities.DebugActivity"/>
-        <activity android:name=".activities.CheckInActivity"/>
+        <activity android:name="com.hacktx.android.activities.EventDetailActivity"/>
+        <activity android:name="com.hacktx.android.activities.PreferencesActivity"/>\
+        <activity android:name="com.hacktx.android.activities.DebugActivity"/>
+        <activity android:name="com.hacktx.android.activities.CheckInActivity"/>
 
     </application>
 

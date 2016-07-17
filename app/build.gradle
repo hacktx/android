@@ -20,46 +20,53 @@ repositories {
     }
 }
 
-def retrieveProp(String key) {
-    try {
-        Properties props = new Properties()
-        props.load(new FileInputStream("private.props"))
-        def val = props.getProperty(key)
-        return val
-    } catch (FileNotFoundException ignored) {
-        return ''
-    }
+Properties props = new Properties()
+try {
+    props.load(file('private.properties').newDataInputStream())
+} catch (Exception ex) {
+    throw new GradleException("Missing private.properties, check the example.properties file.");
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 24
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "hacktx.hacktx2015"
+        applicationId "com.hacktx.android"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 3
         versionName "1.0.2"
 
-        buildConfigField "boolean", "IN_APP_DEBUG", "false"
-        buildConfigField "boolean", "IN_APP_CHECK_IN", "true"
-        buildConfigField "boolean", "IN_APP_FEEDBACK", "true"
-        buildConfigField "String", "TWITTER_KEY", "\"${retrieveProp('TWITTER_KEY')}\""
-        buildConfigField "String", "TWITTER_SECRET", "\"${retrieveProp('TWITTER_SECRET')}\""
-        buildConfigField "String", "SLACK_KEY", "\"${retrieveProp('SLACK_KEY')}\""
-        buildConfigField "String", "SLACK_TOKEN", "\"${retrieveProp('SLACK_TOKEN')}\""
-        buildConfigField "String", "SLACK_ANNOUNCEMENT_ID", "\"${retrieveProp('SLACK_ANNOUNCEMENT_ID')}\""
-        buildConfigField "String", "PARSE_APP_ID", "\"${retrieveProp('PARSE_APP_ID')}\""
-        buildConfigField "String", "PARSE_CLIENT_ID", "\"${retrieveProp('PARSE_CLIENT_ID')}\""
-        buildConfigField "String", "ESTIMOTE_APP_ID", "\"${retrieveProp('ESTIMOTE_APP_ID')}\""
-        buildConfigField "String", "ESTIMOTE_APP_TOKEN", "\"${retrieveProp('ESTIMOTE_APP_TOKEN')}\""
-        buildConfigField "String", "GOOG_ANALYTICS_ID", "\"${retrieveProp('GOOG_ANALYTICS_ID')}\""
+        buildConfigField "String", "TWITTER_KEY", "\"${props.getProperty('TWITTER_KEY')}\""
+        buildConfigField "String", "TWITTER_SECRET", "\"${props.getProperty('TWITTER_SECRET')}\""
+        buildConfigField "String", "SLACK_KEY", "\"${props.getProperty('SLACK_KEY')}\""
+        buildConfigField "String", "SLACK_TOKEN", "\"${props.getProperty('SLACK_TOKEN')}\""
+        buildConfigField "String", "SLACK_ANNOUNCEMENT_ID", "\"${props.getProperty('SLACK_ANNOUNCEMENT_ID')}\""
+        buildConfigField "String", "PARSE_APP_ID", "\"${props.getProperty('PARSE_APP_ID')}\""
+        buildConfigField "String", "PARSE_CLIENT_ID", "\"${props.getProperty('PARSE_CLIENT_ID')}\""
+        buildConfigField "String", "ESTIMOTE_APP_ID", "\"${props.getProperty('ESTIMOTE_APP_ID')}\""
+        buildConfigField "String", "ESTIMOTE_APP_TOKEN", "\"${props.getProperty('ESTIMOTE_APP_TOKEN')}\""
+        buildConfigField "String", "GOOG_ANALYTICS_ID", "\"${props.getProperty('GOOGLE_ANALYTICS_ID')}\""
+
+        manifestPlaceholders = [fabricApiKey:props.getProperty('FABRIC_API_KEY')]
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            applicationIdSuffix ".debug"
+        }
+    }
+    productFlavors {
+        production {
+
+        }
+        dev {
+
         }
     }
 }
@@ -70,18 +77,19 @@ dependencies {
     }
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.parse.bolts:bolts-android:1.+'
-    compile files('libs/Parse-1.9.1/Parse-1.9.1.jar')
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:cardview-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'com.google.android.gms:play-services-analytics:8.4.0'
-    compile 'com.android.support:palette-v7:23.1.1'
+    compile 'com.android.support:design:24.0.0'
+    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:cardview-v7:24.0.0'
+    compile 'com.android.support:recyclerview-v7:24.0.0'
+    compile 'com.google.android.gms:play-services-analytics:9.2.1'
+    compile 'com.android.support:palette-v7:24.0.0'
 
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.4.0'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.google.zxing:core:3.0.0'
     compile(name:'estimote-sdk', ext:'aar')
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.7@aar') {
+        transitive = true;
+    }
 }

@@ -16,7 +16,7 @@ bin/
 
 # configuration files (sdk path, etc)
 local.properties
-private.props
+private.properties
 fabric.properties
 /app/google-services.json
 

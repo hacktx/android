@@ -1,9 +1,9 @@
-HackTX Android App
-------
-
+android
+=======
 
 HackTX app for Android.
 
 ### Configuration
 
-Rename the `example.props` file to `private.props`. Fill in each of the variables with the proper keys from Twitter and Parse.
+* Rename `example.properties` to `private.properties`. Fill in each of the properties as necessary.
+* Rename `fabric.properties.sample` to `fabric.properties` and add your Fabric details.

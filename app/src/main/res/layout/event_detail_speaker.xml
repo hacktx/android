@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:paddingTop="8dp">
 
-    <hacktx.hacktx2015.views.CircularImageView
+    <com.hacktx.android.views.CircularImageView
         android:id="@+id/speakerIcon"
         android:layout_width="36dp"
         android:layout_height="36dp"
