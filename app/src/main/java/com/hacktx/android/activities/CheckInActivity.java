@@ -1,18 +1,15 @@
 package com.hacktx.android.activities;
 
-import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,22 +24,20 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.hacktx.android.R;
+import com.hacktx.android.network.UserStateStore;
+import com.hacktx.android.utils.HackTXUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
-import com.hacktx.android.R;
-import com.hacktx.android.network.UserStateStore;
-import com.hacktx.android.utils.HackTXUtils;
-
-public class CheckInActivity extends AppCompatActivity {
+public class CheckInActivity extends BaseActivity {
 
     private static final int NOTIFICATION_ID = 22;
     private boolean previousNotifStatus;
     private boolean shouldStopBeaconNotif = false;
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +54,6 @@ public class CheckInActivity extends AppCompatActivity {
         }
 
         hideNotification();
-        setupTaskActivityInfo();
         setupCards();
     }
 
@@ -87,18 +81,6 @@ public class CheckInActivity extends AppCompatActivity {
         }
 
         super.onBackPressed();
-    }
-
-    protected void setupTaskActivityInfo() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            String appName = getString(R.string.app_name);
-            Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-            int color = ContextCompat.getColor(this, R.color.taskbarColor);
-            ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(appName, icon, color);
-            setTaskDescription(taskDesc);
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.hacktx_blue_dark));
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.hacktx_red));
-        }
     }
 
     private void hideNotification() {

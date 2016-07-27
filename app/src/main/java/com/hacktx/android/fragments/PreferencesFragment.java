@@ -93,11 +93,22 @@ public class PreferencesFragment extends PreferenceFragment {
                 return true;
             }
         });
+
+        if (!Constants.FEATURE_BEACONS) {
+            // Hide entire Privacy preferences screen since there is only one option
+            hidePrivacyPreferencesScreen();
+        }
     }
 
     private boolean doesDeviceSupportBle() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 &&
                 BluetoothAdapter.getDefaultAdapter() != null &&
                 getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE);
+    }
+
+    private void hidePrivacyPreferencesScreen() {
+        PreferenceScreen preferenceScreen = (PreferenceScreen) findPreference("preferenceScreen");
+        PreferenceCategory privacyPrefs = (PreferenceCategory) findPreference("privacy");
+        preferenceScreen.removePreference(privacyPrefs);
     }
 }

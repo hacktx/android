@@ -2,20 +2,15 @@ package com.hacktx.android.activities;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -34,16 +29,6 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hacktx.android.Constants;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
-
-import com.hacktx.android.BuildConfig;
 import com.hacktx.android.R;
 import com.hacktx.android.fragments.MapFragment;
 import com.hacktx.android.models.EventFeedback;
@@ -55,11 +40,20 @@ import com.hacktx.android.network.services.HackTxService;
 import com.hacktx.android.utils.AlphaSatColorMatrixEvaluator;
 import com.hacktx.android.utils.HackTXUtils;
 import com.hacktx.android.views.CircularImageView;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class EventDetailActivity extends AppCompatActivity {
+public class EventDetailActivity extends BaseActivity {
 
     private CollapsingToolbarLayout collapsingToolbar;
     private ScheduleEvent event;
@@ -107,7 +101,6 @@ public class EventDetailActivity extends AppCompatActivity {
 
         setupEventData(getIntent().getExtras().getString("eventData"));
         setupToolbar((Toolbar) findViewById(R.id.toolbar));
-        setupTaskActivityInfo();
         setupCards();
         setupEventDetails();
         setupEventDescription();
@@ -169,16 +162,6 @@ public class EventDetailActivity extends AppCompatActivity {
 
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);
         collapsingToolbar.setTitle(event.getName());
-    }
-
-    private void setupTaskActivityInfo() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            String appName = getString(R.string.app_name);
-            Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-            int color = ContextCompat.getColor(this, R.color.taskbarColor);
-            ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(appName, icon, color);
-            setTaskDescription(taskDesc);
-        }
     }
 
     private void setupCards() {

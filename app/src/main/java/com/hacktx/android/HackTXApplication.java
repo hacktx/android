@@ -3,14 +3,10 @@ package com.hacktx.android;
 import android.app.Application;
 import android.content.Intent;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.estimote.sdk.EstimoteSDK;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
-
 import com.hacktx.android.services.BeaconService;
-import io.fabric.sdk.android.Fabric;
 
 public class HackTXApplication extends Application {
     private Tracker mTracker;
@@ -18,12 +14,10 @@ public class HackTXApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Crashlytics crashlyticsKit = new Crashlytics.Builder()
-                .core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
-                .build();
-        Fabric.with(this, crashlyticsKit);
 
-        // initBeacons();
+        if (Constants.FEATURE_BEACONS) {
+            initBeacons();
+        }
     }
 
     /**

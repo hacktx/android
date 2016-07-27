@@ -22,7 +22,7 @@
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="${fabricApiKey}" />
+            android:value="b1db91b57414658faf2efe1180a9b724dea8c080" />
 
         <activity
             android:name="com.hacktx.android.activities.MainActivity"
