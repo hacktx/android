@@ -42,9 +42,15 @@
 
         <service android:name="com.hacktx.android.services.BeaconService" />
         <service
-            android:name=".FirebaseMessagingService">
+            android:name=".services.MessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".services.InstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
 

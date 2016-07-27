@@ -12,7 +12,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.hacktx.android.R;
 import com.hacktx.android.activities.MainActivity;
 
-public class HackTXMessagingService extends FirebaseMessagingService {
+public class MessagingService extends FirebaseMessagingService {
 
     private final String TAG = getClass().getSimpleName();
 
