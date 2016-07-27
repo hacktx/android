@@ -41,6 +41,12 @@
         </receiver>
 
         <service android:name="com.hacktx.android.services.BeaconService" />
+        <service
+            android:name=".FirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
 
         <activity android:name="com.hacktx.android.activities.EventDetailActivity"/>
         <activity android:name="com.hacktx.android.activities.PreferencesActivity"/>\

@@ -13,7 +13,7 @@ import com.hacktx.android.utils.MetricsManager;
 
 public class BaseActivity extends AppCompatActivity {
 
-    protected final String TAG = this.getClass().getSimpleName();
+    protected final String TAG = getClass().getSimpleName();
 
     protected MetricsManager mMetricsManager;
 
