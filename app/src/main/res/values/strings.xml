@@ -76,6 +76,7 @@
     <string name="prefs_first_launch">firstLaunch</string>
     <string name="prefs_beacon_notif">beaconNotif</string>
     <string name="prefs_uuid">uuid</string>
+    <string name="prefs_notif_offset">notifOffset</string>
 
     <!-- Notifications -->
     <string name="notif_sign_in_title">HackTX</string>
@@ -107,6 +108,15 @@
     <string name="debug_hacktx_utils_started">HackTX Started</string>
     <string name="debug_hacktx_utils_ended_key">hacktxUtilsEnded</string>
     <string name="debug_hacktx_utils_ended">HackTX Ended</string>
+
+    <!-- Notifications -->
+    <string name="notif_new_notification">New Notification</string>
+
+    <!-- Notification Topics -->
+    <string name="notif_topic_hacktx">hacktx</string>
+    <string name="notif_topic_android">android</string>
+    <string name="notif_topic_announcements">announcements</string>
+    <string name="notif_topic_debug">debug</string>
 
     <!-- Analytics -->
     <string name="analytics_event_login">event_login</string>

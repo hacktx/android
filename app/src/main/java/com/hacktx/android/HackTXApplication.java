@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.estimote.sdk.EstimoteSDK;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.hacktx.android.services.BeaconService;
 
 public class HackTXApplication extends Application {
@@ -17,6 +18,17 @@ public class HackTXApplication extends Application {
 
         if (Constants.FEATURE_BEACONS) {
             initBeacons();
+        }
+
+        if (Constants.FIREBASE_NOTIFICATIONS_ENABLED) {
+            FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
+            firebaseMessaging.subscribeToTopic(getString(R.string.notif_topic_hacktx));
+            firebaseMessaging.subscribeToTopic(getString(R.string.notif_topic_android));
+            firebaseMessaging.subscribeToTopic(getString(R.string.notif_topic_announcements));
+
+            if (BuildConfig.DEBUG) {
+                firebaseMessaging.subscribeToTopic(getString(R.string.notif_topic_debug));
+            }
         }
     }
 
