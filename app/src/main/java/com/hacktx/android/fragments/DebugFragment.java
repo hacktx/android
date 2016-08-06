@@ -20,11 +20,17 @@ public class DebugFragment extends PreferenceFragment {
 
         addPreferencesFromResource(R.xml.preferences_debug);
 
-        final PreferenceScreen buildConfigCheckIn = (PreferenceScreen) findPreference(getString(R.string.debug_build_config_check_in_key));
-        buildConfigCheckIn.setSummary(Constants.FEATURE_CHECK_IN ? R.string.debug_build_config_enabled : R.string.debug_build_config_disabled);
+        final PreferenceScreen configCheckIn = (PreferenceScreen) findPreference(getString(R.string.debug_config_check_in_key));
+        configCheckIn.setSummary(Constants.FEATURE_CHECK_IN ? R.string.debug_build_config_enabled : R.string.debug_build_config_disabled);
 
-        final PreferenceScreen buildConfigFeedback = (PreferenceScreen) findPreference(getString(R.string.debug_build_config_feedback_key));
-        buildConfigFeedback.setSummary(Constants.FEATURE_EVENT_FEEDBACK ? R.string.debug_build_config_enabled : R.string.debug_build_config_disabled);
+        final PreferenceScreen configFeedback = (PreferenceScreen) findPreference(getString(R.string.debug_config_feedback_key));
+        configFeedback.setSummary(Constants.FEATURE_EVENT_FEEDBACK ? R.string.debug_build_config_enabled : R.string.debug_build_config_disabled);
+
+        final PreferenceScreen configBeacons = (PreferenceScreen) findPreference(getString(R.string.debug_config_beacons_key));
+        configBeacons.setSummary(Constants.FEATURE_BEACONS ? R.string.debug_build_config_enabled : R.string.debug_build_config_disabled);
+
+        final PreferenceScreen configBundledNotif = (PreferenceScreen) findPreference(getString(R.string.debug_config_bundled_notif));
+        configBundledNotif.setSummary(Constants.FEATURE_BUNDLED_NOTIFICATIONS ? R.string.debug_build_config_enabled : R.string.debug_build_config_disabled);
 
         final PreferenceScreen bleStatus = (PreferenceScreen) findPreference(getString(R.string.debug_beacon_status_key));
         bleStatus.setSummary(doesDeviceSupportBle() ? R.string.debug_ble_support_true : R.string.debug_ble_support_false);

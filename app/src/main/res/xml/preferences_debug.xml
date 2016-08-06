@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="@string/debug_build_config">
+        android:title="@string/debug_config">
 
         <PreferenceScreen
             android:key="@string/debug_build_config_check_in_key"
@@ -10,6 +10,14 @@
         <PreferenceScreen
             android:key="@string/debug_build_config_feedback_key"
             android:title="@string/debug_build_config_feedback" />
+
+        <PreferenceScreen
+            android:key="@string/debug_config_beacons_key"
+            android:title="@string/debug_config_beacons" />
+
+        <PreferenceScreen
+            android:key="@string/debug_config_bundled_notif_key"
+            android:title="@string/debug_config_bundled_notif" />
 
     </PreferenceCategory>
 
