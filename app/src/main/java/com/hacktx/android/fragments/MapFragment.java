@@ -62,13 +62,6 @@ public class MapFragment extends BaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).setScreenName("Screen~" + "Maps");
-        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).send(new HitBuilders.ScreenViewBuilder().build());
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_maps, menu);
         MenuItem item = menu.findItem(R.id.spinner);

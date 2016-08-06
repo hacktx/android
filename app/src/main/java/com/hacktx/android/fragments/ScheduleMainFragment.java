@@ -56,13 +56,6 @@ public class ScheduleMainFragment extends BaseFragment {
         return root;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).setScreenName("Screen~" + "Schedule");
-        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).send(new HitBuilders.ScreenViewBuilder().build());
-    }
-
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getFragmentManager());
         adapter.addFragment(new ScheduleDayFragment(), "Sept 26");

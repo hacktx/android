@@ -74,13 +74,6 @@ public class CheckInActivity extends BaseActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        HackTXUtils.getGoogleAnalyticsTracker(this).setScreenName("Screen~" + "CheckIn");
-        HackTXUtils.getGoogleAnalyticsTracker(this).send(new HitBuilders.ScreenViewBuilder().build());
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

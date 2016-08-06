@@ -124,13 +124,6 @@ public class EventDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        HackTXUtils.getGoogleAnalyticsTracker(this).setScreenName("Screen~" + "EventDetail-id:" + event.getId());
-        HackTXUtils.getGoogleAnalyticsTracker(this).send(new HitBuilders.ScreenViewBuilder().build());
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_event_detail, menu);
         return true;

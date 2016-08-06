@@ -72,9 +72,4 @@ public class HackTXUtils {
     private static boolean getEndOverride(Context context) {
         return getPrefs(context).getBoolean(context.getString(R.string.debug_hacktx_utils_ended_key), false);
     }
-
-    public static Tracker getGoogleAnalyticsTracker(Context context) {
-        HackTXApplication application = (HackTXApplication) context.getApplicationContext();
-        return application.getDefaultTracker();
-    }
 }

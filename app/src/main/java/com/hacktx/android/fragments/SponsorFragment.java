@@ -61,13 +61,6 @@ public class SponsorFragment extends BaseFragment {
         return root;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).setScreenName("Screen~" + "Sponsor");
-        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).send(new HitBuilders.ScreenViewBuilder().build());
-    }
-
     private void setupRecyclerView(ViewGroup root) {
         mRecyclerView = (RecyclerView) root.findViewById(R.id.sponsors_recyclerview);
         mRecyclerView.setHasFixedSize(true);

@@ -72,13 +72,6 @@ public class AnnouncementFragment extends BaseFragment {
         return root;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).setScreenName("Screen~" + "Announcements");
-        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).send(new HitBuilders.ScreenViewBuilder().build());
-    }
-
     private void setupSwipeRefreshLayout(ViewGroup root) {
         swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.announcementsSwipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.primary, R.color.accent);

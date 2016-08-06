@@ -54,13 +54,6 @@ public class TwitterFragment extends BaseFragment {
         return root;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).setScreenName("Screen~" + "Twitter");
-        HackTXUtils.getGoogleAnalyticsTracker(getActivity()).send(new HitBuilders.ScreenViewBuilder().build());
-    }
-
     private void setupTwitter(ViewGroup root) {
         TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.TWITTER_KEY, BuildConfig.TWITTER_SECRET);
         Fabric.with(getActivity(), new Twitter(authConfig));

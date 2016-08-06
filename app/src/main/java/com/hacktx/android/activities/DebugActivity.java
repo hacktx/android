@@ -35,7 +35,6 @@ public class DebugActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
-        setupGoogleAnalyticsTracker();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -67,12 +66,6 @@ public class DebugActivity extends BaseActivity {
         super.onResume();
         mTracker.setScreenName("Screen~" + "Debug");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-    }
-
-    private void setupGoogleAnalyticsTracker() {
-        // Obtain the shared Tracker instance.
-        HackTXApplication application = (HackTXApplication) getApplication();
-        mTracker = application.getDefaultTracker();
     }
 
     private void displayDebugWarning() {
