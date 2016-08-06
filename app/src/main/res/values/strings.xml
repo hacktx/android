@@ -30,7 +30,10 @@
     <!-- PreferencesFragment -->
     <string name="fragment_preferences_debug_key">debugCategory</string>
     <string name="fragment_preferences_debug">Debug</string>
-    <string name="fragment_preferences_privacy">Privacy</string>
+    <string name="fragment_preferences_notifications">Notifications</string>
+    <string name="fragment_preferences_announcements">Announcements</string>
+    <string name="fragment_preferences_announcements_desc_on">Get notified of the latest HackTX announcements.</string>
+    <string name="fragment_preferences_announcements_desc_off">Do not get notified of the latest HackTX announcements.</string>
     <string name="fragment_preferences_beacons">Beacons</string>
     <string name="fragment_preferences_beacons_desc_on">Use nearby Bluetooth beacons to deliver location based notifications.</string>
     <string name="fragment_preferences_beacons_desc_off">Do not use nearby Bluetooth beacons to deliver location based notifications.</string>
@@ -76,6 +79,7 @@
     <string name="prefs_first_launch">firstLaunch</string>
     <string name="prefs_beacon_notif">beaconNotif</string>
     <string name="prefs_uuid">uuid</string>
+    <string name="prefs_notif_announcements_enabled">notifAnnouncementsEnabled</string>
     <string name="prefs_notif_offset">notifOffset</string>
 
     <!-- Notifications -->

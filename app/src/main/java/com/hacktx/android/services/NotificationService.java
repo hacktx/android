@@ -12,11 +12,12 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.hacktx.android.Constants;
 import com.hacktx.android.R;
 import com.hacktx.android.activities.MainActivity;
+import com.hacktx.android.network.UserStateStore;
 import com.hacktx.android.utils.NotificationUtils;
 
 import java.util.Map;
 
-public class MessagingService extends FirebaseMessagingService {
+public class NotificationService extends FirebaseMessagingService {
 
     private final String TAG = getClass().getSimpleName();
 
@@ -30,10 +31,12 @@ public class MessagingService extends FirebaseMessagingService {
 
         String group = remoteMessage.getFrom();
 
-        if (Constants.FEATURE_BUNDLED_NOTIFICATIONS) {
-            sendBundledNotification(group, remoteMessage.getData());
-        } else {
-            sendNotification(group, remoteMessage.getData());
+        if (UserStateStore.getAnnouncementNotificationsEnabled(this)) {
+            if (Constants.FEATURE_BUNDLED_NOTIFICATIONS) {
+                sendBundledNotification(group, remoteMessage.getData());
+            } else {
+                sendNotification(group, remoteMessage.getData());
+            }
         }
     }
 

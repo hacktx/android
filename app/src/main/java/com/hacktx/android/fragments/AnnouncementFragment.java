@@ -32,10 +32,6 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-/**
- * Created by Drew on 7/22/2015.
- */
-
 public class AnnouncementFragment extends BaseFragment {
 
     private static final String TAG = "AnnouncementsActivity";

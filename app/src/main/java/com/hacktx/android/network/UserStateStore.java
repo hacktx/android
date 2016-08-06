@@ -85,6 +85,16 @@ public class UserStateStore {
     }
 
     /**
+     * Get if announcement notifications are enabled by the user.
+     *
+     * @param context Context by which to retrieve data
+     * @return <code>boolean</code> representing if announcement notifications are enabled
+     */
+    public static boolean getAnnouncementNotificationsEnabled(Context context) {
+        return getPrefs(context).getBoolean(context.getString(R.string.prefs_notif_announcements_enabled), true);
+    }
+
+    /**
      * Get if beacons are enabled by the user.
      *
      * @param context Context by which to retrieve data

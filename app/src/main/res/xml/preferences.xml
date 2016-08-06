@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:key="preferenceScreen">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:key="@string/fragment_preferences_debug_key"
         android:title="@string/fragment_preferences_debug">
@@ -12,8 +11,15 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="privacy"
-        android:title="@string/fragment_preferences_privacy">
+        android:key="notifications"
+        android:title="@string/fragment_preferences_notifications">
+
+        <CheckBoxPreference
+            android:key="@string/prefs_notif_announcements_enabled"
+            android:title="@string/fragment_preferences_announcements"
+            android:summaryOn="@string/fragment_preferences_announcements_desc_on"
+            android:summaryOff="@string/fragment_preferences_announcements_desc_off"
+            android:defaultValue="true"/>
 
         <CheckBoxPreference
             android:key="@string/prefs_beacons_enabled"

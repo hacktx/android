@@ -45,7 +45,20 @@ public class PreferencesFragment extends PreferenceFragment {
             getPreferenceScreen().removePreference(debugCategory);
         }
 
+        final CheckBoxPreference notifAnnouncementPref = (CheckBoxPreference) findPreference(getString(R.string.prefs_notif_announcements_enabled));
         final CheckBoxPreference beaconPreference = (CheckBoxPreference) findPreference(getString(R.string.prefs_beacons_enabled));
+        notifAnnouncementPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                Log.i("PreferencesFragment", "Announcement notifications "
+                        + ((boolean) newValue ? "enabled" : "disabled") + ".");
+
+                beaconPreference.setEnabled((boolean) newValue);
+
+                return true;
+            }
+        });
+
         beaconPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -95,8 +108,7 @@ public class PreferencesFragment extends PreferenceFragment {
         });
 
         if (!Constants.FEATURE_BEACONS) {
-            // Hide entire Privacy preferences screen since there is only one option
-            hidePrivacyPreferencesScreen();
+            hideBeaconPreferences();
         }
     }
 
@@ -106,9 +118,9 @@ public class PreferencesFragment extends PreferenceFragment {
                 getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE);
     }
 
-    private void hidePrivacyPreferencesScreen() {
-        PreferenceScreen preferenceScreen = (PreferenceScreen) findPreference("preferenceScreen");
-        PreferenceCategory privacyPrefs = (PreferenceCategory) findPreference("privacy");
-        preferenceScreen.removePreference(privacyPrefs);
+    private void hideBeaconPreferences() {
+        PreferenceCategory notifPrefs = (PreferenceCategory) findPreference("notifications");
+        CheckBoxPreference beaconPrefs = (CheckBoxPreference) findPreference(getString(R.string.prefs_beacons_enabled));
+        notifPrefs.removePreference(beaconPrefs);
     }
 }
