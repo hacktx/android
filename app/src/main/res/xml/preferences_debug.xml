@@ -4,12 +4,12 @@
         android:title="@string/debug_config">
 
         <PreferenceScreen
-            android:key="@string/debug_build_config_check_in_key"
-            android:title="@string/debug_build_config_check_in" />
+            android:key="@string/debug_config_check_in_key"
+            android:title="@string/debug_config_check_in" />
 
         <PreferenceScreen
-            android:key="@string/debug_build_config_feedback_key"
-            android:title="@string/debug_build_config_feedback" />
+            android:key="@string/debug_config_feedback_key"
+            android:title="@string/debug_config_feedback" />
 
         <PreferenceScreen
             android:key="@string/debug_config_beacons_key"
