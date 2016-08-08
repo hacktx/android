@@ -22,6 +22,8 @@ import android.content.Intent;
 import com.estimote.sdk.EstimoteSDK;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.hacktx.android.services.BeaconService;
+import com.squareup.picasso.OkHttpDownloader;
+import com.squareup.picasso.Picasso;
 
 public class HackTXApplication extends Application {
 
@@ -47,6 +49,10 @@ public class HackTXApplication extends Application {
                 firebaseMessaging.subscribeToTopic(getString(R.string.notif_topic_debug));
             }
         }
+
+        // Set Picasso's disk cache to 25 MB
+        Picasso picasso =  new Picasso.Builder(this).downloader(new OkHttpDownloader(getCacheDir(), 25000000)).build();
+        Picasso.setSingletonInstance(picasso);
     }
 
     public static HackTXApplication getInstance() {

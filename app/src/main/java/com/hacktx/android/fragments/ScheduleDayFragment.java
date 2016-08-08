@@ -44,6 +44,7 @@ import com.hacktx.android.network.NetworkUtils;
 import com.hacktx.android.network.UserStateStore;
 import com.hacktx.android.network.services.HackTxService;
 import com.hacktx.android.views.adapters.ScheduleClusterRecyclerView;
+import com.squareup.picasso.Picasso;
 
 public class ScheduleDayFragment extends Fragment {
 
@@ -168,6 +169,13 @@ public class ScheduleDayFragment extends Fragment {
             } catch (RuntimeException e) {
                 e.printStackTrace();
                 scheduleClusters = new ArrayList<>();
+            }
+
+            // Pre-load event images
+            for (ScheduleCluster cluster : scheduleClusters) {
+                for (ScheduleEvent event : cluster.getEventsList()) {
+                    Picasso.with(getActivity()).load(event.getImageUrl()).fetch();
+                }
             }
 
             doneLoading = true;
