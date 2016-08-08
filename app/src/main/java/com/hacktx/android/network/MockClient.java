@@ -46,6 +46,8 @@ public class MockClient implements Client {
             fileName = "schedule.json";
         } else if(uri.getPath().contains("/sponsors")) {
             fileName = "partners.json";
+        } else if(uri.getPath().contains("/announcements")) {
+            fileName = "announcements.json";
         } else if (request.getMethod().equals("GET")) {
             Log.d(TAG, "No mock found for " + uri.getPath());
             return new Response(request.getUrl(), 404, "Mock not found.", Collections.EMPTY_LIST, null);

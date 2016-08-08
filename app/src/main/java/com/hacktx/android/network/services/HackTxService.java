@@ -19,7 +19,7 @@ package com.hacktx.android.network.services;
 import java.util.ArrayList;
 
 import com.hacktx.android.models.EventFeedback;
-import com.hacktx.android.models.Messages;
+import com.hacktx.android.models.Announcement;
 import com.hacktx.android.models.ScheduleCluster;
 import com.hacktx.android.models.Sponsors;
 import retrofit.Callback;
@@ -35,7 +35,7 @@ public interface HackTxService {
     ArrayList<ScheduleCluster> getScheduleDayData(@Path("day") int day);
 
     @GET("/announcements")
-    void getMessages(Callback<ArrayList<Messages>> messagesList);
+    void getAnnouncements(Callback<ArrayList<Announcement>> messagesList);
 
     @GET("/sponsors")
     void getSponsors(Callback<ArrayList<Sponsors>> sponsorsList);

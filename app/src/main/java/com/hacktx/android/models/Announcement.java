@@ -24,12 +24,12 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
-public class Messages {
+public class Announcement {
 
     private String text;
     private String ts;
 
-    public Messages(String text, String ts) {
+    public Announcement(String text, String ts) {
         this.text = text;
         this.ts = ts;
     }
@@ -60,10 +60,10 @@ public class Messages {
         return formatTo.format(getTsDate());
     }
 
-    public static Comparator<Messages> MessagesComparator
-            = new Comparator<Messages>() {
+    public static Comparator<Announcement> AnnouncementComparator
+            = new Comparator<Announcement>() {
 
-        public int compare(Messages message1, Messages message2) {
+        public int compare(Announcement message1, Announcement message2) {
             return message2.getTsDate().compareTo(message1.getTsDate());
         }
 

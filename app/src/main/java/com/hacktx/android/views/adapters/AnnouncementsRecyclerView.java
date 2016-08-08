@@ -27,12 +27,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hacktx.android.R;
-import com.hacktx.android.models.Messages;
+import com.hacktx.android.models.Announcement;
 
 public class AnnouncementsRecyclerView extends RecyclerView.Adapter<AnnouncementsRecyclerView.ViewHolder> {
 
     private static final String TAG = "AnnouncementsRecycler";
-    private List<Messages> announcementsList;
+    private List<Announcement> announcementsList;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -53,7 +53,7 @@ public class AnnouncementsRecyclerView extends RecyclerView.Adapter<Announcement
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public AnnouncementsRecyclerView(List<Messages> announcements) {
+    public AnnouncementsRecyclerView(List<Announcement> announcements) {
         announcementsList = announcements;
     }
 
@@ -70,7 +70,7 @@ public class AnnouncementsRecyclerView extends RecyclerView.Adapter<Announcement
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Messages message = announcementsList.get(position);
+        Announcement message = announcementsList.get(position);
         String date = message.getFormattedTsString();
 
         if (date != null)
