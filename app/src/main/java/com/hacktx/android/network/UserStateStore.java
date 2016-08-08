@@ -189,4 +189,24 @@ public class UserStateStore {
     public static boolean getBeaconNotifEnabled(Context context) {
         return getPrefs(context).getBoolean(context.getString(R.string.prefs_beacon_notif), true);
     }
+
+    /**
+     * Get if the mock server is enabled.
+     *
+     * @param context Context by which to retrieve data
+     * @return <code>boolean</code> representing if mock server is enabled
+     */
+    public static boolean getMockServerEnabled(Context context) {
+        return getPrefs(context).getBoolean(context.getString(R.string.prefs_network_mock), false);
+    }
+
+    /**
+     * Set if the mock server is enabled.
+     *
+     * @param context Context by which to edit data
+     * @param enabled <code>boolean</code> representing if mock server is enabled
+     */
+    public static void setMockServerEnabled(Context context, boolean enabled) {
+        getPrefs(context).edit().putBoolean(context.getString(R.string.prefs_network_mock), enabled).apply();
+    }
 }

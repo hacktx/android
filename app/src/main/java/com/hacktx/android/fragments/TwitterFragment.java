@@ -25,15 +25,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.google.android.gms.analytics.HitBuilders;
+import com.hacktx.android.BuildConfig;
+import com.hacktx.android.R;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 import com.twitter.sdk.android.tweetui.UserTimeline;
 
-import com.hacktx.android.BuildConfig;
-import com.hacktx.android.R;
-import com.hacktx.android.utils.HackTXUtils;
 import io.fabric.sdk.android.Fabric;
 
 public class TwitterFragment extends BaseFragment {

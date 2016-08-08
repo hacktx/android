@@ -34,10 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.HitBuilders;
-
 import com.hacktx.android.R;
-import com.hacktx.android.utils.HackTXUtils;
 
 public class MapFragment extends BaseFragment {
 
@@ -46,7 +43,6 @@ public class MapFragment extends BaseFragment {
 
     private ImageView floorImage;
     private LinearLayout levelLayout;
-
 
     @Nullable
     @Override

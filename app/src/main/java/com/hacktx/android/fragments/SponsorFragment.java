@@ -26,17 +26,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.analytics.HitBuilders;
-
-import java.util.ArrayList;
-
 import com.hacktx.android.R;
 import com.hacktx.android.models.Sponsors;
 import com.hacktx.android.network.HackTxClient;
 import com.hacktx.android.network.services.HackTxService;
-import com.hacktx.android.utils.HackTXUtils;
 import com.hacktx.android.views.SpacesItemDecoration;
 import com.hacktx.android.views.adapters.SponsorsRecyclerView;
+
+import java.util.ArrayList;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

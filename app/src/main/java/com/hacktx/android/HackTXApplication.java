@@ -20,17 +20,18 @@ import android.app.Application;
 import android.content.Intent;
 
 import com.estimote.sdk.EstimoteSDK;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.hacktx.android.services.BeaconService;
 
 public class HackTXApplication extends Application {
-    private Tracker mTracker;
+
+    private static HackTXApplication sInstance;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        sInstance = this;
 
         if (Constants.FEATURE_BEACONS) {
             initBeacons();
@@ -46,6 +47,10 @@ public class HackTXApplication extends Application {
                 firebaseMessaging.subscribeToTopic(getString(R.string.notif_topic_debug));
             }
         }
+    }
+
+    public static HackTXApplication getInstance() {
+        return sInstance;
     }
 
     private void initBeacons() {

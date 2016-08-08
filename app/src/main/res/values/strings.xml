@@ -81,6 +81,7 @@
     <string name="prefs_uuid">uuid</string>
     <string name="prefs_notif_announcements_enabled">notifAnnouncementsEnabled</string>
     <string name="prefs_notif_offset">notifOffset</string>
+    <string name="prefs_network_mock">mockServer</string>
 
     <!-- Notifications -->
     <string name="notif_sign_in_title">HackTX</string>
@@ -101,6 +102,10 @@
     <string name="debug_config_bundled_notif">Bundled Notifications</string>
     <string name="debug_config_enabled">Enabled</string>
     <string name="debug_config_disabled">Disabled</string>
+    <string name="debug_network">Network</string>
+    <string name="debug_network_mock">Mock Server</string>
+    <string name="debug_network_mock_on">Load from local mock server.</string>
+    <string name="debug_network_mock_off">Load from configured remote server.</string>
     <string name="debug_beacons">Beacons</string>
     <string name="debug_beacon_notifs">Beacon Notifications</string>
     <string name="debug_beacon_notifs_on">Display notification when within range of a Bluetooth beacon.</string>
@@ -118,7 +123,7 @@
     <string name="debug_hacktx_utils_ended">HackTX Ended</string>
 
     <!-- Notifications -->
-    <string name="notif_new_notification">New Notification</string>
+    <string name="notif_new_notifications">New Notification</string>
 
     <!-- Notification Topics -->
     <string name="notif_topic_hacktx">hacktx</string>

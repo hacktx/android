@@ -20,10 +20,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.google.android.gms.analytics.HitBuilders;
 import com.hacktx.android.R;
 import com.hacktx.android.fragments.PreferencesFragment;
-import com.hacktx.android.utils.HackTXUtils;
 
 public class PreferencesActivity extends BaseActivity {
 

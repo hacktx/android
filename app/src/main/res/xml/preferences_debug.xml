@@ -22,6 +22,18 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/debug_network">
+
+        <CheckBoxPreference
+            android:key="@string/prefs_network_mock"
+            android:title="@string/debug_network_mock"
+            android:summaryOn="@string/debug_network_mock_on"
+            android:summaryOff="@string/debug_network_mock_off"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/debug_beacons">
 
         <CheckBoxPreference

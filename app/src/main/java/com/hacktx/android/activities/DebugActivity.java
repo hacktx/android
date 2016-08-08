@@ -22,15 +22,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-import com.hacktx.android.HackTXApplication;
 import com.hacktx.android.R;
 import com.hacktx.android.fragments.DebugFragment;
 
 public class DebugActivity extends BaseActivity {
-
-    private Tracker mTracker;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,13 +54,6 @@ public class DebugActivity extends BaseActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mTracker.setScreenName("Screen~" + "Debug");
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void displayDebugWarning() {

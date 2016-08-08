@@ -16,11 +16,15 @@
 
 package com.hacktx.android.network;
 
+import android.util.Log;
+
+import com.hacktx.android.HackTXApplication;
 import com.hacktx.android.network.services.HackTxService;
 import retrofit.RestAdapter;
 
 public class HackTxClient {
 
+    private static final String TAG = getInstance().getClass().getSimpleName();
     private static final String HACKTX_BASE_URL = "https://my.hacktx.com/api/";
     private HackTxService mHackTxService;
 
@@ -33,10 +37,21 @@ public class HackTxClient {
         return instance;
     }
 
+    public static void rebuildInstance() {
+        Log.d(TAG, "Rebuilding HackTXClient");
+        instance = new HackTxClient();
+    }
+
     private HackTxClient() {
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(HACKTX_BASE_URL)
-                .build();
+        RestAdapter.Builder restAdapterBuilder = new RestAdapter.Builder()
+                .setEndpoint(HACKTX_BASE_URL);
+
+        if (UserStateStore.getMockServerEnabled(HackTXApplication.getInstance())) {
+            Log.d(TAG, "Mock server enabled, using MockClient.");
+            restAdapterBuilder.setClient(new MockClient());
+        }
+
+        RestAdapter restAdapter = restAdapterBuilder.build();
 
         mHackTxService = restAdapter.create(HackTxService.class);
     }

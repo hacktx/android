@@ -28,7 +28,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.analytics.HitBuilders;
+import com.hacktx.android.R;
+import com.hacktx.android.models.Messages;
+import com.hacktx.android.network.HackTxClient;
+import com.hacktx.android.network.services.HackTxService;
+import com.hacktx.android.views.SpacesItemDecoration;
+import com.hacktx.android.views.adapters.AnnouncementsRecyclerView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,13 +42,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import com.hacktx.android.R;
-import com.hacktx.android.models.Messages;
-import com.hacktx.android.network.HackTxClient;
-import com.hacktx.android.network.services.HackTxService;
-import com.hacktx.android.utils.HackTXUtils;
-import com.hacktx.android.views.SpacesItemDecoration;
-import com.hacktx.android.views.adapters.AnnouncementsRecyclerView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

@@ -29,13 +29,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.analytics.HitBuilders;
+import com.hacktx.android.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.hacktx.android.R;
-import com.hacktx.android.utils.HackTXUtils;
 
 public class ScheduleMainFragment extends BaseFragment {
 

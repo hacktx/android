@@ -20,12 +20,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.google.android.gms.analytics.Tracker;
+import com.hacktx.android.R;
 
 import java.util.Calendar;
-
-import com.hacktx.android.HackTXApplication;
-import com.hacktx.android.R;
 
 public class HackTXUtils {
 

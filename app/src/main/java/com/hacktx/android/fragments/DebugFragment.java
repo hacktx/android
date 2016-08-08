@@ -28,6 +28,8 @@ import android.preference.PreferenceScreen;
 import com.hacktx.android.BuildConfig;
 import com.hacktx.android.Constants;
 import com.hacktx.android.R;
+import com.hacktx.android.network.HackTxClient;
+import com.hacktx.android.network.UserStateStore;
 
 public class DebugFragment extends PreferenceFragment {
 
@@ -45,8 +47,18 @@ public class DebugFragment extends PreferenceFragment {
         final PreferenceScreen configBeacons = (PreferenceScreen) findPreference(getString(R.string.debug_config_beacons_key));
         configBeacons.setSummary(Constants.FEATURE_BEACONS ? R.string.debug_config_enabled : R.string.debug_config_disabled);
 
-        final PreferenceScreen configBundledNotif = (PreferenceScreen) findPreference(getString(R.string.debug_config_bundled_notif));
+        final PreferenceScreen configBundledNotif = (PreferenceScreen) findPreference(getString(R.string.debug_config_bundled_notif_key));
         configBundledNotif.setSummary(Constants.FEATURE_BUNDLED_NOTIFICATIONS ? R.string.debug_config_enabled : R.string.debug_config_disabled);
+
+        final CheckBoxPreference mockServer = (CheckBoxPreference) findPreference(getString(R.string.prefs_network_mock));
+        mockServer.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                UserStateStore.setMockServerEnabled(getActivity(), (boolean) o);
+                HackTxClient.rebuildInstance();
+                return true;
+            }
+        });
 
         final PreferenceScreen bleStatus = (PreferenceScreen) findPreference(getString(R.string.debug_beacon_status_key));
         bleStatus.setSummary(doesDeviceSupportBle() ? R.string.debug_ble_support_true : R.string.debug_ble_support_false);
@@ -60,6 +72,12 @@ public class DebugFragment extends PreferenceFragment {
                 return true;
             }
         });
+
+        // Disable beacon settings if beacons are not enabled
+        if (!Constants.FEATURE_BEACONS) {
+            findPreference(getString(R.string.prefs_beacon_notif)).setEnabled(false);
+            findPreference(getString(R.string.debug_beacon_status_key)).setEnabled(false);
+        }
     }
 
     private void setHackTXUtilOverridesEnabled(boolean enabled) {

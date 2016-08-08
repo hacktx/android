@@ -41,7 +41,6 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.HitBuilders;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hacktx.android.Constants;
@@ -54,7 +53,6 @@ import com.hacktx.android.network.HackTxClient;
 import com.hacktx.android.network.UserStateStore;
 import com.hacktx.android.network.services.HackTxService;
 import com.hacktx.android.utils.AlphaSatColorMatrixEvaluator;
-import com.hacktx.android.utils.HackTXUtils;
 import com.hacktx.android.views.CircularImageView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
