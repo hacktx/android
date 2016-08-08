@@ -46,8 +46,8 @@
     <string name="event_rate_card_text">This event has concluded. Would you like to submit feedback?</string>
     <string name="event_speakers">Speakers</string>
     <string name="event_share_dialog_title">Share to</string>
-    <string name="event_share_subject">HackTX 2015</string>
-    <string name="event_share_body">Check out %1$s at HackTX 2015!</string>
+    <string name="event_share_subject">HackTX 2016</string>
+    <string name="event_share_body">Check out %1$s at HackTX 2016!</string>
     <string name="event_feedback_submitted">Thanks! Feedback submitted.</string>
     <string name="event_feedback_failed">Whoops! Unable to submit feedback.</string>
     <string name="event_feedback_already_submitted">Feedback already submitted.</string>

@@ -49,7 +49,7 @@
         "id": 3,
         "name": "Hacking / Lunch",
         "type": "food",
-        "imageUrl": "http://hacktx.com/images/foodBanner.png",
+        "imageUrl": "http://hacktx.com/15/images/foodBanner.png",
         "startDate": "2015-09-26 13:00:00",
         "endDate": "2015-09-26 14:00:00",
         "location": {
@@ -70,7 +70,7 @@
         "id": 4,
         "name": "Afternoon Snackage",
         "type": "food",
-        "imageUrl": "http://hacktx.com/images/foodBanner.png",
+        "imageUrl": "http://hacktx.com/15/images/foodBanner.png",
         "startDate": "2015-09-26 16:15:00",
         "endDate": "2015-09-26 17:00:00",
         "location": {
@@ -91,7 +91,7 @@
         "id": 5,
         "name": "Dinner is Served",
         "type": "food",
-        "imageUrl": "http://hacktx.com/images/foodBanner.png",
+        "imageUrl": "http://hacktx.com/15/images/foodBanner.png",
         "startDate": "2015-09-26 20:00:00",
         "endDate": "2015-09-26 21:00:00",
         "location": {

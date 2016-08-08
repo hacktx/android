@@ -92,7 +92,7 @@ public class EventDetailActivity extends BaseActivity {
                         drawable.setColorFilter(filter);
                     }
                 });
-                animator.setDuration(1500);
+                animator.setDuration(250);
                 animator.start();
             }
         }
