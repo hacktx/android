@@ -17,6 +17,7 @@
 
     <!-- TwitterFragment -->
     <string name="fragment_twitter_title">Twitter</string>
+    <string name="fragment_twitter_open_in_twitter">Open in Twitter</string>
 
     <!-- MapsFragment -->
     <string name="fragment_maps_title">Maps</string>
