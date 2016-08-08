@@ -51,7 +51,9 @@ public class HackTXApplication extends Application {
         }
 
         // Set Picasso's disk cache to 25 MB
-        Picasso picasso =  new Picasso.Builder(this).downloader(new OkHttpDownloader(getCacheDir(), 25000000)).build();
+        Picasso picasso =  new Picasso.Builder(this)
+                .downloader(new OkHttpDownloader(getCacheDir(), 25000000))
+                .build();
         Picasso.setSingletonInstance(picasso);
     }
 
