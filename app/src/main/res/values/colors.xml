@@ -3,12 +3,13 @@
     <color name="window_background">#FFF5F5F5</color>
 
     <color name="primary">#CE0019</color>
-    <color name="primaryDark">#a40014</color>
+    <color name="primaryDark">#A40014</color>
     <color name="accent">#ffffff</color>
-    <color name="taskbarColor">@color/primaryDark</color>
 
     <color name="hacktx_red">#CE0019</color>
     <color name="hacktx_white">#FEF0D9</color>
     <color name="hacktx_blue">#124e78</color>
+
+    <color name="status_bar_semi_transparent">#19000000</color>
 
 </resources>

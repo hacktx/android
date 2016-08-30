@@ -46,10 +46,8 @@ public class BaseActivity extends AppCompatActivity {
             String appName = getString(R.string.app_name);
             Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
             int recentsColor = ContextCompat.getColor(this, R.color.primary);
-            int statusBarColor = ContextCompat.getColor(this, R.color.primaryDark);
             ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(appName, icon, recentsColor);
             setTaskDescription(taskDesc);
-            getWindow().setStatusBarColor(statusBarColor);
         }
     }
 }
