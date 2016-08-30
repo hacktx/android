@@ -17,7 +17,9 @@
 package com.hacktx.android.activities;
 
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -39,11 +41,13 @@ public class DebugActivity extends BaseActivity {
             getSupportActionBar().setTitle(R.string.debug_title);
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.primaryDark));
+        }
+
         getFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, new DebugFragment())
                 .commit();
-
-        displayDebugWarning();
     }
 
     @Override
@@ -54,18 +58,5 @@ public class DebugActivity extends BaseActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void displayDebugWarning() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogStyle);
-        builder.setTitle(R.string.debug_dialog_title);
-        builder.setMessage(R.string.debug_dialog_text);
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.show();
     }
 }

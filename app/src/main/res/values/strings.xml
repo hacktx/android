@@ -91,7 +91,6 @@
     <!-- DebugFragment -->
     <string name="debug_title">Debug</string>
     <string name="debug_dialog_title">Attention</string>
-    <string name="debug_dialog_text">Changing these values may result in unexpected behavior.\n\nProceed with caution.</string>
     <string name="debug_config">Config</string>
     <string name="debug_config_check_in_key">configCheckIn</string>
     <string name="debug_config_check_in">Check In</string>
