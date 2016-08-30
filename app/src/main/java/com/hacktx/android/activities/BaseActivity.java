@@ -45,10 +45,11 @@ public class BaseActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             String appName = getString(R.string.app_name);
             Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-            int color = ContextCompat.getColor(this, R.color.taskbarColor);
-            ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(appName, icon, color);
+            int recentsColor = ContextCompat.getColor(this, R.color.primary);
+            int statusBarColor = ContextCompat.getColor(this, R.color.primaryDark);
+            ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(appName, icon, recentsColor);
             setTaskDescription(taskDesc);
-            getWindow().setStatusBarColor(color);
+            getWindow().setStatusBarColor(statusBarColor);
         }
     }
 }

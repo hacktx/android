@@ -45,10 +45,13 @@
         </service>
 
         <activity android:name="com.hacktx.android.activities.EventDetailActivity"/>
-        <activity android:name="com.hacktx.android.activities.PreferencesActivity"/>\
-        <activity android:name="com.hacktx.android.activities.DebugActivity"/>
+        <activity
+            android:name="com.hacktx.android.activities.PreferencesActivity"
+            android:theme="@style/PreferenceScreen"/>
+        <activity
+            android:name="com.hacktx.android.activities.DebugActivity"
+            android:theme="@style/PreferenceScreen"/>
         <activity android:name="com.hacktx.android.activities.CheckInActivity"/>
-
     </application>
 
 </manifest>

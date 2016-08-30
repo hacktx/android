@@ -14,4 +14,12 @@
         <item name="android:background">#FFFFFF</item>
     </style>
 
+    <style name="PreferenceScreen" parent="AppTheme">
+        <item name="colorAccent">@color/hacktx_blue</item>
+    </style>
+
+    <style name="DialogStyle" parent="AppCompatAlertDialogStyle">
+        <item name="colorAccent">@color/hacktx_blue</item>
+    </style>
+
 </resources>

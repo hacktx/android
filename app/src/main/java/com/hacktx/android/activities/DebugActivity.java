@@ -57,7 +57,7 @@ public class DebugActivity extends BaseActivity {
     }
 
     private void displayDebugWarning() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogStyle);
         builder.setTitle(R.string.debug_dialog_title);
         builder.setMessage(R.string.debug_dialog_text);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {

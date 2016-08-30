@@ -94,7 +94,7 @@ public class MapFragment extends BaseFragment {
         final Button floor2 = (Button) root.findViewById(R.id.button2);
         final Button floor3 = (Button) root.findViewById(R.id.button3);
 
-        floor1.setBackgroundColor(getResources().getColor(R.color.tw__medium_gray));
+        floor1.setBackgroundColor(getResources().getColor(R.color.tw__composer_deep_gray));
 
         floor1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,21 +129,21 @@ public class MapFragment extends BaseFragment {
             switch (level) {
                 case 1:
                     floorImage.setImageResource(R.drawable.sac_first_level);
-                    floor1.setBackgroundColor(getResources().getColor(R.color.tw__medium_gray));
+                    floor1.setBackgroundColor(getResources().getColor(R.color.tw__composer_deep_gray));
                     floor2.setBackgroundColor(getResources().getColor(R.color.tw__light_gray));
                     floor3.setBackgroundColor(getResources().getColor(R.color.tw__light_gray));
                     break;
                 case 2:
                     floorImage.setImageResource(R.drawable.sac_second_level);
                     floor1.setBackgroundColor(getResources().getColor(R.color.tw__light_gray));
-                    floor2.setBackgroundColor(getResources().getColor(R.color.tw__medium_gray));
+                    floor2.setBackgroundColor(getResources().getColor(R.color.tw__composer_deep_gray));
                     floor3.setBackgroundColor(getResources().getColor(R.color.tw__light_gray));
                     break;
                 case 3:
                     floorImage.setImageResource(R.drawable.sac_third_level);
                     floor1.setBackgroundColor(getResources().getColor(R.color.tw__light_gray));
                     floor2.setBackgroundColor(getResources().getColor(R.color.tw__light_gray));
-                    floor3.setBackgroundColor(getResources().getColor(R.color.tw__medium_gray));
+                    floor3.setBackgroundColor(getResources().getColor(R.color.tw__composer_deep_gray));
                     break;
             }
         }
