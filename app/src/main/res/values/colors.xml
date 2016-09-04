@@ -4,11 +4,13 @@
 
     <color name="primary">#CE0019</color>
     <color name="primaryDark">#A40014</color>
-    <color name="accent">#ffffff</color>
+    <color name="accent">#FFFFFF</color>
 
-    <color name="hacktx_red">#CE0019</color>
+    <color name="hacktx_red">#ce0019</color>
     <color name="hacktx_white">#FEF0D9</color>
-    <color name="hacktx_blue">#124e78</color>
+    <color name="hacktx_blue">#124E78</color>
+    <color name="hacktx_blue_light">#277CA3</color>
+    <color name="hacktx_blue_lighter">#3291B8</color>
 
     <color name="status_bar_semi_transparent">#19000000</color>
 

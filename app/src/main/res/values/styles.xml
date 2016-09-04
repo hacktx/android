@@ -22,4 +22,8 @@
         <item name="colorAccent">@color/hacktx_blue</item>
     </style>
 
+    <style name="WelcomeScreen" parent="AppTheme">
+        <item name="colorAccent">@color/hacktx_blue</item>
+    </style>
+
 </resources>

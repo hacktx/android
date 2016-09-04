@@ -6,6 +6,18 @@
     <string name="no_thanks">No Thanks</string>
     <string name="yes">Yes</string>
 
+    <!-- WelcomeActivity -->
+    <string name="welcome_card_title">Welcome!</string>
+    <string name="welcome_card_text">Enter the email address you used during registration.</string>
+    <string name="welcome_email_hint">Email Address</string>
+    <string name="welcome_card_footer">You can change this later.</string>
+    <string name="welcome_expanded_check_in_title">Fast Check-In</string>
+    <string name="welcome_expanded_check_in_text">Enter your email above to speed up check-in.</string>
+    <string name="welcome_expanded_notify_title">Get Notified</string>
+    <string name="welcome_expanded_notify_text">Get announcements throughout the event.</string>
+    <string name="welcome_expanded_feedback_title">Give Feedback</string>
+    <string name="welcome_expanded_feedback_text">Provide feedback once an event has concluded.</string>
+
     <!-- MainActivity -->
     <string name="action_settings">Settings</string>
 

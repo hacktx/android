@@ -146,6 +146,13 @@ public class MainActivity extends BaseActivity {
     }
 
     private void displayWelcome() {
+        if(UserStateStore.isFirstLaunch(this)) {
+            Log.i(TAG, "Starting WelcomeActivity...");
+            startActivity(new Intent(this, WelcomeActivity.class));
+            finish();
+        }
+
+        /*
         if(UserStateStore.isFirstLaunch(this) && !UserStateStore.isUserEmailSet(this) && Constants.FEATURE_CHECK_IN) {
             if(!HackTXUtils.hasHackTxStarted(MainActivity.this)) {
                 final Dialog d = displayDialog(R.layout.dialog_welcome_early);
@@ -191,6 +198,7 @@ public class MainActivity extends BaseActivity {
 
             UserStateStore.setFirstLaunch(this, false);
         }
+        */
     }
 
     private Dialog displayDialog(int layout) {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.hacktx.android" >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hacktx.android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -7,22 +8,23 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
-    <uses-feature android:name="android.hardware.bluetooth_le" android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="false" />
 
     <application
-        android:name="com.hacktx.android.HackTXApplication"
+        android:name=".HackTXApplication"
         android:allowBackup="true"
+        android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:fullBackupContent="true">
-
+        android:theme="@style/AppTheme">
         <activity
-            android:name="com.hacktx.android.activities.MainActivity"
-            android:label="@string/app_name" >
+            android:name=".activities.MainActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,28 +32,30 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="com.hacktx.android.receivers.BeaconReceiver" >
+        <receiver android:name=".receivers.BeaconReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <service android:name="com.hacktx.android.services.BeaconService" />
-        <service
-            android:name=".services.NotificationService">
+        <service android:name=".services.BeaconService" />
+        <service android:name=".services.NotificationService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <activity android:name="com.hacktx.android.activities.EventDetailActivity"/>
+        <activity android:name=".activities.EventDetailActivity" />
         <activity
-            android:name="com.hacktx.android.activities.PreferencesActivity"
-            android:theme="@style/PreferenceScreen"/>
+            android:name=".activities.PreferencesActivity"
+            android:theme="@style/PreferenceScreen" />
         <activity
-            android:name="com.hacktx.android.activities.DebugActivity"
-            android:theme="@style/PreferenceScreen"/>
-        <activity android:name="com.hacktx.android.activities.CheckInActivity"/>
+            android:name=".activities.DebugActivity"
+            android:theme="@style/PreferenceScreen" />
+        <activity android:name=".activities.CheckInActivity" />
+        <activity android:name=".activities.WelcomeActivity"
+            android:theme="@style/WelcomeScreen"
+            android:windowSoftInputMode="adjustNothing"/>
     </application>
 
 </manifest>
