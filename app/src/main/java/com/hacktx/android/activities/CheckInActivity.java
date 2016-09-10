@@ -52,14 +52,11 @@ import java.io.FileOutputStream;
 public class CheckInActivity extends BaseActivity {
 
     private static final int NOTIFICATION_ID = 22;
-    private boolean previousNotifStatus;
     private boolean shouldStopBeaconNotif = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in);
-
-        previousNotifStatus = UserStateStore.getBeaconNotifEnabled(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -73,7 +70,6 @@ public class CheckInActivity extends BaseActivity {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.hacktx_blue));
         }
 
-        hideNotification();
         setupCards();
     }
 
@@ -85,21 +81,6 @@ public class CheckInActivity extends BaseActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if(previousNotifStatus) {
-            UserStateStore.setBeaconNotifEnabled(CheckInActivity.this, !shouldStopBeaconNotif);
-        }
-
-        super.onBackPressed();
-    }
-
-    private void hideNotification() {
-        UserStateStore.setBeaconNotifEnabled(this, false);
-        NotificationManager notifMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notifMgr.cancel(NOTIFICATION_ID);
     }
 
     private void setupCards() {

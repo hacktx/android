@@ -17,8 +17,6 @@
     <string name="welcome_expanded_notify_text">Get announcements throughout the event.</string>
     <string name="welcome_expanded_feedback_title">Give Feedback</string>
     <string name="welcome_expanded_feedback_text">Provide feedback once an event has concluded.</string>
-    <string name="welcome_location_perm_dialog_title">Location Permission</string>
-    <string name="welcome_location_perm_dialog_text">HackTX will use your location to deliver location based notifications using Bluetooth beacons.</string>
 
     <!-- MainActivity -->
     <string name="action_settings">Settings</string>
@@ -87,16 +85,15 @@
     <string name="prefs_feedback_submitted">feedbackSubmitted</string>
     <string name="prefs_feedback_ignore">feedbackIgnore</string>
     <string name="prefs_debug">debug</string>
-    <string name="prefs_beacons_enabled">beaconsEnabled</string>
     <string name="prefs_about">about</string>
     <string name="prefs_licenses">licenses</string>
     <string name="prefs_user_email">userEmail</string>
     <string name="prefs_first_launch">firstLaunch</string>
-    <string name="prefs_beacon_notif">beaconNotif</string>
     <string name="prefs_uuid">uuid</string>
     <string name="prefs_notif_announcements_enabled">notifAnnouncementsEnabled</string>
     <string name="prefs_notif_offset">notifOffset</string>
     <string name="prefs_network_mock">mockServer</string>
+    <string name="prefs_slack_alert_shown">slackAlertShown</string>
 
     <!-- DebugFragment -->
     <string name="debug_title">Debug</string>
@@ -106,8 +103,6 @@
     <string name="debug_config_check_in">Check In</string>
     <string name="debug_config_feedback_key">configFeedback</string>
     <string name="debug_config_feedback">Feedback</string>
-    <string name="debug_config_beacons_key">configBeacons</string>
-    <string name="debug_config_beacons">Beacons</string>
     <string name="debug_config_bundled_notif_key">configBundledNotifications</string>
     <string name="debug_config_bundled_notif">Bundled Notifications</string>
     <string name="debug_config_enabled">Enabled</string>
@@ -116,14 +111,6 @@
     <string name="debug_network_mock">Mock Server</string>
     <string name="debug_network_mock_on">Load from local mock server.</string>
     <string name="debug_network_mock_off">Load from configured remote server.</string>
-    <string name="debug_beacons">Beacons</string>
-    <string name="debug_beacon_notifs">Beacon Notifications</string>
-    <string name="debug_beacon_notifs_on">Display notification when within range of a Bluetooth beacon.</string>
-    <string name="debug_beacon_notifs_off">Do not display notification when within range of a Bluetooth beacon.</string>
-    <string name="debug_beacon_status_key">beaconStatus</string>
-    <string name="debug_ble_support">BLE Support</string>
-    <string name="debug_ble_support_true">This device supports BLE.</string>
-    <string name="debug_ble_support_false">This device does not support BLE.</string>
     <string name="debug_hacktx_utils">HackTXUtils</string>
     <string name="debug_hacktx_utils_override_key">hacktxUtilsOverride</string>
     <string name="debug_hacktx_utils_override">Enable Override</string>

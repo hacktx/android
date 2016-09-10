@@ -18,13 +18,18 @@ package com.hacktx.android.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -40,6 +45,8 @@ import com.hacktx.android.fragments.TwitterFragment;
 import com.hacktx.android.network.UserStateStore;
 import com.hacktx.android.utils.ConfigParam;
 import com.hacktx.android.utils.HackTXUtils;
+
+import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
@@ -67,6 +74,7 @@ public class MainActivity extends BaseActivity {
         }
 
         displayWelcome();
+        displaySlackAlert();
     }
 
     @Override
@@ -154,72 +162,51 @@ public class MainActivity extends BaseActivity {
     private void displayWelcome() {
         if(UserStateStore.isFirstLaunch(this)) {
             Log.i(TAG, "Starting WelcomeActivity...");
-            startActivity(new Intent(this, WelcomeActivity.class));
+            Intent intent = new Intent(this, WelcomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
             finish();
         }
-
-        /*
-        if(UserStateStore.isFirstLaunch(this) && !UserStateStore.isUserEmailSet(this) && Constants.FEATURE_CHECK_IN) {
-            if(!HackTXUtils.hasHackTxStarted(MainActivity.this)) {
-                final Dialog d = displayDialog(R.layout.dialog_welcome_early);
-                d.findViewById(R.id.welcomeDialogStart).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        d.dismiss();
-                        startActivity(new Intent(MainActivity.this, CheckInActivity.class));
-                    }
-                });
-
-                d.findViewById(R.id.welcomeDialogNo).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        d.dismiss();
-                    }
-                });
-            } else if(!HackTXUtils.hasHackTxEnded(MainActivity.this)) {
-                final Dialog d = displayDialog(R.layout.dialog_welcome);
-                d.findViewById(R.id.welcomeDialogStart).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        d.dismiss();
-                        startActivity(new Intent(MainActivity.this, CheckInActivity.class));
-                    }
-                });
-
-                d.findViewById(R.id.welcomeDialogNo).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        d.dismiss();
-                    }
-                });
-            } else {
-                final Dialog d = displayDialog(R.layout.dialog_welcome_late);
-                d.findViewById(R.id.welcomeDialogOk).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        d.dismiss();
-                    }
-                });
-            }
-
-            UserStateStore.setFirstLaunch(this, false);
-        }
-        */
     }
 
-    private Dialog displayDialog(int layout) {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(layout);
-        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        dialog.getWindow().setAttributes(params);
-        dialog.show();
+    private void displaySlackAlert() {
+        if (isSlackInstalled() && !UserStateStore.getSlackAlertShown(this)) {
+            final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = this.getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.dialog_slack, null);
+            dialogBuilder.setView(dialogView);
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            dialog.findViewById(R.id.skyline).setVisibility(View.GONE);
+            final AlertDialog dialog = dialogBuilder.create();
+            dialog.show();
+
+            dialogView.findViewById(R.id.btn_slack_yes).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    UserStateStore.setAnnouncementNotificationsEnabled(MainActivity.this, false);
+                    dialog.dismiss();
+                }
+            });
+
+            dialogView.findViewById(R.id.btn_slack_no).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
+            UserStateStore.setSlackAlertShown(MainActivity.this, true);
+        }
+    }
+
+    private boolean isSlackInstalled() {
+        final PackageManager packageManager = getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage("com.Slack");
+
+        if (intent == null) {
+            return false;
         }
 
-        return dialog;
+        List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        return list.size() > 0;
     }
 }
