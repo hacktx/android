@@ -1,16 +1,23 @@
 package com.hacktx.android.activities;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.KeyEvent;
@@ -28,6 +35,7 @@ import android.widget.TextView;
 
 import com.hacktx.android.R;
 import com.hacktx.android.network.UserStateStore;
+import com.hacktx.android.services.BeaconService;
 
 public class WelcomeActivity extends BaseActivity {
 
@@ -43,6 +51,10 @@ public class WelcomeActivity extends BaseActivity {
         setupStatusBar();
         setupFab();
         setupCard();
+
+        if (mConfigManager.needLocationPerms()) {
+            checkLocationPermission();
+        }
     }
 
     private void setupStatusBar() {
@@ -65,6 +77,21 @@ public class WelcomeActivity extends BaseActivity {
             page--;
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Log.i(TAG, "Stopping BeaconService due to lack of permissions...");
+                    stopService(new Intent(this, BeaconService.class));
+                } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.i(TAG, "Starting BeaconService since permission granted...");
+                    startService(new Intent(this, BeaconService.class));
+                }
+            }
         }
     }
 
@@ -146,6 +173,29 @@ public class WelcomeActivity extends BaseActivity {
                 return false;
             }
         });
+    }
+
+    private void checkLocationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!mConfigManager.grantedLocationPerms()) {
+                int result = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+
+                if (result == PackageManager.PERMISSION_DENIED) {
+                    AlertDialog.Builder builder =
+                            new AlertDialog.Builder(this, R.style.DialogStyle);
+                    builder.setTitle(R.string.welcome_location_perm_dialog_title);
+                    builder.setMessage(R.string.welcome_location_perm_dialog_text);
+                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            ActivityCompat.requestPermissions(WelcomeActivity.this,
+                                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+                        }
+                    });
+                    builder.show();
+                }
+            }
+        }
     }
 
     private void showHiddenPage() {

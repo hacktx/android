@@ -36,6 +36,8 @@ import com.hacktx.android.Constants;
 import com.hacktx.android.R;
 import com.hacktx.android.activities.CheckInActivity;
 import com.hacktx.android.network.UserStateStore;
+import com.hacktx.android.utils.ConfigManager;
+import com.hacktx.android.utils.ConfigParam;
 import com.hacktx.android.utils.HackTXUtils;
 
 public class HackTXBeaconManager {
@@ -58,9 +60,11 @@ public class HackTXBeaconManager {
             beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
                 @Override
                 public void onEnteredRegion(Region region, List<Beacon> beacons) {
+                    ConfigManager configManager = new ConfigManager(currentContext);
+
                     if(HackTXUtils.hasHackTxStarted(currentContext)
                             && UserStateStore.getBeaconNotifEnabled(currentContext)
-                            && Constants.FEATURE_CHECK_IN) {
+                            && configManager.getValue(ConfigParam.CHECK_IN)) {
                         postNotificationIntent(currentContext.getString(R.string.notif_sign_in_title),
                                 currentContext.getString(R.string.notif_sign_in_text));
                     }

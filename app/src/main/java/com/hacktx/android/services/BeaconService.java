@@ -28,6 +28,7 @@ import android.util.Log;
 
 import com.hacktx.android.beacons.HackTXBeaconManager;
 import com.hacktx.android.network.UserStateStore;
+import com.hacktx.android.utils.ConfigManager;
 
 public class BeaconService extends Service {
 
@@ -71,6 +72,7 @@ public class BeaconService extends Service {
     private boolean doesDeviceSupportBle() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 &&
                 BluetoothAdapter.getDefaultAdapter() != null &&
-                getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE);
+                getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE) &&
+                new ConfigManager(this).grantedLocationPerms();
     }
 }

@@ -30,6 +30,8 @@ import com.hacktx.android.Constants;
 import com.hacktx.android.R;
 import com.hacktx.android.network.HackTxClient;
 import com.hacktx.android.network.UserStateStore;
+import com.hacktx.android.utils.ConfigManager;
+import com.hacktx.android.utils.ConfigParam;
 
 public class DebugFragment extends PreferenceFragment {
 
@@ -38,17 +40,19 @@ public class DebugFragment extends PreferenceFragment {
 
         addPreferencesFromResource(R.xml.preferences_debug);
 
+        ConfigManager configManager = new ConfigManager(getActivity());
+
         final PreferenceScreen configCheckIn = (PreferenceScreen) findPreference(getString(R.string.debug_config_check_in_key));
-        configCheckIn.setSummary(Constants.FEATURE_CHECK_IN ? R.string.debug_config_enabled : R.string.debug_config_disabled);
+        configCheckIn.setSummary(configManager.getValue(ConfigParam.CHECK_IN) ? R.string.debug_config_enabled : R.string.debug_config_disabled);
 
         final PreferenceScreen configFeedback = (PreferenceScreen) findPreference(getString(R.string.debug_config_feedback_key));
-        configFeedback.setSummary(Constants.FEATURE_EVENT_FEEDBACK ? R.string.debug_config_enabled : R.string.debug_config_disabled);
+        configFeedback.setSummary(configManager.getValue(ConfigParam.EVENT_FEEDBACK) ? R.string.debug_config_enabled : R.string.debug_config_disabled);
 
         final PreferenceScreen configBeacons = (PreferenceScreen) findPreference(getString(R.string.debug_config_beacons_key));
-        configBeacons.setSummary(Constants.FEATURE_BEACONS ? R.string.debug_config_enabled : R.string.debug_config_disabled);
+        configBeacons.setSummary(configManager.getValue(ConfigParam.BEACONS) ? R.string.debug_config_enabled : R.string.debug_config_disabled);
 
         final PreferenceScreen configBundledNotif = (PreferenceScreen) findPreference(getString(R.string.debug_config_bundled_notif_key));
-        configBundledNotif.setSummary(Constants.FEATURE_BUNDLED_NOTIFICATIONS ? R.string.debug_config_enabled : R.string.debug_config_disabled);
+        configBundledNotif.setSummary(configManager.getValue(ConfigParam.BUNDLED_NOTIFICATIONS) ? R.string.debug_config_enabled : R.string.debug_config_disabled);
 
         final CheckBoxPreference mockServer = (CheckBoxPreference) findPreference(getString(R.string.prefs_network_mock));
         mockServer.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -74,7 +78,7 @@ public class DebugFragment extends PreferenceFragment {
         });
 
         // Disable beacon settings if beacons are not enabled
-        if (!Constants.FEATURE_BEACONS) {
+        if (!configManager.getValue(ConfigParam.BEACONS)) {
             findPreference(getString(R.string.prefs_beacon_notif)).setEnabled(false);
             findPreference(getString(R.string.debug_beacon_status_key)).setEnabled(false);
         }

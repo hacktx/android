@@ -29,6 +29,8 @@ import com.hacktx.android.Constants;
 import com.hacktx.android.R;
 import com.hacktx.android.activities.MainActivity;
 import com.hacktx.android.network.UserStateStore;
+import com.hacktx.android.utils.ConfigManager;
+import com.hacktx.android.utils.ConfigParam;
 import com.hacktx.android.utils.NotificationUtils;
 
 import java.util.Map;
@@ -47,8 +49,10 @@ public class NotificationService extends FirebaseMessagingService {
 
         String group = remoteMessage.getFrom();
 
+        ConfigManager configManager = new ConfigManager(this);
+
         if (UserStateStore.getAnnouncementNotificationsEnabled(this)) {
-            if (Constants.FEATURE_BUNDLED_NOTIFICATIONS) {
+            if (configManager.getValue(ConfigParam.BUNDLED_NOTIFICATIONS)) {
                 sendBundledNotification(group, remoteMessage.getData());
             } else {
                 sendNotification(group, remoteMessage.getData());

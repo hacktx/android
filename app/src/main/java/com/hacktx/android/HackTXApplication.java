@@ -20,8 +20,12 @@ import android.app.Application;
 import android.content.Intent;
 
 import com.estimote.sdk.EstimoteSDK;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.hacktx.android.services.BeaconService;
+import com.hacktx.android.utils.ConfigManager;
+import com.hacktx.android.utils.ConfigParam;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
@@ -35,7 +39,9 @@ public class HackTXApplication extends Application {
 
         sInstance = this;
 
-        if (Constants.FEATURE_BEACONS) {
+        ConfigManager configManager = new ConfigManager(this);
+
+        if (configManager.getValue(ConfigParam.BEACONS)) {
             initBeacons();
         }
 

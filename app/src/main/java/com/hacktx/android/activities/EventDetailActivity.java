@@ -55,6 +55,7 @@ import com.hacktx.android.network.HackTxClient;
 import com.hacktx.android.network.UserStateStore;
 import com.hacktx.android.network.services.HackTxService;
 import com.hacktx.android.utils.AlphaSatColorMatrixEvaluator;
+import com.hacktx.android.utils.ConfigParam;
 import com.hacktx.android.views.CircularImageView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -241,7 +242,7 @@ public class EventDetailActivity extends BaseActivity {
             findViewById(R.id.rateEventCard).setVisibility(View.GONE);
         }
 
-        if(!Constants.FEATURE_EVENT_FEEDBACK) {
+        if (!mConfigManager.getValue(ConfigParam.EVENT_FEEDBACK)) {
             findViewById(R.id.rateEventCard).setVisibility(View.GONE);
         }
     }

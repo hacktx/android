@@ -38,6 +38,7 @@ import com.hacktx.android.fragments.ScheduleMainFragment;
 import com.hacktx.android.fragments.SponsorFragment;
 import com.hacktx.android.fragments.TwitterFragment;
 import com.hacktx.android.network.UserStateStore;
+import com.hacktx.android.utils.ConfigParam;
 import com.hacktx.android.utils.HackTXUtils;
 
 public class MainActivity extends BaseActivity {
@@ -72,6 +73,11 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         //((TextView) drawerLayout.findViewById(R.id.navHeaderEmail)).setText(UserStateStore.getUserEmail(this));
+        NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
+        if (!mConfigManager.getValue(ConfigParam.CHECK_IN)) {
+            navView.getMenu().getItem(5).setEnabled(false);
+            navView.getMenu().getItem(5).setVisible(false);
+        }
     }
 
     @Override
@@ -89,7 +95,7 @@ public class MainActivity extends BaseActivity {
         this.drawerLayout = drawerLayout;
         //((TextView) drawerLayout.findViewById(R.id.navHeaderEmail)).setText(UserStateStore.getUserEmail(this));
 
-        if(!Constants.FEATURE_CHECK_IN) {
+        if (!mConfigManager.getValue(ConfigParam.CHECK_IN)) {
             navigationView.getMenu().getItem(5).setEnabled(false);
             navigationView.getMenu().getItem(5).setVisible(false);
         }

@@ -25,6 +25,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.hacktx.android.R;
+import com.hacktx.android.utils.ConfigManager;
 import com.hacktx.android.utils.MetricsManager;
 
 public class BaseActivity extends AppCompatActivity {
@@ -32,11 +33,13 @@ public class BaseActivity extends AppCompatActivity {
     protected final String TAG = getClass().getSimpleName();
 
     protected MetricsManager mMetricsManager;
+    protected ConfigManager mConfigManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMetricsManager = new MetricsManager(this);
+        mConfigManager = new ConfigManager(this);
 
         setupTaskActivityInfo();
     }

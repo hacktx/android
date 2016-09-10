@@ -17,6 +17,8 @@
     <string name="welcome_expanded_notify_text">Get announcements throughout the event.</string>
     <string name="welcome_expanded_feedback_title">Give Feedback</string>
     <string name="welcome_expanded_feedback_text">Provide feedback once an event has concluded.</string>
+    <string name="welcome_location_perm_dialog_title">Location Permission</string>
+    <string name="welcome_location_perm_dialog_text">HackTX will use your location to deliver location based notifications using Bluetooth beacons.</string>
 
     <!-- MainActivity -->
     <string name="action_settings">Settings</string>

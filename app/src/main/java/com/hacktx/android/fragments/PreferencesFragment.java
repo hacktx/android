@@ -38,14 +38,21 @@ import com.hacktx.android.BuildConfig;
 import com.hacktx.android.Constants;
 import com.hacktx.android.R;
 import com.hacktx.android.activities.DebugActivity;
+import com.hacktx.android.activities.PreferencesActivity;
 import com.hacktx.android.services.BeaconService;
+import com.hacktx.android.utils.ConfigManager;
+import com.hacktx.android.utils.ConfigParam;
 
 public class PreferencesFragment extends PreferenceFragment {
+
+    private ConfigManager mConfigManager;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.preferences);
+
+        mConfigManager = new ConfigManager(getActivity());
 
         final PreferenceScreen debug = (PreferenceScreen) findPreference(getString(R.string.prefs_debug));
         debug.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -82,6 +89,10 @@ public class PreferencesFragment extends PreferenceFragment {
                     Log.i("PreferencesFragment", "Stopping BeaconService.");
                     getActivity().stopService(new Intent(getActivity(), BeaconService.class));
                 } else {
+                    if (mConfigManager.needLocationPerms()) {
+                        ((PreferencesActivity) getActivity()).checkLocationPermission();
+                    }
+
                     if (doesDeviceSupportBle()) {
                         Log.i("PreferencesFragment", "Starting BeaconService.");
                         getActivity().startService(new Intent(getActivity(), BeaconService.class));
@@ -123,7 +134,7 @@ public class PreferencesFragment extends PreferenceFragment {
             }
         });
 
-        if (!Constants.FEATURE_BEACONS) {
+        if (!mConfigManager.getValue(ConfigParam.BEACONS)) {
             hideBeaconPreferences();
         }
     }

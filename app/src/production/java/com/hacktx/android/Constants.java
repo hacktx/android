@@ -14,6 +14,8 @@ public class Constants {
     /* Firebase */
     public static final boolean FIREBASE_ANALYTICS_ENABLED = true;
     public static final boolean FIREBASE_NOTIFICATIONS_ENABLED = true;
+    public static final boolean FIREBASE_REMOTE_CONFIG_ENABLED = true;
+    public static final boolean FIREBASE_REMOTE_CONFIG_DEV_MODE = false;
 
     /* Crashlytics */
     public static final boolean FABRIC_CRASHLYITCS_ENABLED = true;

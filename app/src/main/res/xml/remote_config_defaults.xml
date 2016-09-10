@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <entry>
+        <key>beacons</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>bundled_notifications</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>check_in</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>event_feedback</key>
+        <value>true</value>
+    </entry>
+</resources>
