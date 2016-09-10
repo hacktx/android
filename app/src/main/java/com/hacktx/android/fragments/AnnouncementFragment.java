@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.hacktx.android.R;
 import com.hacktx.android.models.Announcement;
@@ -49,6 +50,7 @@ public class AnnouncementFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private RelativeLayout mEmptyLayout;
     private List<Announcement> announcements;
 
     @Nullable
@@ -57,11 +59,14 @@ public class AnnouncementFragment extends BaseFragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_announcement, container, false);
         announcements = new ArrayList<>();
 
+        mEmptyLayout = (RelativeLayout) root.findViewById(R.id.empty_view);
+
         setupToolbar((Toolbar) root.findViewById(R.id.toolbar), R.string.fragment_announcement_title);
 
         setupSwipeRefreshLayout(root);
         setupCollapsibleToolbar((AppBarLayout) root.findViewById(R.id.appBar), swipeRefreshLayout);
         setupRecyclerView(root);
+        setupRetryButton(root.findViewById(R.id.announce_empty_try_again));
         getAnnouncements();
 
         return root;
@@ -112,12 +117,21 @@ public class AnnouncementFragment extends BaseFragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
+    private void setupRetryButton(View retryBtn) {
+        retryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getAnnouncements();
+            }
+        });
+    }
+
     private void getAnnouncements() {
         HackTxService hackTxService = HackTxClient.getInstance().getApiService();
         hackTxService.getAnnouncements(new Callback<ArrayList<Announcement>>() {
             @Override
             public void success(ArrayList<Announcement> messages, Response response) {
-                Log.d(TAG, "messages retrieved!");
+                hideEmptyView();
                 announcements.clear();
                 announcements.addAll(messages);
                 Collections.sort(announcements, Announcement.AnnouncementComparator);
@@ -129,7 +143,18 @@ public class AnnouncementFragment extends BaseFragment {
             public void failure(RetrofitError error) {
                 Log.d(TAG, error.toString());
                 swipeRefreshLayout.setRefreshing(false);
+                showEmptyView();
             }
         });
+    }
+
+    private void showEmptyView() {
+        swipeRefreshLayout.setVisibility(View.GONE);
+        mEmptyLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void hideEmptyView() {
+        mEmptyLayout.setVisibility(View.GONE);
+        swipeRefreshLayout.setVisibility(View.VISIBLE);
     }
 }

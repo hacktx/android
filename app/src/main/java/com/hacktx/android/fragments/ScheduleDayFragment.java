@@ -29,6 +29,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 
@@ -70,8 +72,8 @@ public class ScheduleDayFragment extends Fragment {
         scheduleList = new ArrayList<>();
 
         switch(getArguments().getString("request")) {
-            case "Sept 26": day = 1; break;
-            case "Sept 27": day = 2; break;
+            case "Oct 22": day = 1; break;
+            case "Oct 23": day = 2; break;
             default: day = 1;
         }
 
