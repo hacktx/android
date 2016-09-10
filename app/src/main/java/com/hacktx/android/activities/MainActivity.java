@@ -34,6 +34,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.hacktx.android.Constants;
 import com.hacktx.android.R;
@@ -80,8 +81,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //((TextView) drawerLayout.findViewById(R.id.navHeaderEmail)).setText(UserStateStore.getUserEmail(this));
         NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
+        ((TextView) navView.getHeaderView(0).findViewById(R.id.navHeaderEmail)).setText(UserStateStore.getUserEmail(this));
         if (!mConfigManager.getValue(ConfigParam.CHECK_IN)) {
             navView.getMenu().getItem(5).setEnabled(false);
             navView.getMenu().getItem(5).setVisible(false);
@@ -101,7 +102,7 @@ public class MainActivity extends BaseActivity {
 
     protected void setupDrawerContent(final DrawerLayout drawerLayout, NavigationView navigationView) {
         this.drawerLayout = drawerLayout;
-        //((TextView) drawerLayout.findViewById(R.id.navHeaderEmail)).setText(UserStateStore.getUserEmail(this));
+        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.navHeaderEmail)).setText(UserStateStore.getUserEmail(this));
 
         if (!mConfigManager.getValue(ConfigParam.CHECK_IN)) {
             navigationView.getMenu().getItem(5).setEnabled(false);
