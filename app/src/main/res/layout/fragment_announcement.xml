@@ -30,6 +30,6 @@
             android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <include layout="@layout/fragment_announcement_empty" />
+    <include layout="@layout/fragment_empty" />
 
 </android.support.design.widget.CoordinatorLayout>

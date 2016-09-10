@@ -27,7 +27,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.hacktx.android.R;
 import com.hacktx.android.models.Announcement;
@@ -66,7 +68,7 @@ public class AnnouncementFragment extends BaseFragment {
         setupSwipeRefreshLayout(root);
         setupCollapsibleToolbar((AppBarLayout) root.findViewById(R.id.appBar), swipeRefreshLayout);
         setupRecyclerView(root);
-        setupRetryButton(root.findViewById(R.id.announce_empty_try_again));
+        setupEmptyLayout((TextView) root.findViewById(R.id.fragment_empty_title), (Button) root.findViewById(R.id.fragment_empty_btn));
         getAnnouncements();
 
         return root;
@@ -117,7 +119,9 @@ public class AnnouncementFragment extends BaseFragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void setupRetryButton(View retryBtn) {
+    private void setupEmptyLayout(TextView text, Button retryBtn) {
+        text.setText(R.string.announce_empty_title);
+
         retryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

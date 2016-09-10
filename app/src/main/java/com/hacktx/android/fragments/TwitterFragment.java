@@ -28,10 +28,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.hacktx.android.BuildConfig;
 import com.hacktx.android.R;
+import com.hacktx.android.network.NetworkUtils;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
@@ -41,6 +45,7 @@ import io.fabric.sdk.android.Fabric;
 
 public class TwitterFragment extends BaseFragment {
 
+    private RelativeLayout mEmptyLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView twitterListView;
 
@@ -51,10 +56,13 @@ public class TwitterFragment extends BaseFragment {
 
         setHasOptionsMenu(true);
 
+        mEmptyLayout = (RelativeLayout) root.findViewById(R.id.empty_view);
+
         setupToolbar((Toolbar) root.findViewById(R.id.toolbar), R.string.fragment_twitter_title);
 
-        setupTwitter(root);
         setupSwipeRefreshLayout(root);
+        setupTwitter(root);
+        setupEmptyLayout((TextView) root.findViewById(R.id.fragment_empty_title), (Button) root.findViewById(R.id.fragment_empty_btn));
 
         return root;
     }
@@ -94,10 +102,36 @@ public class TwitterFragment extends BaseFragment {
     }
 
     private void updateTwitterTimeline() {
-        UserTimeline userTimeline = new UserTimeline.Builder()
-                .screenName("hacktx")
-                .build();
-        TweetTimelineListAdapter adapter = new TweetTimelineListAdapter(getActivity(), userTimeline);
-        twitterListView.setAdapter(adapter);
+        if (NetworkUtils.canConnect(getContext())) {
+            hideEmptyView();
+            UserTimeline userTimeline = new UserTimeline.Builder()
+                    .screenName("hacktx")
+                    .build();
+            TweetTimelineListAdapter adapter = new TweetTimelineListAdapter(getActivity(), userTimeline);
+            twitterListView.setAdapter(adapter);
+        } else {
+            showEmptyView();
+        }
+    }
+
+    private void setupEmptyLayout(TextView text, Button retryBtn) {
+        text.setText(R.string.twitter_empty_title);
+
+        retryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateTwitterTimeline();
+            }
+        });
+    }
+
+    private void showEmptyView() {
+        swipeRefreshLayout.setVisibility(View.GONE);
+        mEmptyLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void hideEmptyView() {
+        mEmptyLayout.setVisibility(View.GONE);
+        swipeRefreshLayout.setVisibility(View.VISIBLE);
     }
 }

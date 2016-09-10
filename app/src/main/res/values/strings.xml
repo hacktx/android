@@ -22,6 +22,10 @@
     <!-- MainActivity -->
     <string name="action_settings">Settings</string>
 
+    <!-- Generic Fragment -->
+    <string name="fragment_empty_title">Unable to fetch content</string>
+    <string name="fragment_empty_btn">Try Again</string>
+
     <!-- ScheduleMainFragment -->
     <string name="fragment_schedule_main_title">Schedule</string>
 
@@ -31,6 +35,7 @@
     <!-- TwitterFragment -->
     <string name="fragment_twitter_title">Twitter</string>
     <string name="fragment_twitter_open_in_twitter">Open in Twitter</string>
+    <string name="twitter_empty_title">Unable to fetch Tweets</string>
 
     <!-- MapsFragment -->
     <string name="fragment_maps_title">Maps</string>
@@ -72,11 +77,9 @@
 
     <!-- ScheduleDayFragment -->
     <string name="sched_day_empty_title">Unable to fetch schedule</string>
-    <string name="sched_day_empty_btn">Try Again</string>
 
     <!-- AnnouncementFragment -->
     <string name="announce_empty_title">Unable to fetch announcements</string>
-    <string name="announce_empty_btn">Try Again</string>
 
     <!-- CheckInActivity -->
     <string name="activity_check_in_title">Check In</string>
