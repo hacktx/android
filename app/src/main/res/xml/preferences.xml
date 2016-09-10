@@ -21,13 +21,6 @@
             android:summaryOff="@string/fragment_preferences_announcements_desc_off"
             android:defaultValue="true"/>
 
-        <CheckBoxPreference
-            android:key="@string/prefs_beacons_enabled"
-            android:title="@string/fragment_preferences_beacons"
-            android:summaryOn="@string/fragment_preferences_beacons_desc_on"
-            android:summaryOff="@string/fragment_preferences_beacons_desc_off"
-            android:defaultValue="true"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory

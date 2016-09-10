@@ -89,14 +89,6 @@ public class ConfigManager {
         return getBoolean(configParam.getKey(), configParam.getDefaultValue());
     }
 
-    public boolean needLocationPerms() {
-        return getValue(ConfigParam.BEACONS);
-    }
-
-    public boolean grantedLocationPerms() {
-        return ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-    }
-
     private boolean getBoolean(String key, boolean fallback) {
         boolean result;
         if (Constants.FIREBASE_REMOTE_CONFIG_ENABLED) {

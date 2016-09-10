@@ -48,9 +48,6 @@ public class DebugFragment extends PreferenceFragment {
         final PreferenceScreen configFeedback = (PreferenceScreen) findPreference(getString(R.string.debug_config_feedback_key));
         configFeedback.setSummary(configManager.getValue(ConfigParam.EVENT_FEEDBACK) ? R.string.debug_config_enabled : R.string.debug_config_disabled);
 
-        final PreferenceScreen configBeacons = (PreferenceScreen) findPreference(getString(R.string.debug_config_beacons_key));
-        configBeacons.setSummary(configManager.getValue(ConfigParam.BEACONS) ? R.string.debug_config_enabled : R.string.debug_config_disabled);
-
         final PreferenceScreen configBundledNotif = (PreferenceScreen) findPreference(getString(R.string.debug_config_bundled_notif_key));
         configBundledNotif.setSummary(configManager.getValue(ConfigParam.BUNDLED_NOTIFICATIONS) ? R.string.debug_config_enabled : R.string.debug_config_disabled);
 
@@ -64,9 +61,6 @@ public class DebugFragment extends PreferenceFragment {
             }
         });
 
-        final PreferenceScreen bleStatus = (PreferenceScreen) findPreference(getString(R.string.debug_beacon_status_key));
-        bleStatus.setSummary(doesDeviceSupportBle() ? R.string.debug_ble_support_true : R.string.debug_ble_support_false);
-
         final CheckBoxPreference hacktxUtilsOverride = (CheckBoxPreference) findPreference(getString(R.string.debug_hacktx_utils_override_key));
         setHackTXUtilOverridesEnabled(hacktxUtilsOverride.isChecked());
         hacktxUtilsOverride.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -76,12 +70,6 @@ public class DebugFragment extends PreferenceFragment {
                 return true;
             }
         });
-
-        // Disable beacon settings if beacons are not enabled
-        if (!configManager.getValue(ConfigParam.BEACONS)) {
-            findPreference(getString(R.string.prefs_beacon_notif)).setEnabled(false);
-            findPreference(getString(R.string.debug_beacon_status_key)).setEnabled(false);
-        }
     }
 
     private void setHackTXUtilOverridesEnabled(boolean enabled) {

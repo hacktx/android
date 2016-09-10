@@ -12,10 +12,6 @@
             android:title="@string/debug_config_feedback" />
 
         <PreferenceScreen
-            android:key="@string/debug_config_beacons_key"
-            android:title="@string/debug_config_beacons" />
-
-        <PreferenceScreen
             android:key="@string/debug_config_bundled_notif_key"
             android:title="@string/debug_config_bundled_notif" />
 
@@ -30,22 +26,6 @@
             android:summaryOn="@string/debug_network_mock_on"
             android:summaryOff="@string/debug_network_mock_off"
             android:defaultValue="false"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/debug_beacons">
-
-        <CheckBoxPreference
-            android:key="@string/prefs_beacon_notif"
-            android:title="@string/debug_beacon_notifs"
-            android:summaryOn="@string/debug_beacon_notifs_on"
-            android:summaryOff="@string/debug_beacon_notifs_off"
-            android:defaultValue="true"/>
-
-        <PreferenceScreen
-            android:key="@string/debug_beacon_status_key"
-            android:title="@string/debug_ble_support" />
 
     </PreferenceCategory>
 

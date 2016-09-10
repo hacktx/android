@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <entry>
-        <key>beacons</key>
-        <value>false</value>
-    </entry>
-    <entry>
         <key>bundled_notifications</key>
         <value>false</value>
     </entry>

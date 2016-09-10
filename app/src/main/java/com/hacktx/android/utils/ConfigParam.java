@@ -4,8 +4,6 @@ import com.hacktx.android.Constants;
 
 public enum ConfigParam {
 
-    BEACONS("beacons", Constants.FEATURE_BEACONS),
-
     BUNDLED_NOTIFICATIONS("bundled_notifications", Constants.FEATURE_BUNDLED_NOTIFICATIONS),
 
     CHECK_IN("check_in", Constants.FEATURE_CHECK_IN),

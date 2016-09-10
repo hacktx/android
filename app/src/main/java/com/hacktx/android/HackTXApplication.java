@@ -17,15 +17,9 @@
 package com.hacktx.android;
 
 import android.app.Application;
-import android.content.Intent;
 
-import com.estimote.sdk.EstimoteSDK;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.hacktx.android.services.BeaconService;
 import com.hacktx.android.utils.ConfigManager;
-import com.hacktx.android.utils.ConfigParam;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
@@ -40,10 +34,6 @@ public class HackTXApplication extends Application {
         sInstance = this;
 
         ConfigManager configManager = new ConfigManager(this);
-
-        if (configManager.getValue(ConfigParam.BEACONS)) {
-            initBeacons();
-        }
 
         if (Constants.FIREBASE_NOTIFICATIONS_ENABLED) {
             FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
@@ -65,13 +55,5 @@ public class HackTXApplication extends Application {
 
     public static HackTXApplication getInstance() {
         return sInstance;
-    }
-
-    private void initBeacons() {
-        EstimoteSDK.initialize(this, BuildConfig.ESTIMOTE_APP_ID, BuildConfig.ESTIMOTE_APP_TOKEN);
-        EstimoteSDK.enableDebugLogging(true);
-
-        Intent serviceIntent = new Intent(getApplicationContext(), BeaconService.class);
-        startService(serviceIntent);
     }
 }

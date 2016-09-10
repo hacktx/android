@@ -98,10 +98,6 @@
     <string name="prefs_notif_offset">notifOffset</string>
     <string name="prefs_network_mock">mockServer</string>
 
-    <!-- Notifications -->
-    <string name="notif_sign_in_title">HackTX</string>
-    <string name="notif_sign_in_text">Welcome to HackTX! Tap to check in.</string>
-
     <!-- DebugFragment -->
     <string name="debug_title">Debug</string>
     <string name="debug_dialog_title">Attention</string>
