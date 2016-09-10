@@ -16,7 +16,6 @@
 
 package com.hacktx.android.activities;
 
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -28,8 +27,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -51,9 +53,6 @@ import java.io.FileOutputStream;
 
 public class CheckInActivity extends BaseActivity {
 
-    private static final int NOTIFICATION_ID = 22;
-    private boolean shouldStopBeaconNotif = false;
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in);
@@ -66,10 +65,11 @@ public class CheckInActivity extends BaseActivity {
             getSupportActionBar().setTitle(R.string.activity_check_in_title);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.hacktx_blue));
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.hacktx_blue));
+//        }
 
+        setupStatusBar();
         setupCards();
     }
 
@@ -81,6 +81,43 @@ public class CheckInActivity extends BaseActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setupStatusBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+                && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            setTranslucentStatusFlag(true);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setTranslucentStatusFlag(false);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            final View scrollView = findViewById(R.id.scrollView);
+            final int bigMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics());
+
+            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) scrollView.getLayoutParams();
+            p.setMargins(0, bigMargin, 0, 0);
+            scrollView.requestLayout();
+        }
+    }
+
+    private void setTranslucentStatusFlag(boolean on) {
+        if (Build.VERSION.SDK_INT >= 19) {
+            Window win = getWindow();
+            WindowManager.LayoutParams winParams = win.getAttributes();
+            final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+            if (on) {
+                winParams.flags |= bits;
+            } else {
+                winParams.flags &= ~bits;
+            }
+            win.setAttributes(winParams);
+        }
     }
 
     private void setupCards() {
@@ -102,7 +139,6 @@ public class CheckInActivity extends BaseActivity {
                 findViewById(R.id.finishedSoonCard).setVisibility(View.VISIBLE);
                 ((TextView) findViewById(R.id.finishedSoonCardText)).setText(getString(R.string.activity_check_in_finish_soon_text, email));
             } else if (!HackTXUtils.hasHackTxEnded(CheckInActivity.this)) {
-                shouldStopBeaconNotif = true;
                 findViewById(R.id.codeCard).setVisibility(View.VISIBLE);
                 ((TextView) findViewById(R.id.codeCardText)).setText(getString(R.string.activity_check_in_code_text, email));
                 loadQrCode(email);
@@ -122,7 +158,6 @@ public class CheckInActivity extends BaseActivity {
             public void onClick(View v) {
                 UserStateStore.setUserEmail(CheckInActivity.this, "");
                 deleteSavedCode();
-                shouldStopBeaconNotif = false;
 
                 findViewById(R.id.codeCard).setVisibility(View.GONE);
                 findViewById(R.id.codeCardCode).setVisibility(View.GONE);
@@ -143,10 +178,10 @@ public class CheckInActivity extends BaseActivity {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(emailEditText.getWindowToken(), 0);
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(CheckInActivity.this, R.style.AppCompatAlertDialogStyle);
-                    builder.setTitle("Verify Email");
-                    builder.setMessage("Is " + email + " correct?");
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CheckInActivity.this, R.style.DialogStyle);
+                    builder.setTitle(getString(R.string.activity_check_in_dialog_verify_title));
+                    builder.setMessage(getString(R.string.activity_check_in_dialog_verify_body, email));
+                    builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             UserStateStore.setUserEmail(CheckInActivity.this, email);
@@ -155,7 +190,6 @@ public class CheckInActivity extends BaseActivity {
                                 findViewById(R.id.finishedSoonCard).setVisibility(View.VISIBLE);
                                 ((TextView) findViewById(R.id.finishedSoonCardText)).setText(getString(R.string.activity_check_in_finish_soon_text, email));
                             } else {
-                                shouldStopBeaconNotif = true;
                                 findViewById(R.id.codeCard).setVisibility(View.VISIBLE);
                                 ((TextView) findViewById(R.id.codeCardText)).setText(getString(R.string.activity_check_in_code_text, email));
                                 increaseBrightness();
@@ -165,10 +199,10 @@ public class CheckInActivity extends BaseActivity {
                             loadQrCode(email);
                         }
                     });
-                    builder.setNegativeButton("No", null);
+                    builder.setNegativeButton(getString(R.string.no), null);
                     builder.show();
                 } else {
-                    Snackbar.make(findViewById(android.R.id.content), "Invalid email address.", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(android.R.id.content), getString(R.string.activity_check_in_invalid_email), Snackbar.LENGTH_SHORT).show();
                 }
             }
         });

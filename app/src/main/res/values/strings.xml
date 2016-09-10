@@ -5,6 +5,7 @@
     <string name="cancel">Cancel</string>
     <string name="no_thanks">No Thanks</string>
     <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <!-- WelcomeActivity -->
     <string name="welcome_card_title">Welcome!</string>
@@ -79,6 +80,20 @@
     <string name="activity_check_in_done">Done</string>
     <string name="activity_check_in_code_text">Get this code scanned by a volunteer to finish.\n\nYour email is %1$s.</string>
     <string name="activity_check_in_finish_soon_text">Check back here on October 22nd to get your QR code for check in.\n\nYour email is %1$s.</string>
+    <string name="activity_check_in_about_you">About You</string>
+    <string name="activity_check_in_enter_email">Enter the email you used during registration.</string>
+    <string name="activity_check_in_email_hint">Email Address</string>
+    <string name="activity_check_in_dialog_verify_title">Verify Email</string>
+    <string name="activity_check_in_dialog_verify_body">Is %1$s correct?</string>
+    <string name="activity_check_in_invalid_email">Invalid email address.</string>
+    <string name="activity_check_in_almost_there">Almost There!</string>
+    <string name="activity_check_in_welcome">Welcome to HackTX!</string>
+    <string name="activity_check_in_lets_go">Let\'s get you checked in.</string>
+    <string name="activity_check_in_thanks">Thanks for Attending!</string>
+    <string name="activity_check_in_keep_eye_out">Keep an eye out for future HackTX events!</string>
+    <string name="activity_check_in_coming_soon">HackTX is Coming Soon!</string>
+    <string name="activity_check_in_get_ready">Let\'s get ready for the big day.</string>
+    <string name="activity_check_in_good_to_go">You\'re good to go!</string>
 
     <!-- SharedPreferences Keys -->
     <string name="prefs_schedule_last_updated">scheduleLastUpdated</string>
