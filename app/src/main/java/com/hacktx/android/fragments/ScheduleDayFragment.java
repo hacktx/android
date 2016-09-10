@@ -103,7 +103,7 @@ public class ScheduleDayFragment extends Fragment {
 
     private void setupSwipeRefresh(View root) {
         swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.primary, R.color.accent);
+        swipeRefreshLayout.setColorSchemeResources(R.color.primary, R.color.hacktx_blue);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

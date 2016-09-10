@@ -77,7 +77,7 @@ public class NotificationService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.ic_alert)
                 .setGroup(group)
                 .setGroupSummary(true)
-                .setColor(ContextCompat.getColor(this, R.color.accent))
+                .setColor(ContextCompat.getColor(this, R.color.primary))
                 .setContentTitle(getString(R.string.app_name))
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
@@ -113,7 +113,7 @@ public class NotificationService extends FirebaseMessagingService {
     private NotificationCompat.Builder getBaseNotificationBuilder(String title, String text, boolean vibrate) {
         return new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_alert)
-                .setColor(ContextCompat.getColor(this, R.color.accent))
+                .setColor(ContextCompat.getColor(this, R.color.primary))
                 .setContentTitle(title)
                 .setContentText(text)
                 .setStyle(new NotificationCompat.BigTextStyle()
