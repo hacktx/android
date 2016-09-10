@@ -8,7 +8,6 @@ public class Constants {
     /* Feature Flags */
     public static final boolean FEATURE_CHECK_IN = true;
     public static final boolean FEATURE_EVENT_FEEDBACK = true;
-    public static final boolean FEATURE_BEACONS = false;
     public static final boolean FEATURE_BUNDLED_NOTIFICATIONS = false;
 
     /* Firebase */

@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.hacktx.android.R;
 import com.hacktx.android.network.UserStateStore;
+import com.hacktx.android.utils.ConfigParam;
 
 public class WelcomeActivity extends BaseActivity {
 
@@ -71,7 +72,7 @@ public class WelcomeActivity extends BaseActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (page == 0) {
+                if (page == 0 && mConfigManager.getValue(ConfigParam.CHECK_IN)) {
                     showHiddenPage();
                     page++;
                 } else {
