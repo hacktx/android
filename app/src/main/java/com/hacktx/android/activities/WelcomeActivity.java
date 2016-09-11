@@ -11,6 +11,7 @@ import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.KeyEvent;
@@ -76,9 +77,12 @@ public class WelcomeActivity extends BaseActivity {
                     showHiddenPage();
                     page++;
                 } else {
-                    EditText email = (EditText) findViewById(R.id.sign_in_card_email);
-                    if (!email.getText().toString().trim().isEmpty()) {
-                        UserStateStore.setUserEmail(WelcomeActivity.this, email.getText().toString().trim());
+                    String email = ((EditText) findViewById(R.id.sign_in_card_email)).getText().toString();
+                    if (!email.trim().isEmpty() && email.contains("@")) {
+                        UserStateStore.setUserEmail(WelcomeActivity.this, email);
+                    } else if (!email.contains("@")) {
+                        Snackbar.make(WelcomeActivity.this.findViewById(android.R.id.content), getString(R.string.welcome_invalid_email), Snackbar.LENGTH_SHORT).show();
+                        return;
                     }
 
                     UserStateStore.setFirstLaunch(WelcomeActivity.this, false);

@@ -11,6 +11,7 @@
     <string name="welcome_card_title">Welcome!</string>
     <string name="welcome_card_text">Enter the email address you used during registration.</string>
     <string name="welcome_email_hint">Email Address</string>
+    <string name="welcome_invalid_email">Invalid email address.</string>
     <string name="welcome_card_footer">You can change this later.</string>
     <string name="welcome_expanded_check_in_title">Fast Check-In</string>
     <string name="welcome_expanded_check_in_text">Enter your email above to speed up check-in.</string>
