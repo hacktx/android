@@ -16,6 +16,6 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <include layout="@layout/fragment_schedule_empty" />
+    <include layout="@layout/fragment_empty" />
 
 </LinearLayout>

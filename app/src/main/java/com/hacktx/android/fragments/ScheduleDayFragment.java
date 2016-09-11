@@ -29,8 +29,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -52,6 +54,7 @@ public class ScheduleDayFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private RelativeLayout mEmptyLayout;
     private ArrayList<ScheduleCluster> scheduleList;
     private boolean doneLoading;
     private int day;
@@ -77,10 +80,12 @@ public class ScheduleDayFragment extends Fragment {
             default: day = 1;
         }
 
+        mEmptyLayout = (RelativeLayout) root.findViewById(R.id.empty_view);
+
         setupRecyclerView(root);
         setupSwipeRefresh(root);
         setupCollapsibleToolbar((AppBarLayout) getActivity().findViewById(R.id.appBar), swipeRefreshLayout);
-        setupRetryButton(root.findViewById(R.id.scheduleEmptyTryAgain));
+        setupEmptyLayout((TextView) root.findViewById(R.id.fragment_empty_title), (Button) root.findViewById(R.id.fragment_empty_btn));
 
         new ScheduleDataAsyncTask(false).execute();
 
@@ -133,7 +138,9 @@ public class ScheduleDayFragment extends Fragment {
         });
     }
 
-    private void setupRetryButton(View retryBtn) {
+    private void setupEmptyLayout(TextView text, Button retryBtn) {
+        text.setText(R.string.sched_day_empty_title);
+
         retryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,7 +196,9 @@ public class ScheduleDayFragment extends Fragment {
             if(scheduleClusters.size() == 0) {
                 Log.v("ScheduleDayFragment", "Offline and no cache available for day " + day + " schedule.");
                 swipeRefreshLayout.setVisibility(View.GONE);
+                mEmptyLayout.setVisibility(View.VISIBLE);
             } else {
+                mEmptyLayout.setVisibility(View.GONE);
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
             }
 
