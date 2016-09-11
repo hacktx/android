@@ -25,6 +25,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.hacktx.android.R;
 import com.hacktx.android.models.Sponsors;
@@ -44,6 +47,7 @@ public class SponsorFragment extends BaseFragment {
     private ArrayList<Sponsors> sponsorsList;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
+    private RelativeLayout mEmptyLayout;
 
     @Nullable
     @Override
@@ -53,6 +57,9 @@ public class SponsorFragment extends BaseFragment {
 
         setupToolbar((Toolbar) root.findViewById(R.id.toolbar), R.string.fragment_sponsor_title);
 
+        mEmptyLayout = (RelativeLayout) root.findViewById(R.id.empty_view);
+
+        setupEmptyLayout((TextView) root.findViewById(R.id.fragment_empty_title), (Button) root.findViewById(R.id.fragment_empty_btn));
         getSponsors();
         setupRecyclerView(root);
 
@@ -94,6 +101,7 @@ public class SponsorFragment extends BaseFragment {
             @Override
             public void success(ArrayList<Sponsors> sponsors, Response response) {
                 Log.d("SponsorsFragment", "sponsors retrieved!");
+                hideEmptyView();
                 sponsorsList.clear();
                 sponsorsList.addAll(sponsors);
                 mAdapter.notifyDataSetChanged();
@@ -102,7 +110,29 @@ public class SponsorFragment extends BaseFragment {
             @Override
             public void failure(RetrofitError error) {
                 Log.d("SponsorsFragment", error.getMessage());
+                showEmptyView();
             }
         });
+    }
+
+    private void setupEmptyLayout(TextView text, Button retryBtn) {
+        text.setText(R.string.fragment_sponsor_empty_title);
+
+        retryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSponsors();
+            }
+        });
+    }
+
+    private void showEmptyView() {
+        mRecyclerView.setVisibility(View.GONE);
+        mEmptyLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void hideEmptyView() {
+        mEmptyLayout.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 }

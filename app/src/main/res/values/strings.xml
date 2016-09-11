@@ -42,6 +42,7 @@
 
     <!-- SponsorFragment -->
     <string name="fragment_sponsor_title">Partners</string>
+    <string name="fragment_sponsor_empty_title">Unable to fetch partners</string>
 
     <!-- PreferencesActivity -->
     <string name="activity_preferences_title">Settings</string>
