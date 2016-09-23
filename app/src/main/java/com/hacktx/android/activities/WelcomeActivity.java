@@ -78,9 +78,9 @@ public class WelcomeActivity extends BaseActivity {
                     page++;
                 } else {
                     String email = ((EditText) findViewById(R.id.sign_in_card_email)).getText().toString();
-                    if (!email.trim().isEmpty() && email.contains("@")) {
+                    if (email.contains("@")) {
                         UserStateStore.setUserEmail(WelcomeActivity.this, email);
-                    } else if (!email.contains("@")) {
+                    } else if (!email.trim().isEmpty() && !email.contains("@")) {
                         Snackbar.make(WelcomeActivity.this.findViewById(android.R.id.content), getString(R.string.welcome_invalid_email), Snackbar.LENGTH_SHORT).show();
                         return;
                     }
