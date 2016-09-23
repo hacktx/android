@@ -1,0 +1,8 @@
+<resources>
+
+    <!-- This is an example of the api_keys.xml file. Rename this file and add your keys. -->
+
+    <!-- Google Maps -->
+    <string name="api_key_google_maps">GOOGLE_MAPS_API_KEY</string>
+
+</resources>
