@@ -16,13 +16,10 @@
 
 package com.hacktx.android.activities;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -32,20 +29,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.hacktx.android.Constants;
 import com.hacktx.android.R;
 import com.hacktx.android.fragments.AnnouncementFragment;
-import com.hacktx.android.fragments.MapFragment;
+import com.hacktx.android.fragments.GoogleMapFragment;
+import com.hacktx.android.fragments.OldMapFragment;
 import com.hacktx.android.fragments.ScheduleMainFragment;
 import com.hacktx.android.fragments.SponsorFragment;
 import com.hacktx.android.fragments.TwitterFragment;
 import com.hacktx.android.network.UserStateStore;
 import com.hacktx.android.utils.ConfigParam;
-import com.hacktx.android.utils.HackTXUtils;
 
 import java.util.List;
 
@@ -70,7 +64,7 @@ public class MainActivity extends BaseActivity {
         } else if(extra != null && extra.equals("maps")) {
             ((NavigationView) findViewById(R.id.nav_view)).getMenu().getItem(3).setChecked(true);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content_fragment, new MapFragment());
+            transaction.replace(R.id.content_fragment, new OldMapFragment());
             transaction.commit();
         }
 
@@ -130,7 +124,7 @@ public class MainActivity extends BaseActivity {
                                 transaction.commit();
                                 break;
                             case R.id.nav_map:
-                                transaction.replace(R.id.content_fragment, new MapFragment());
+                                transaction.replace(R.id.content_fragment, new GoogleMapFragment());
                                 transaction.commit();
                                 break;
                             case R.id.nav_sponsors:

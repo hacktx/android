@@ -36,7 +36,7 @@ import android.widget.TextView;
 
 import com.hacktx.android.R;
 
-public class MapFragment extends BaseFragment {
+public class OldMapFragment extends BaseFragment {
 
     public static final int SAC = 0;
     public static final int CLA = 1;
