@@ -38,6 +38,13 @@ import java.util.Map;
 public class NotificationService extends FirebaseMessagingService {
 
     private final String TAG = getClass().getSimpleName();
+    private ConfigManager mConfigManager;
+
+    @Override
+    public void onCreate(){
+        super.onCreate();
+        mConfigManager = new ConfigManager(this);
+    }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -49,10 +56,8 @@ public class NotificationService extends FirebaseMessagingService {
 
         String group = remoteMessage.getFrom();
 
-        ConfigManager configManager = new ConfigManager(this);
-
         if (UserStateStore.getAnnouncementNotificationsEnabled(this)) {
-            if (configManager.getValue(ConfigParam.BUNDLED_NOTIFICATIONS)) {
+            if (mConfigManager.getValue(ConfigParam.BUNDLED_NOTIFICATIONS)) {
                 sendBundledNotification(group, remoteMessage.getData());
             } else {
                 sendNotification(group, remoteMessage.getData());
