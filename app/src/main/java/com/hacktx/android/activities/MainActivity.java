@@ -34,7 +34,6 @@ import android.widget.TextView;
 import com.hacktx.android.R;
 import com.hacktx.android.fragments.AnnouncementFragment;
 import com.hacktx.android.fragments.GoogleMapFragment;
-import com.hacktx.android.fragments.OldMapFragment;
 import com.hacktx.android.fragments.ScheduleMainFragment;
 import com.hacktx.android.fragments.SponsorFragment;
 import com.hacktx.android.fragments.TwitterFragment;
@@ -64,7 +63,7 @@ public class MainActivity extends BaseActivity {
         } else if(extra != null && extra.equals("maps")) {
             ((NavigationView) findViewById(R.id.nav_view)).getMenu().getItem(3).setChecked(true);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content_fragment, new OldMapFragment());
+            transaction.replace(R.id.content_fragment, new GoogleMapFragment());
             transaction.commit();
         }
 

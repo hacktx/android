@@ -46,7 +46,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hacktx.android.R;
-import com.hacktx.android.fragments.OldMapFragment;
 import com.hacktx.android.models.EventFeedback;
 import com.hacktx.android.models.ScheduleEvent;
 import com.hacktx.android.models.ScheduleSpeaker;
@@ -142,8 +141,6 @@ public class EventDetailActivity extends BaseActivity {
             case R.id.action_map:
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("open", "maps");
-                intent.putExtra("building", (event.getLocation().getBuilding().equalsIgnoreCase("CLA")) ? OldMapFragment.CLA : OldMapFragment.SAC);
-                intent.putExtra("level", Integer.parseInt(event.getLocation().getLevel()));
                 startActivity(intent);
                 return true;
             case R.id.action_share:
