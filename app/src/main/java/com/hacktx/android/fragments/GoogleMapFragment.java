@@ -16,8 +16,6 @@
 
 package com.hacktx.android.fragments;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -28,7 +26,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -41,6 +41,7 @@ import com.hacktx.android.R;
 public class GoogleMapFragment extends BaseFragment implements OnMapReadyCallback {
 
     private SupportMapFragment mMapFragment;
+    private GoogleMap mGoogleMap;
 
     @Nullable
     @Override
@@ -82,10 +83,16 @@ public class GoogleMapFragment extends BaseFragment implements OnMapReadyCallbac
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.reset_map:
-                // TODO: Reset map
+                if (mGoogleMap != null) {
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(new LatLng(30.268915, -97.740378))
+                            .zoom(19)
+                            .build();
+                    mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                }
                 return true;
             case R.id.event_info:
-                // TODO: Event info
+                Toast.makeText(getActivity(), "TODO", Toast.LENGTH_SHORT).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -93,6 +100,9 @@ public class GoogleMapFragment extends BaseFragment implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap map) {
+
+        mGoogleMap = map;
+
         map.addMarker(new MarkerOptions()
                 .position(new LatLng(30.268915, -97.740378))
                 .title("HackTX 2016"));

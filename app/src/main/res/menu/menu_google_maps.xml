@@ -20,12 +20,12 @@
 
     <item android:id="@+id/reset_map"
         android:title="@string/fragment_map_reset_map"
-        android:icon="@drawable/ic_open"
+        android:icon="@drawable/ic_map_marker"
         app:showAsAction="ifRoom" />
 
     <item android:id="@+id/event_info"
         android:title="@string/fragment_map_event_info"
-        android:icon="@drawable/ic_open"
+        android:icon="@drawable/ic_info"
         app:showAsAction="ifRoom" />
 
 </menu>
