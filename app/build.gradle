@@ -46,7 +46,7 @@ android {
         buildConfigField "String", "ESTIMOTE_APP_ID", "\"${props.getProperty('ESTIMOTE_APP_ID')}\""
         buildConfigField "String", "ESTIMOTE_APP_TOKEN", "\"${props.getProperty('ESTIMOTE_APP_TOKEN')}\""
 
-        manifestPlaceholders = [ googleMapsApiKey : "\"${props.getProperty('GOOGLE_MAPS_KEY')}\""]
+        manifestPlaceholders = [ googleMapsApiKey : "${props.getProperty('GOOGLE_MAPS_KEY')}"]
     }
     buildTypes {
         release {
