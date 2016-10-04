@@ -22,8 +22,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.hacktx.android.R;
+import com.hacktx.android.utils.ConfigManager;
 
 public class BaseFragment extends Fragment {
+
+    protected ConfigManager mConfigManager;
 
     protected void setupToolbar(Toolbar toolbar, int title) {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -32,5 +35,7 @@ public class BaseFragment extends Fragment {
         actionBar.setTitle(title);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        mConfigManager = new ConfigManager(getActivity());
     }
 }

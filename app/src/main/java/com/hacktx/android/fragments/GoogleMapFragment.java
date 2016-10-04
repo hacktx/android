@@ -16,6 +16,8 @@
 
 package com.hacktx.android.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -26,7 +28,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,9 +35,12 @@ import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.IndoorBuilding;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.hacktx.android.Constants;
 import com.hacktx.android.R;
+import com.hacktx.android.utils.ConfigParam;
 
 public class GoogleMapFragment extends BaseFragment implements OnMapReadyCallback {
 
@@ -77,6 +81,10 @@ public class GoogleMapFragment extends BaseFragment implements OnMapReadyCallbac
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_google_maps, menu);
+
+        if (!mConfigManager.getValue(ConfigParam.REMOTE_MAP)) {
+            menu.removeItem(R.id.remote_map);
+        }
     }
 
     @Override
@@ -91,20 +99,63 @@ public class GoogleMapFragment extends BaseFragment implements OnMapReadyCallbac
                     mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 }
                 return true;
-            case R.id.event_info:
-                Toast.makeText(getActivity(), "TODO", Toast.LENGTH_SHORT).show();
+            case R.id.remote_map:
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.REMOTE_MAP_URL));
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onMapReady(GoogleMap map) {
+    public void onMapReady(final GoogleMap map) {
 
         mGoogleMap = map;
 
         map.addMarker(new MarkerOptions()
                 .position(new LatLng(30.268915, -97.740378))
                 .title("HackTX 2016"));
+
+        map.setOnIndoorStateChangeListener(new GoogleMap.OnIndoorStateChangeListener() {
+            @Override
+            public void onIndoorBuildingFocused() {
+
+            }
+
+            @Override
+            public void onIndoorLevelActivated(IndoorBuilding indoorBuilding) {
+                System.out.println(indoorBuilding.getActiveLevelIndex() + " ## ");
+                switch (indoorBuilding.getActiveLevelIndex()) {
+                    case 2: // First floor
+                        map.clear();
+                        map.addMarker(new MarkerOptions()
+                                .position(new LatLng(30.268915, -97.740378))
+                                .title("HackTX 2016"));
+                        return;
+                    case 1: // Second floor
+                        map.clear();
+                        map.addMarker(new MarkerOptions()
+                                .position(new LatLng(30.26864, -97.74022))
+                                .title("Capital Ballroom"));
+
+                        map.addMarker(new MarkerOptions()
+                                .position(new LatLng(30.26878, -97.74028))
+                                .title("Congress"));
+
+                        map.addMarker(new MarkerOptions()
+                                .position(new LatLng(30.2688, -97.74064))
+                                .title("Lone Star"));
+
+                        map.addMarker(new MarkerOptions()
+                                .position(new LatLng(30.2686, -97.74042))
+                                .title("Senate"));
+                        return;
+                    case 0: // Third floor
+                        map.clear();
+                        return;
+                    default: map.clear();
+                }
+            }
+        });
     }
 }

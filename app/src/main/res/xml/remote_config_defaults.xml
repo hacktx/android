@@ -12,4 +12,8 @@
         <key>event_feedback</key>
         <value>true</value>
     </entry>
+    <entry>
+        <key>remote_map</key>
+        <value>true</value>
+    </entry>
 </resources>

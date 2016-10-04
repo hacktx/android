@@ -23,8 +23,8 @@
         android:icon="@drawable/ic_map_marker"
         app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/event_info"
-        android:title="@string/fragment_map_event_info"
+    <item android:id="@+id/remote_map"
+        android:title="@string/fragment_map_remote_map"
         android:icon="@drawable/ic_info"
         app:showAsAction="ifRoom" />
 

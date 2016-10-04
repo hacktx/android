@@ -8,7 +8,9 @@ public enum ConfigParam {
 
     CHECK_IN("check_in", Constants.FEATURE_CHECK_IN),
 
-    EVENT_FEEDBACK("event_feedback", Constants.FEATURE_EVENT_FEEDBACK);
+    EVENT_FEEDBACK("event_feedback", Constants.FEATURE_EVENT_FEEDBACK),
+
+    REMOTE_MAP("remote_map", Constants.FEATURE_REMOTE_MAP);
 
     private String mKey;
     private boolean mDefaultValue;
