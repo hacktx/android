@@ -181,7 +181,6 @@ public class ScheduleDayFragment extends Fragment {
                     scheduleClusters = getDataFromUrl();
                 }
             } catch (RuntimeException e) {
-                e.printStackTrace();
                 scheduleClusters = new ArrayList<>();
             }
 
