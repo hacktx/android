@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -132,6 +133,25 @@ public class WelcomeActivity extends BaseActivity {
                         public void onAnimationEnd(Animator animation) {
                             View expandedContent = findViewById(R.id.sign_in_card_expanded_content);
                             expandedContent.animate().alpha(1.0f);
+
+                            expandedContent.findViewById(R.id.btn_email).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                                    emailIntent.setData(Uri.parse("mailto: hello@hacktx.com"));
+                                    startActivity(Intent.createChooser(emailIntent, "Contact Us"));
+                                }
+                            });
+
+                            expandedContent.findViewById(R.id.btn_directions).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                                    intent.setData(Uri.parse("geo:0,0?q=30.268915,-97.740378(HackTX 2016)"));
+                                    startActivity(intent);
+                                }
+                            });
+
                             super.onAnimationEnd(animation);
                         }
                     });
