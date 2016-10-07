@@ -21,6 +21,7 @@
 
         <activity
             android:name=".activities.MainActivity"
+            android:resizeableActivity="false"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,21 +30,24 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".services.NotificationService">
+        <service android:name=".services.NotificationService" android:resizeableActivity="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <activity android:name=".activities.EventDetailActivity" />
+        <activity android:name=".activities.EventDetailActivity" android:resizeableActivity="false" />
         <activity
             android:name=".activities.PreferencesActivity"
+            android:resizeableActivity="false"
             android:theme="@style/PreferenceScreen" />
         <activity
             android:name=".activities.DebugActivity"
+            android:resizeableActivity="false"
             android:theme="@style/PreferenceScreen" />
-        <activity android:name=".activities.CheckInActivity" />
+        <activity android:name=".activities.CheckInActivity" android:resizeableActivity="false" />
         <activity android:name=".activities.WelcomeActivity"
+            android:resizeableActivity="false"
             android:theme="@style/WelcomeScreen"
             android:windowSoftInputMode="adjustNothing"/>
     </application>
