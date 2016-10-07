@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -45,7 +46,7 @@ import io.fabric.sdk.android.Fabric;
 
 public class TwitterFragment extends BaseFragment {
 
-    private RelativeLayout mEmptyLayout;
+    private ConstraintLayout mEmptyLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView twitterListView;
 
@@ -56,7 +57,7 @@ public class TwitterFragment extends BaseFragment {
 
         setHasOptionsMenu(true);
 
-        mEmptyLayout = (RelativeLayout) root.findViewById(R.id.empty_view);
+        mEmptyLayout = (ConstraintLayout) root.findViewById(R.id.empty_view);
 
         setupToolbar((Toolbar) root.findViewById(R.id.toolbar), R.string.fragment_twitter_title);
 

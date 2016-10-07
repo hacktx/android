@@ -95,5 +95,6 @@ dependencies {
     compile('com.twitter.sdk.android:twitter:2.0.0@aar') {
         transitive = true;
     }
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
 }
 apply plugin: 'com.google.gms.google-services'

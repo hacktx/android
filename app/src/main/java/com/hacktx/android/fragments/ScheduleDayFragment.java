@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -54,7 +55,7 @@ public class ScheduleDayFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private RelativeLayout mEmptyLayout;
+    private ConstraintLayout mEmptyLayout;
     private ArrayList<ScheduleCluster> scheduleList;
     private boolean doneLoading;
     private int day;
@@ -80,7 +81,7 @@ public class ScheduleDayFragment extends Fragment {
             default: day = 1;
         }
 
-        mEmptyLayout = (RelativeLayout) root.findViewById(R.id.empty_view);
+        mEmptyLayout = (ConstraintLayout) root.findViewById(R.id.empty_view);
 
         setupRecyclerView(root);
         setupSwipeRefresh(root);

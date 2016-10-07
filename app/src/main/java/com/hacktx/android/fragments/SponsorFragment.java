@@ -18,6 +18,7 @@ package com.hacktx.android.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -47,7 +48,7 @@ public class SponsorFragment extends BaseFragment {
     private ArrayList<Sponsors> sponsorsList;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RelativeLayout mEmptyLayout;
+    private ConstraintLayout mEmptyLayout;
 
     @Nullable
     @Override
@@ -57,7 +58,7 @@ public class SponsorFragment extends BaseFragment {
 
         setupToolbar((Toolbar) root.findViewById(R.id.toolbar), R.string.fragment_sponsor_title);
 
-        mEmptyLayout = (RelativeLayout) root.findViewById(R.id.empty_view);
+        mEmptyLayout = (ConstraintLayout) root.findViewById(R.id.empty_view);
 
         setupEmptyLayout((TextView) root.findViewById(R.id.fragment_empty_title), (Button) root.findViewById(R.id.fragment_empty_btn));
         getSponsors();

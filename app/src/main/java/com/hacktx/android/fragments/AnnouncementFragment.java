@@ -18,6 +18,7 @@ package com.hacktx.android.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -52,7 +53,7 @@ public class AnnouncementFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private RelativeLayout mEmptyLayout;
+    private ConstraintLayout mEmptyLayout;
     private List<Announcement> announcements;
 
     @Nullable
@@ -61,7 +62,7 @@ public class AnnouncementFragment extends BaseFragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_announcement, container, false);
         announcements = new ArrayList<>();
 
-        mEmptyLayout = (RelativeLayout) root.findViewById(R.id.empty_view);
+        mEmptyLayout = (ConstraintLayout) root.findViewById(R.id.empty_view);
 
         setupToolbar((Toolbar) root.findViewById(R.id.toolbar), R.string.fragment_announcement_title);
 
