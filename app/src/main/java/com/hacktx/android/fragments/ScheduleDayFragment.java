@@ -126,6 +126,10 @@ public class ScheduleDayFragment extends Fragment {
     }
 
     private void setupCollapsibleToolbar(AppBarLayout appBarLayout, final SwipeRefreshLayout swipeRefreshLayout) {
+        if (appBarLayout == null) {
+            return;
+        }
+
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
