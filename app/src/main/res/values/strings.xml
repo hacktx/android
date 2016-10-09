@@ -14,7 +14,6 @@
     <string name="welcome_email_hint">Email Address</string>
     <string name="welcome_invalid_email">Invalid email address.</string>
     <string name="welcome_card_footer">You can change this later.</string>
-
     <string name="welcome_expanded_date">October 22 – 23, 2016</string>
     <string name="welcome_expanded_omni">Omni Hotel</string>
     <string name="welcome_expanded_address">700 San Jacinto Blvd, Austin, TX 78701</string>
@@ -57,10 +56,6 @@
     <string name="fragment_preferences_announcements">Announcements</string>
     <string name="fragment_preferences_announcements_desc_on">Get notified of the latest HackTX announcements.</string>
     <string name="fragment_preferences_announcements_desc_off">Do not get notified of the latest HackTX announcements.</string>
-    <string name="fragment_preferences_beacons">Beacons</string>
-    <string name="fragment_preferences_beacons_desc_on">Use nearby Bluetooth beacons to deliver location based notifications.</string>
-    <string name="fragment_preferences_beacons_desc_off">Do not use nearby Bluetooth beacons to deliver location based notifications.</string>
-    <string name="fragment_preferences_beacons_failed">This device does not support BLE.</string>
     <string name="fragment_preferences_about">About</string>
     <string name="fragment_preferences_about_version">Version %1$s</string>
     <string name="fragment_preferences_licenses">Open Source Licenses</string>
