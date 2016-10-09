@@ -20,6 +20,7 @@ import android.app.Application;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.hacktx.android.utils.ConfigManager;
+import com.hacktx.android.utils.LifecycleListener;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
@@ -33,7 +34,7 @@ public class HackTXApplication extends Application {
 
         sInstance = this;
 
-        ConfigManager configManager = new ConfigManager(this);
+        registerActivityLifecycleCallbacks(new LifecycleListener());
 
         if (Constants.FIREBASE_NOTIFICATIONS_ENABLED) {
             FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
