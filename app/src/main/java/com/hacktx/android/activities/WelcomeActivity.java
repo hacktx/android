@@ -134,15 +134,6 @@ public class WelcomeActivity extends BaseActivity {
                             View expandedContent = findViewById(R.id.sign_in_card_expanded_content);
                             expandedContent.animate().alpha(1.0f);
 
-                            expandedContent.findViewById(R.id.btn_email).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-                                    emailIntent.setData(Uri.parse("mailto: hello@hacktx.com"));
-                                    startActivity(Intent.createChooser(emailIntent, "Contact Us"));
-                                }
-                            });
-
                             expandedContent.findViewById(R.id.btn_directions).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {

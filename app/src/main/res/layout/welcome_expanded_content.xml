@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="28sp"
-        android:text="HackTX 2016"
+        android:text="@string/event_name"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="12dp" />
 
@@ -20,23 +20,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="October 22 - 23, 2016"
+        android:text="@string/welcome_expanded_date"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="12dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="We're excited to see you!"
-        android:layout_gravity="center_horizontal" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Omni Hotel"
+        android:text="@string/welcome_expanded_omni"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="12dp" />
 
@@ -44,40 +37,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="700 San Jacinto Blvd, Austin, TX 78701"
+        android:text="@string/welcome_expanded_address"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="12dp" />
 
     <Button
-        android:text="Get Directions"
+        android:text="@string/welcome_expanded_get_directions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        style="@style/ButtonPrimary"
         android:id="@+id/btn_directions" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Questions? Concerns?"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Drop us a line! We're happy to help!"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="12dp" />
-
-    <Button
-        android:text="Email Us"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/btn_email" />
 
 </LinearLayout>

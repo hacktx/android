@@ -1,6 +1,7 @@
 <resources>
     <!-- Global -->
     <string name="app_name">HackTX</string>
+    <string name="event_name">HackTX 2016</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="no_thanks">No Thanks</string>
@@ -13,12 +14,11 @@
     <string name="welcome_email_hint">Email Address</string>
     <string name="welcome_invalid_email">Invalid email address.</string>
     <string name="welcome_card_footer">You can change this later.</string>
-    <string name="welcome_expanded_check_in_title">Fast Check-In</string>
-    <string name="welcome_expanded_check_in_text">Enter your email above to speed up check-in.</string>
-    <string name="welcome_expanded_notify_title">Get Notified</string>
-    <string name="welcome_expanded_notify_text">Get announcements throughout the event.</string>
-    <string name="welcome_expanded_feedback_title">Give Feedback</string>
-    <string name="welcome_expanded_feedback_text">Provide feedback once an event has concluded.</string>
+
+    <string name="welcome_expanded_date">October 22 – 23, 2016</string>
+    <string name="welcome_expanded_omni">Omni Hotel</string>
+    <string name="welcome_expanded_address">700 San Jacinto Blvd, Austin, TX 78701</string>
+    <string name="welcome_expanded_get_directions">Get Directions</string>
 
     <!-- MainActivity -->
     <string name="action_settings">Settings</string>
