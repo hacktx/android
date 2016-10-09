@@ -40,11 +40,6 @@ android {
 
         buildConfigField "String", "TWITTER_KEY", "\"${props.getProperty('TWITTER_KEY')}\""
         buildConfigField "String", "TWITTER_SECRET", "\"${props.getProperty('TWITTER_SECRET')}\""
-        buildConfigField "String", "SLACK_KEY", "\"${props.getProperty('SLACK_KEY')}\""
-        buildConfigField "String", "SLACK_TOKEN", "\"${props.getProperty('SLACK_TOKEN')}\""
-        buildConfigField "String", "SLACK_ANNOUNCEMENT_ID", "\"${props.getProperty('SLACK_ANNOUNCEMENT_ID')}\""
-        buildConfigField "String", "ESTIMOTE_APP_ID", "\"${props.getProperty('ESTIMOTE_APP_ID')}\""
-        buildConfigField "String", "ESTIMOTE_APP_TOKEN", "\"${props.getProperty('ESTIMOTE_APP_TOKEN')}\""
 
         manifestPlaceholders = [ googleMapsApiKey : "${props.getProperty('GOOGLE_MAPS_KEY')}"]
     }
