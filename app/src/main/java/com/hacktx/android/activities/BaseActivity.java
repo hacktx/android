@@ -39,7 +39,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMetricsManager = new MetricsManager(this);
-        mConfigManager = new ConfigManager(this);
+        mConfigManager = new ConfigManager();
 
         setupTaskActivityInfo();
     }

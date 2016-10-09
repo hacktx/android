@@ -38,12 +38,9 @@ public class ConfigManager {
     private final String TAG = this.getClass().getSimpleName();
     private final int CACHE_EXPIRATION_IN_SECONDS = 900;
 
-    private Context mContext;
     private FirebaseRemoteConfig mRemoteConfig;
 
-    public ConfigManager(Context context) {
-        mContext = context;
-
+    public ConfigManager() {
         if (Constants.FIREBASE_REMOTE_CONFIG_ENABLED) {
             FirebaseRemoteConfigSettings configSettings =
                     new FirebaseRemoteConfigSettings.Builder()
@@ -54,7 +51,7 @@ public class ConfigManager {
             mRemoteConfig.setConfigSettings(configSettings);
             mRemoteConfig.setDefaults(R.xml.remote_config_defaults);
 
-            Log.i(TAG, "Firebase Remote Config enabled (dev "
+            Log.d(TAG, "Firebase Remote Config enabled (dev "
                     + (configSettings.isDeveloperModeEnabled() ? "enabled)" : "disabled)"));
 
             new Handler().postDelayed(new Runnable() {
@@ -66,7 +63,7 @@ public class ConfigManager {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             boolean result = mRemoteConfig.activateFetched();
-                                            Log.i(TAG, "Remote config data fetched (" + result + ")");
+                                            Log.d(TAG, "Remote config data fetched (" + result + ")");
                                         }
                                     }
                             )
@@ -81,7 +78,7 @@ public class ConfigManager {
                 }
             }, 0);
         } else {
-            Log.i(TAG, "Firebase Remote Config disabled");
+            Log.d(TAG, "Firebase Remote Config disabled");
         }
     }
 
@@ -97,7 +94,7 @@ public class ConfigManager {
             result = fallback;
         }
 
-        Log.i(TAG, key + " --> " + result + " (" + fallback + ")");
+        Log.d(TAG, key + " --> " + result + " (" + fallback + ")");
         return result;
     }
 }

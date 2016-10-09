@@ -43,7 +43,7 @@ public class NotificationService extends FirebaseMessagingService {
     @Override
     public void onCreate(){
         super.onCreate();
-        mConfigManager = new ConfigManager(this);
+        mConfigManager = new ConfigManager();
     }
 
     @Override

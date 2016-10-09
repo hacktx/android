@@ -40,7 +40,7 @@ public class DebugFragment extends PreferenceFragment {
 
         addPreferencesFromResource(R.xml.preferences_debug);
 
-        ConfigManager configManager = new ConfigManager(getActivity());
+        ConfigManager configManager = new ConfigManager();
 
         final PreferenceScreen configCheckIn = (PreferenceScreen) findPreference(getString(R.string.debug_config_check_in_key));
         configCheckIn.setSummary(configManager.getValue(ConfigParam.CHECK_IN) ? R.string.debug_config_enabled : R.string.debug_config_disabled);

@@ -36,6 +36,6 @@ public class BaseFragment extends Fragment {
         actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mConfigManager = new ConfigManager(getActivity());
+        mConfigManager = new ConfigManager();
     }
 }
