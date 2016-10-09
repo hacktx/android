@@ -80,10 +80,16 @@ public class WelcomeActivity extends BaseActivity {
                 } else {
                     String email = ((EditText) findViewById(R.id.sign_in_card_email)).getText().toString();
                     if (email.contains("@")) {
+                        mMetricsManager.logEvent(R.string.analytics_event_set_email, null);
                         UserStateStore.setUserEmail(WelcomeActivity.this, email);
                     } else if (!email.trim().isEmpty() && !email.contains("@")) {
+                        Bundle b = new Bundle();
+                        b.putString(getString(R.string.analytics_param_email), email);
+                        mMetricsManager.logEvent(R.string.analytics_event_invalid_email, b);
                         Snackbar.make(WelcomeActivity.this.findViewById(android.R.id.content), getString(R.string.welcome_invalid_email), Snackbar.LENGTH_SHORT).show();
                         return;
+                    } else {
+                        mMetricsManager.logEvent(R.string.analytics_event_skip_email, null);
                     }
 
                     UserStateStore.setFirstLaunch(WelcomeActivity.this, false);
@@ -137,6 +143,7 @@ public class WelcomeActivity extends BaseActivity {
                             expandedContent.findViewById(R.id.btn_directions).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
+                                    mMetricsManager.logEvent(R.string.analytics_event_get_directions, null);
                                     Intent intent = new Intent(Intent.ACTION_VIEW);
                                     intent.setData(Uri.parse("geo:0,0?q=30.268915,-97.740378(HackTX 2016)"));
                                     startActivity(intent);

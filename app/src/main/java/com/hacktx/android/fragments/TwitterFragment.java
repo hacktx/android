@@ -77,6 +77,7 @@ public class TwitterFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.open_in_twitter:
+                mMetricsManager.logEvent(R.string.analytics_event_twitter_external, null);
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/HackTX")));
                 return true;
         }

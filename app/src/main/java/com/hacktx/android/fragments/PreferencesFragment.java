@@ -33,11 +33,16 @@ import android.webkit.WebView;
 import com.hacktx.android.Constants;
 import com.hacktx.android.R;
 import com.hacktx.android.activities.DebugActivity;
+import com.hacktx.android.utils.MetricsManager;
 
 public class PreferencesFragment extends PreferenceFragment {
 
+    private MetricsManager mMetricsManager;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mMetricsManager = new MetricsManager(getActivity());
 
         addPreferencesFromResource(R.xml.preferences);
 
@@ -59,6 +64,7 @@ public class PreferencesFragment extends PreferenceFragment {
         notifAnnouncementPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
+                mMetricsManager.logEvent(R.string.analytics_event_toggle_notifications, null);
                 Log.i("PreferencesFragment", "Announcement notifications "
                         + ((boolean) newValue ? "enabled" : "disabled") + ".");
 
@@ -81,6 +87,7 @@ public class PreferencesFragment extends PreferenceFragment {
         licenses.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                mMetricsManager.logEvent(R.string.analytics_event_licenses, null);
                 final Dialog licenseDialog = new Dialog(getActivity());
                 licenseDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 licenseDialog.setContentView(R.layout.dialog_licenses);

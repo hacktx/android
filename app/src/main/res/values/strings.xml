@@ -41,6 +41,10 @@
     <string name="fragment_maps_title">Maps</string>
     <string name="fragment_map_reset_map">Reset Map</string>
     <string name="fragment_map_remote_map">PDF Map</string>
+    <string name="fragment_map_capital_ballroom">Capital Ballroom</string>
+    <string name="fragment_map_congress">Congress</string>
+    <string name="fragment_map_lone_star">Lone Star</string>
+    <string name="fragment_map_sentate">Senate</string>
 
     <!-- SponsorFragment -->
     <string name="fragment_sponsor_title">Partners</string>
@@ -150,7 +154,37 @@
     <string name="notif_topic_debug">debug</string>
 
     <!-- Analytics -->
-    <string name="analytics_event_login">event_login</string>
-    <string name="analytics_param_login_method">login_method</string>
+    <string name="analytics_event_set_email">event_set_email</string>
+    <string name="analytics_event_invalid_email">event_invalid_email</string>
+    <string name="analytics_param_email">email</string>
+    <string name="analytics_event_skip_email">event_skip_email</string>
+    <string name="analytics_event_get_directions">event_get_directions</string>
+    <string name="analytics_event_nav_schedule">event_nav_schedule</string>
+    <string name="analytics_event_nav_announcement">event_nav_announcement</string>
+    <string name="analytics_event_nav_twitter">event_nav_twitter</string>
+    <string name="analytics_event_nav_map">event_nav_map</string>
+    <string name="analytics_event_nav_sponsors">event_nav_sponsors</string>
+    <string name="analytics_event_nav_check_in">event_nav_check_in</string>
+    <string name="analytics_event_nav_settings">event_nav_settings</string>
+    <string name="analytics_event_slack_dialog_show">event_slack_dialog_show</string>
+    <string name="analytics_event_slack_dialog_disable_notif">event_slack_dialog_disable_notif</string>
+    <string name="analytics_event_slack_dialog_no">event_slack_dialog_no</string>
+    <string name="analytics_event_check_in_reset">event_check_in_reset</string>
+    <string name="analytics_event_view_event">event_view_event</string>
+    <string name="analytics_event_view_sponsor">event_view_sponsor</string>
+    <string name="analytics_event_twitter_external">event_twitter_external</string>
+    <string name="analytics_event_map">event_map</string>
+    <string name="analytics_event_share">event_share</string>
+    <string name="analytics_param_event_name">event_name</string>
+    <string name="analytics_event_feedback_no_thanks">event_feedback_no_thanks</string>
+    <string name="analytics_event_feedback_cancel">event_feedback_cancel</string>
+    <string name="analytics_event_feedback_submit">event_feedback_submit</string>
+    <string name="analytics_event_feedback_already_submitted">event_feedback_already_submitted</string>
+    <string name="analytics_event_floor_change">event_floor_change</string>
+    <string name="analytics_param_floor">floor</string>
+    <string name="analytics_event_reset_map">event_reset_map</string>
+    <string name="analytics_event_remote_map">event_remote_map</string>
+    <string name="analytics_event_toggle_notifications">event_toggle_notifications</string>
+    <string name="analytics_event_licenses">event_licenses</string>
 
 </resources>

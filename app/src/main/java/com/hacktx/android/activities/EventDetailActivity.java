@@ -139,11 +139,17 @@ public class EventDetailActivity extends BaseActivity {
                 finish();
                 return true;
             case R.id.action_map:
+                Bundle b = new Bundle();
+                b.putString(getString(R.string.analytics_param_event_name), event.getName());
+                mMetricsManager.logEvent(R.string.analytics_event_map, b);
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("open", "maps");
                 startActivity(intent);
                 return true;
             case R.id.action_share:
+                Bundle b2 = new Bundle();
+                b2.putString(getString(R.string.analytics_param_event_name), event.getName());
+                mMetricsManager.logEvent(R.string.analytics_event_share, b2);
                 String shareBody = getString(R.string.event_share_body, event.getName());
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
@@ -156,7 +162,7 @@ public class EventDetailActivity extends BaseActivity {
     }
 
     private void setupEventData(String eventData) {
-        Log.i("EventDetailActivity", "Passed event data: " + eventData);
+        Log.d("EventDetailActivity", "Passed event data: " + eventData);
         try {
             event = new Gson().fromJson(eventData, new TypeToken<ScheduleEvent>() {}.getType());
         } catch (Exception e) {
@@ -193,6 +199,7 @@ public class EventDetailActivity extends BaseActivity {
                     dialog.findViewById(R.id.feedbackDialogCancel).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            mMetricsManager.logEvent(R.string.analytics_event_feedback_cancel, null);
                             dialog.dismiss();
                         }
                     });
@@ -203,6 +210,7 @@ public class EventDetailActivity extends BaseActivity {
                             hackTxService.sendFeedback(event.getId(), (int) ratingBar.getRating(), new Callback<EventFeedback>() {
                                 @Override
                                 public void success(EventFeedback feedback, Response response) {
+                                    mMetricsManager.logEvent(R.string.analytics_event_feedback_submit, null);
                                     UserStateStore.setFeedbackSubmitted(EventDetailActivity.this, event.getId(), true);
                                     findViewById(R.id.rateEventCard).setVisibility(View.GONE);
                                     dialog.dismiss();
@@ -219,6 +227,7 @@ public class EventDetailActivity extends BaseActivity {
                         }
                     });
                 } else {
+                    mMetricsManager.logEvent(R.string.analytics_event_feedback_already_submitted, null);
                     Snackbar.make(findViewById(android.R.id.content), R.string.event_feedback_already_submitted, Snackbar.LENGTH_SHORT).show();
                 }
             }
@@ -230,6 +239,7 @@ public class EventDetailActivity extends BaseActivity {
             findViewById(R.id.rateEventCardNoThanks).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mMetricsManager.logEvent(R.string.analytics_event_feedback_no_thanks, null);
                     UserStateStore.setFeedbackIgnored(EventDetailActivity.this, event.getId(), true);
                     rateEventCard.setVisibility(View.GONE);
                 }

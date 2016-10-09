@@ -110,29 +110,36 @@ public class MainActivity extends BaseActivity {
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                         switch (menuItem.getItemId()) {
                             case R.id.nav_schedule:
+                                mMetricsManager.logEvent(R.string.analytics_event_nav_schedule, null);
                                 transaction.replace(R.id.content_fragment, new ScheduleMainFragment());
                                 transaction.commit();
                                 break;
                             case R.id.nav_announcement:
+                                mMetricsManager.logEvent(R.string.analytics_event_nav_announcement, null);
                                 transaction.replace(R.id.content_fragment, new AnnouncementFragment());
                                 transaction.commit();
                                 break;
                             case R.id.nav_twitter:
+                                mMetricsManager.logEvent(R.string.analytics_event_nav_twitter, null);
                                 transaction.replace(R.id.content_fragment, new TwitterFragment());
                                 transaction.commit();
                                 break;
                             case R.id.nav_map:
+                                mMetricsManager.logEvent(R.string.analytics_event_nav_map, null);
                                 transaction.replace(R.id.content_fragment, new GoogleMapFragment());
                                 transaction.commit();
                                 break;
                             case R.id.nav_sponsors:
+                                mMetricsManager.logEvent(R.string.analytics_event_nav_sponsors, null);
                                 transaction.replace(R.id.content_fragment, new SponsorFragment());
                                 transaction.commit();
                                 break;
                             case R.id.nav_check_in:
+                                mMetricsManager.logEvent(R.string.analytics_event_nav_check_in, null);
                                 startActivity(new Intent(MainActivity.this, CheckInActivity.class));
                                 break;
                             case R.id.nav_settings:
+                                mMetricsManager.logEvent(R.string.analytics_event_nav_settings, null);
                                 startActivity(new Intent(MainActivity.this, PreferencesActivity.class));
                                 break;
                         }
@@ -166,6 +173,8 @@ public class MainActivity extends BaseActivity {
 
     private void displaySlackAlert() {
         if (isSlackInstalled() && !UserStateStore.getSlackAlertShown(this)) {
+            mMetricsManager.logEvent(R.string.analytics_event_slack_dialog_show, null);
+
             final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
             LayoutInflater inflater = this.getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.dialog_slack, null);
@@ -177,6 +186,7 @@ public class MainActivity extends BaseActivity {
             dialogView.findViewById(R.id.btn_slack_yes).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    mMetricsManager.logEvent(R.string.analytics_event_slack_dialog_disable_notif, null);
                     UserStateStore.setAnnouncementNotificationsEnabled(MainActivity.this, false);
                     dialog.dismiss();
                 }
@@ -185,6 +195,7 @@ public class MainActivity extends BaseActivity {
             dialogView.findViewById(R.id.btn_slack_no).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    mMetricsManager.logEvent(R.string.analytics_event_slack_dialog_no, null);
                     dialog.dismiss();
                 }
             });

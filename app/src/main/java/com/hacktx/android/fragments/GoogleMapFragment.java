@@ -91,6 +91,7 @@ public class GoogleMapFragment extends BaseFragment implements OnMapReadyCallbac
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.reset_map:
+                mMetricsManager.logEvent(R.string.analytics_event_reset_map, null);
                 if (mGoogleMap != null) {
                     CameraPosition cameraPosition = new CameraPosition.Builder()
                             .target(new LatLng(30.268915, -97.740378))
@@ -100,6 +101,7 @@ public class GoogleMapFragment extends BaseFragment implements OnMapReadyCallbac
                 }
                 return true;
             case R.id.remote_map:
+                mMetricsManager.logEvent(R.string.analytics_event_remote_map, null);
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.REMOTE_MAP_URL));
                 startActivity(intent);
                 return true;
@@ -109,12 +111,11 @@ public class GoogleMapFragment extends BaseFragment implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(final GoogleMap map) {
-
         mGoogleMap = map;
 
         map.addMarker(new MarkerOptions()
                 .position(new LatLng(30.268915, -97.740378))
-                .title("HackTX 2016"));
+                .title(getString(R.string.event_name)));
 
         map.setOnIndoorStateChangeListener(new GoogleMap.OnIndoorStateChangeListener() {
             @Override
@@ -124,31 +125,33 @@ public class GoogleMapFragment extends BaseFragment implements OnMapReadyCallbac
 
             @Override
             public void onIndoorLevelActivated(IndoorBuilding indoorBuilding) {
-                System.out.println(indoorBuilding.getActiveLevelIndex() + " ## ");
+                Bundle b = new Bundle();
+                b.putInt(getString(R.string.analytics_param_floor), indoorBuilding.getActiveLevelIndex());
+                mMetricsManager.logEvent(R.string.analytics_event_floor_change, b);
                 switch (indoorBuilding.getActiveLevelIndex()) {
                     case 2: // First floor
                         map.clear();
                         map.addMarker(new MarkerOptions()
                                 .position(new LatLng(30.268915, -97.740378))
-                                .title("HackTX 2016"));
+                                .title(getString(R.string.event_name)));
                         return;
                     case 1: // Second floor
                         map.clear();
                         map.addMarker(new MarkerOptions()
                                 .position(new LatLng(30.26864, -97.74022))
-                                .title("Capital Ballroom"));
+                                .title(getString(R.string.fragment_map_capital_ballroom)));
 
                         map.addMarker(new MarkerOptions()
                                 .position(new LatLng(30.26878, -97.74028))
-                                .title("Congress"));
+                                .title(getString(R.string.fragment_map_congress)));
 
                         map.addMarker(new MarkerOptions()
                                 .position(new LatLng(30.2688, -97.74064))
-                                .title("Lone Star"));
+                                .title(getString(R.string.fragment_map_lone_star)));
 
                         map.addMarker(new MarkerOptions()
                                 .position(new LatLng(30.2686, -97.74042))
-                                .title("Senate"));
+                                .title(getString(R.string.fragment_map_sentate)));
                         return;
                     case 0: // Third floor
                         map.clear();

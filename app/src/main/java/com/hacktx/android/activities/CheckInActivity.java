@@ -65,10 +65,6 @@ public class CheckInActivity extends BaseActivity {
             getSupportActionBar().setTitle(R.string.activity_check_in_title);
         }
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.hacktx_blue));
-//        }
-
         setupStatusBar();
         setupCards();
     }
@@ -156,6 +152,8 @@ public class CheckInActivity extends BaseActivity {
         View.OnClickListener resetOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mMetricsManager.logEvent(R.string.analytics_event_check_in_reset, null);
+
                 UserStateStore.setUserEmail(CheckInActivity.this, "");
                 deleteSavedCode();
 
@@ -184,6 +182,7 @@ public class CheckInActivity extends BaseActivity {
                     builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            mMetricsManager.logEvent(R.string.analytics_event_set_email, null);
                             UserStateStore.setUserEmail(CheckInActivity.this, email);
                             findViewById(R.id.emailCard).setVisibility(View.GONE);
                             if (!HackTXUtils.hasHackTxStarted(CheckInActivity.this)) {
@@ -202,6 +201,9 @@ public class CheckInActivity extends BaseActivity {
                     builder.setNegativeButton(getString(R.string.no), null);
                     builder.show();
                 } else {
+                    Bundle b = new Bundle();
+                    b.putString(getString(R.string.analytics_param_email), email);
+                    mMetricsManager.logEvent(R.string.analytics_event_invalid_email, b);
                     Snackbar.make(findViewById(android.R.id.content), getString(R.string.activity_check_in_invalid_email), Snackbar.LENGTH_SHORT).show();
                 }
             }

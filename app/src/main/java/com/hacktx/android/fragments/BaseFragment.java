@@ -23,9 +23,11 @@ import android.support.v7.widget.Toolbar;
 
 import com.hacktx.android.R;
 import com.hacktx.android.utils.ConfigManager;
+import com.hacktx.android.utils.MetricsManager;
 
 public class BaseFragment extends Fragment {
 
+    protected MetricsManager mMetricsManager;
     protected ConfigManager mConfigManager;
 
     protected void setupToolbar(Toolbar toolbar, int title) {
@@ -36,6 +38,7 @@ public class BaseFragment extends Fragment {
         actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        mMetricsManager = new MetricsManager(getActivity());
         mConfigManager = new ConfigManager();
     }
 }

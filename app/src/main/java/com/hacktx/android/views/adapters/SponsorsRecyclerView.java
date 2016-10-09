@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.hacktx.android.utils.MetricsManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -80,6 +81,7 @@ public class SponsorsRecyclerView extends RecyclerView.Adapter<SponsorsRecyclerV
         holder.logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new MetricsManager(context).logEvent(R.string.analytics_event_view_sponsor, null);
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW,
                         Uri.parse(sponsorsList.get(position).getWebsite()));
                 context.startActivity(browserIntent);

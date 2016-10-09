@@ -64,27 +64,9 @@ public class MetricsManager {
     }
 
     public void logEvent(@StringRes int iri, Bundle extras) {
-        Log.i(TAG, mContext.getString(iri) + ": " + (extras != null ? extras.toString() : "null"));
+        Log.v(TAG, mContext.getString(iri) + ": " + (extras != null ? extras.toString() : "null"));
         firebaseEvent(iri, extras);
         fabricEvent(iri, extras);
-    }
-
-    public void logLogin(String method, boolean success) {
-        Log.i(TAG, "login: " + method + " " + success);
-
-        if (Constants.FIREBASE_ANALYTICS_ENABLED) {
-            Bundle b = new Bundle();
-            b.putString(mContext.getString(R.string.analytics_param_login_method), method);
-            firebaseEvent(R.string.analytics_event_login, b);
-        }
-
-        if (!Constants.FABRIC_ANSWERS_ENABLED) {
-            if (!Fabric.isInitialized()) {
-                Fabric.with(mContext, new Crashlytics());
-            }
-
-            Answers.getInstance().logLogin(new LoginEvent().putMethod(method).putSuccess(success));
-        }
     }
 
     private void firebaseEvent(@StringRes int iri, Bundle extras) {

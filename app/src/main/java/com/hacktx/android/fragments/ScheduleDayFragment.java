@@ -51,7 +51,7 @@ import com.hacktx.android.network.services.HackTxService;
 import com.hacktx.android.views.adapters.ScheduleClusterRecyclerView;
 import com.squareup.picasso.Picasso;
 
-public class ScheduleDayFragment extends Fragment {
+public class ScheduleDayFragment extends BaseFragment {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -100,6 +100,7 @@ public class ScheduleDayFragment extends Fragment {
                 new ScheduleClusterRecyclerView.ScheduleItemClickListener() {
             @Override
             public void onItemClick(View v, ScheduleEvent e) {
+                mMetricsManager.logEvent(R.string.analytics_event_view_event, null);
                 Intent intent = new Intent(getActivity(), EventDetailActivity.class);
                 intent.putExtra("eventData", new Gson().toJson(e));
                 startActivity(intent);
