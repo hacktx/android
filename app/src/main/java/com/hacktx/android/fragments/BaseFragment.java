@@ -16,6 +16,7 @@
 
 package com.hacktx.android.fragments;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,13 @@ public class BaseFragment extends Fragment {
     protected MetricsManager mMetricsManager;
     protected ConfigManager mConfigManager;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mMetricsManager = new MetricsManager(getActivity());
+        mConfigManager = new ConfigManager();
+    }
+
     protected void setupToolbar(Toolbar toolbar, int title) {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
@@ -37,8 +45,5 @@ public class BaseFragment extends Fragment {
         actionBar.setTitle(title);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        mMetricsManager = new MetricsManager(getActivity());
-        mConfigManager = new ConfigManager();
     }
 }
