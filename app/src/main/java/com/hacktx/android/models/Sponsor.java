@@ -16,14 +16,14 @@
 
 package com.hacktx.android.models;
 
-public class Sponsors {
+public class Sponsor {
 
     private String name;
     private String logoImage;
     private String website;
     private int level;
 
-    public Sponsors(String name, String logoImage, String website, int level) {
+    public Sponsor(String name, String logoImage, String website, int level) {
         this.name = name;
         this.level = level;
         this.logoImage = logoImage;

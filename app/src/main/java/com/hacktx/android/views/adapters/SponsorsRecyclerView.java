@@ -32,12 +32,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hacktx.android.R;
-import com.hacktx.android.models.Sponsors;
+import com.hacktx.android.models.Sponsor;
 
 public class SponsorsRecyclerView extends RecyclerView.Adapter<SponsorsRecyclerView.ViewHolder>  {
 
     private static final String TAG = "SponsorsRecycler";
-    private List<Sponsors> sponsorsList;
+    private List<Sponsor> sponsorList;
     private Context context;
 
     // Provide a reference to the views for each data item
@@ -55,8 +55,8 @@ public class SponsorsRecyclerView extends RecyclerView.Adapter<SponsorsRecyclerV
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public SponsorsRecyclerView(List<Sponsors> announcements, Context context) {
-        sponsorsList = announcements;
+    public SponsorsRecyclerView(List<Sponsor> announcements, Context context) {
+        sponsorList = announcements;
         this.context = context;
     }
 
@@ -75,15 +75,15 @@ public class SponsorsRecyclerView extends RecyclerView.Adapter<SponsorsRecyclerV
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-        Picasso.with(context).load(sponsorsList.get(position).getLogoImage())
+        Picasso.with(context).load(sponsorList.get(position).getLogoImage())
                 .into(holder.logo);
-        holder.logo.setContentDescription(sponsorsList.get(position).getName());
+        holder.logo.setContentDescription(sponsorList.get(position).getName());
         holder.logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new MetricsManager(context).logEvent(R.string.analytics_event_view_sponsor, null);
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse(sponsorsList.get(position).getWebsite()));
+                        Uri.parse(sponsorList.get(position).getWebsite()));
                 context.startActivity(browserIntent);
             }
         });
@@ -104,14 +104,14 @@ public class SponsorsRecyclerView extends RecyclerView.Adapter<SponsorsRecyclerV
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        if (sponsorsList == null) {
-            sponsorsList = new ArrayList<>();
+        if (sponsorList == null) {
+            sponsorList = new ArrayList<>();
         }
-        return sponsorsList.size();
+        return sponsorList.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return sponsorsList.get(position).getLevel();
+        return sponsorList.get(position).getLevel();
     }
 }

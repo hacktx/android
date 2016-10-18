@@ -27,11 +27,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hacktx.android.R;
-import com.hacktx.android.models.Sponsors;
+import com.hacktx.android.models.Sponsor;
 import com.hacktx.android.network.HackTxClient;
 import com.hacktx.android.network.services.HackTxService;
 import com.hacktx.android.views.SpacesItemDecoration;
@@ -45,7 +44,7 @@ import retrofit.client.Response;
 
 public class SponsorFragment extends BaseFragment {
 
-    private ArrayList<Sponsors> sponsorsList;
+    private ArrayList<Sponsor> sponsorList;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private ConstraintLayout mEmptyLayout;
@@ -54,7 +53,7 @@ public class SponsorFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_sponsors, container, false);
-        sponsorsList = new ArrayList<>();
+        sponsorList = new ArrayList<>();
 
         setupToolbar((Toolbar) root.findViewById(R.id.toolbar), R.string.fragment_sponsor_title);
 
@@ -72,7 +71,7 @@ public class SponsorFragment extends BaseFragment {
         mRecyclerView.setHasFixedSize(true);
 
         // specify an adapter (see also next example)
-        mAdapter = new SponsorsRecyclerView(sponsorsList, getActivity());
+        mAdapter = new SponsorsRecyclerView(sponsorList, getActivity());
         mRecyclerView.setAdapter(mAdapter);
 
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
@@ -98,13 +97,13 @@ public class SponsorFragment extends BaseFragment {
 
     private void getSponsors() {
         HackTxService hackTxService = HackTxClient.getInstance().getApiService();
-        hackTxService.getSponsors(new Callback<ArrayList<Sponsors>>() {
+        hackTxService.getSponsors(new Callback<ArrayList<Sponsor>>() {
             @Override
-            public void success(ArrayList<Sponsors> sponsors, Response response) {
+            public void success(ArrayList<Sponsor> sponsors, Response response) {
                 Log.d("SponsorsFragment", "sponsors retrieved!");
                 hideEmptyView();
-                sponsorsList.clear();
-                sponsorsList.addAll(sponsors);
+                sponsorList.clear();
+                sponsorList.addAll(sponsors);
                 mAdapter.notifyDataSetChanged();
             }
 

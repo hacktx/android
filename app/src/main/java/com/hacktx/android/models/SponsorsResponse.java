@@ -20,13 +20,13 @@ import java.util.List;
 
 public class SponsorsResponse {
 
-    private List<Sponsors> sponsors;
+    private List<Sponsor> sponsors;
 
-    public List<Sponsors> getSponsors() {
+    public List<Sponsor> getSponsors() {
         return sponsors;
     }
 
-    public void setSponsors(List<Sponsors> sponsors) {
+    public void setSponsors(List<Sponsor> sponsors) {
         this.sponsors = sponsors;
     }
 }

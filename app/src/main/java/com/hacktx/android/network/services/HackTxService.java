@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import com.hacktx.android.models.EventFeedback;
 import com.hacktx.android.models.Announcement;
 import com.hacktx.android.models.ScheduleCluster;
-import com.hacktx.android.models.Sponsors;
+import com.hacktx.android.models.Sponsor;
 import retrofit.Callback;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
@@ -37,8 +37,8 @@ public interface HackTxService {
     @GET("/announcements")
     void getAnnouncements(Callback<ArrayList<Announcement>> messagesList);
 
-    @GET("/sponsors")
-    void getSponsors(Callback<ArrayList<Sponsors>> sponsorsList);
+    @GET("/partners")
+    void getSponsors(Callback<ArrayList<Sponsor>> sponsorsList);
 
     @FormUrlEncoded
     @POST("/feedback")

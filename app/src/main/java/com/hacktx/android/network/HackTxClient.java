@@ -25,7 +25,7 @@ import retrofit.RestAdapter;
 public class HackTxClient {
 
     private static final String TAG = getInstance().getClass().getSimpleName();
-    private static final String HACKTX_BASE_URL = "https://my.hacktx.com/api/";
+    private static final String HACKTX_BASE_URL = "https://pepper-staging.herokuapp.com/";
     private HackTxService mHackTxService;
 
     private static HackTxClient instance = null;
