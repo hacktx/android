@@ -44,7 +44,7 @@ public class MockClient implements Client {
 
         if(uri.getPath().contains("/schedule")) {
             fileName = "schedule.json";
-        } else if(uri.getPath().contains("/sponsors")) {
+        } else if(uri.getPath().contains("/partners")) {
             fileName = "partners.json";
         } else if(uri.getPath().contains("/announcements")) {
             fileName = "announcements.json";
