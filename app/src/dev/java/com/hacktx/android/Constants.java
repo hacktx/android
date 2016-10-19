@@ -12,7 +12,7 @@ public class Constants {
     public static final boolean FEATURE_REMOTE_MAP = true;
 
     /* Configuration */
-    public static final String REMOTE_MAP_URL = "http://hacktx.com"; // TODO: Replace this
+    public static final String REMOTE_MAP_URL = "https://hacktx.com/map";
 
     /* Firebase */
     public static final boolean FIREBASE_ANALYTICS_ENABLED = false;
