@@ -31,18 +31,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hacktx.android.BuildConfig;
 import com.hacktx.android.R;
 import com.hacktx.android.network.NetworkUtils;
-import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 import com.twitter.sdk.android.tweetui.UserTimeline;
-
-import io.fabric.sdk.android.Fabric;
 
 public class TwitterFragment extends BaseFragment {
 
@@ -85,8 +79,6 @@ public class TwitterFragment extends BaseFragment {
     }
 
     private void setupTwitter(ViewGroup root) {
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.TWITTER_KEY, BuildConfig.TWITTER_SECRET);
-        Fabric.with(getActivity(), new Twitter(authConfig));
         twitterListView = (ListView) root.findViewById(R.id.twitterList);
         updateTwitterTimeline();
     }

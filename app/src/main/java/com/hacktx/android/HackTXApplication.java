@@ -18,11 +18,16 @@ package com.hacktx.android;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.hacktx.android.utils.ConfigManager;
 import com.hacktx.android.utils.LifecycleListener;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+
+import io.fabric.sdk.android.Fabric;
 
 public class HackTXApplication extends Application {
 
@@ -45,6 +50,14 @@ public class HackTXApplication extends Application {
             if (BuildConfig.DEBUG) {
                 firebaseMessaging.subscribeToTopic(getString(R.string.notif_topic_debug));
             }
+        }
+
+        // Setup Fabric
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.TWITTER_KEY, BuildConfig.TWITTER_SECRET);
+        if (Constants.FABRIC_CRASHLYITCS_ENABLED || Constants.FABRIC_ANSWERS_ENABLED) {
+            Fabric.with(this, new Twitter(authConfig), new Crashlytics());
+        } else {
+            Fabric.with(this, new Twitter(authConfig));
         }
 
         // Set Picasso's disk cache to 25 MB

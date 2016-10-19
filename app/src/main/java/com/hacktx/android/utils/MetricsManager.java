@@ -28,7 +28,6 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
-import com.crashlytics.android.answers.LoginEvent;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.hacktx.android.Constants;
 import com.hacktx.android.R;
@@ -57,7 +56,7 @@ public class MetricsManager {
 
         if (Constants.FABRIC_CRASHLYITCS_ENABLED) {
             if (!Fabric.isInitialized()) {
-                Fabric.with(context, new Crashlytics());
+                return;
             }
             Crashlytics.setUserIdentifier(uuid);
         }
@@ -81,7 +80,7 @@ public class MetricsManager {
         }
 
         if (!Fabric.isInitialized()) {
-            Fabric.with(mContext, new Crashlytics());
+            return;
         }
 
         CustomEvent event = new CustomEvent(mContext.getString(iri));
