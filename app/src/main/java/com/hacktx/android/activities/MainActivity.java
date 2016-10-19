@@ -49,6 +49,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        displayWelcome();
+        
         setContentView(R.layout.activity_main);
 
         setupDrawerContent((DrawerLayout) findViewById(R.id.drawer_layout), (NavigationView) findViewById(R.id.nav_view));
@@ -66,8 +68,6 @@ public class MainActivity extends BaseActivity {
             transaction.replace(R.id.content_fragment, new GoogleMapFragment());
             transaction.commit();
         }
-
-        displayWelcome();
     }
 
     @Override
