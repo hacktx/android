@@ -26,6 +26,10 @@
         <item name="colorAccent">@color/hacktx_blue</item>
     </style>
 
+    <style name="CheckInScreen" parent="AppTheme">
+        <item name="colorAccent">@color/hacktx_blue</item>
+    </style>
+
     <style name="ButtonPrimary" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
         <item name="android:textColor">@color/primary</item>
         <item name="colorButtonNormal">@android:color/transparent</item>

@@ -48,7 +48,8 @@
         <activity
             android:name=".activities.DebugActivity"
             android:theme="@style/PreferenceScreen" />
-        <activity android:name=".activities.CheckInActivity" />
+        <activity android:name=".activities.CheckInActivity"
+            android:theme="@style/CheckInScreen"/>
         <activity android:name=".activities.WelcomeActivity"
             android:theme="@style/WelcomeScreen"
             android:windowSoftInputMode="adjustNothing"/>
