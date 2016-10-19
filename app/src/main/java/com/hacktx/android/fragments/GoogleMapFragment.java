@@ -113,11 +113,7 @@ public class GoogleMapFragment extends BaseFragment implements OnMapReadyCallbac
     public void onMapReady(final GoogleMap map) {
         mGoogleMap = map;
 
-        map.addMarker(new MarkerOptions()
-                .position(new LatLng(30.268915, -97.740378))
-                .title(getString(R.string.event_name)));
-
-        map.setOnIndoorStateChangeListener(new GoogleMap.OnIndoorStateChangeListener() {
+        mGoogleMap.setOnIndoorStateChangeListener(new GoogleMap.OnIndoorStateChangeListener() {
             @Override
             public void onIndoorBuildingFocused() {
 
@@ -128,37 +124,52 @@ public class GoogleMapFragment extends BaseFragment implements OnMapReadyCallbac
                 Bundle b = new Bundle();
                 b.putInt(getString(R.string.analytics_param_floor), indoorBuilding.getActiveLevelIndex());
                 mMetricsManager.logEvent(R.string.analytics_event_floor_change, b);
-                switch (indoorBuilding.getActiveLevelIndex()) {
-                    case 2: // First floor
-                        map.clear();
-                        map.addMarker(new MarkerOptions()
-                                .position(new LatLng(30.268915, -97.740378))
-                                .title(getString(R.string.event_name)));
-                        return;
-                    case 1: // Second floor
-                        map.clear();
-                        map.addMarker(new MarkerOptions()
-                                .position(new LatLng(30.26864, -97.74022))
-                                .title(getString(R.string.fragment_map_capital_ballroom)));
-
-                        map.addMarker(new MarkerOptions()
-                                .position(new LatLng(30.26878, -97.74028))
-                                .title(getString(R.string.fragment_map_congress)));
-
-                        map.addMarker(new MarkerOptions()
-                                .position(new LatLng(30.2688, -97.74064))
-                                .title(getString(R.string.fragment_map_lone_star)));
-
-                        map.addMarker(new MarkerOptions()
-                                .position(new LatLng(30.2686, -97.74042))
-                                .title(getString(R.string.fragment_map_sentate)));
-                        return;
-                    case 0: // Third floor
-                        map.clear();
-                        return;
-                    default: map.clear();
-                }
+                applyMarkers(indoorBuilding.getActiveLevelIndex());
             }
         });
+
+        mGoogleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(30.268915, -97.740378))
+                .title(getString(R.string.event_name)));
+    }
+
+    private void applyMarkers(int floor) {
+        if (mGoogleMap == null) {
+            return;
+        }
+
+        switch (floor) {
+            case 2: // First floor
+                mGoogleMap.clear();
+                mGoogleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(30.268915, -97.740378))
+                        .title(getString(R.string.event_name)));
+                return;
+            case 1: // Second floor
+                mGoogleMap.clear();
+                mGoogleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(30.26864, -97.74022))
+                        .title(getString(R.string.fragment_map_capital_ballroom)));
+
+                mGoogleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(30.26878, -97.74028))
+                        .title(getString(R.string.fragment_map_congress)));
+
+                mGoogleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(30.2688, -97.74064))
+                        .title(getString(R.string.fragment_map_lone_star)));
+
+                mGoogleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(30.268915, -97.74075))
+                        .title(getString(R.string.fragment_map_austin)));
+                return;
+            case 0: // Third floor
+                mGoogleMap.clear();
+                mGoogleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(30.2688, -97.74064))
+                        .title(getString(R.string.fragment_map_longhorn)));
+                return;
+            default: mGoogleMap.clear();
+        }
     }
 }

@@ -44,7 +44,8 @@
     <string name="fragment_map_capital_ballroom">Capital Ballroom</string>
     <string name="fragment_map_congress">Congress</string>
     <string name="fragment_map_lone_star">Lone Star</string>
-    <string name="fragment_map_sentate">Senate</string>
+    <string name="fragment_map_austin">Austin</string>
+    <string name="fragment_map_longhorn">Longhorn</string>
 
     <!-- SponsorFragment -->
     <string name="fragment_sponsor_title">Partners</string>
