@@ -152,10 +152,6 @@ public class GoogleMapFragment extends BaseFragment implements OnMapReadyCallbac
                         .title(getString(R.string.fragment_map_capital_ballroom)));
 
                 mGoogleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(30.26878, -97.74028))
-                        .title(getString(R.string.fragment_map_congress)));
-
-                mGoogleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(30.2688, -97.74064))
                         .title(getString(R.string.fragment_map_lone_star)));
 
