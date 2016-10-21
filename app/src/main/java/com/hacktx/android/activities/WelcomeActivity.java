@@ -74,7 +74,7 @@ public class WelcomeActivity extends BaseActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (page == 0 && mConfigManager.getValue(ConfigParam.CHECK_IN)) {
+                if (page == 0 && (mConfigManager.getValue(ConfigParam.CHECK_IN) && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)) {
                     showHiddenPage();
                     page++;
                 } else {
