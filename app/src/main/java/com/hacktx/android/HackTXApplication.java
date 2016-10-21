@@ -64,7 +64,15 @@ public class HackTXApplication extends Application {
         Picasso picasso =  new Picasso.Builder(this)
                 .downloader(new OkHttpDownloader(getCacheDir(), 25000000))
                 .build();
-        Picasso.setSingletonInstance(picasso);
+
+        try {
+            Picasso.setSingletonInstance(picasso);
+        } catch (IllegalStateException e) {
+            // Let's gracefully log it if enabled...
+            if (Constants.FABRIC_CRASHLYITCS_ENABLED) {
+                Crashlytics.getInstance().core.logException(e);
+            }
+        }
     }
 
     public static HackTXApplication getInstance() {
