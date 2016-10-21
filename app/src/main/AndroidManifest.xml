@@ -12,6 +12,7 @@
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_circle"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
@@ -33,6 +34,8 @@
                 <data android:scheme="http" android:host="go.hacktx.com" />
                 <data android:scheme="https" android:host="go.hacktx.com" />
             </intent-filter>
+            <meta-data android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
 
         <service android:name=".services.NotificationService">
@@ -49,7 +52,12 @@
             android:name=".activities.DebugActivity"
             android:theme="@style/PreferenceScreen" />
         <activity android:name=".activities.CheckInActivity"
-            android:theme="@style/CheckInScreen"/>
+            android:theme="@style/CheckInScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.WelcomeActivity"
             android:theme="@style/WelcomeScreen"
             android:windowSoftInputMode="adjustNothing"/>

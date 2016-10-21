@@ -19,6 +19,10 @@ package com.hacktx.android.activities;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
+import android.graphics.drawable.Icon;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -40,6 +44,7 @@ import com.hacktx.android.fragments.TwitterFragment;
 import com.hacktx.android.network.UserStateStore;
 import com.hacktx.android.utils.ConfigParam;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
@@ -68,6 +73,8 @@ public class MainActivity extends BaseActivity {
             transaction.replace(R.id.content_fragment, new GoogleMapFragment());
             transaction.commit();
         }
+
+        setupAppShortcuts();
     }
 
     @Override
@@ -214,5 +221,27 @@ public class MainActivity extends BaseActivity {
 
         List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
+    }
+
+    private void setupAppShortcuts() {
+        // Setup app shortcuts
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1 && mConfigManager.getValue(ConfigParam.CHECK_IN)) {
+            ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+
+            Intent checkInIntent = new Intent(Intent.ACTION_VIEW);
+            checkInIntent.setPackage("com.hacktx.android");
+            checkInIntent.setClass(this, CheckInActivity.class);
+            checkInIntent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+            checkInIntent.putExtra("fromShortcut", true);
+
+            ShortcutInfo shortcut = new ShortcutInfo.Builder(this, "check-in")
+                    .setShortLabel(getString(R.string.app_shortcut_check_in))
+                    .setLongLabel(getString(R.string.app_shortcut_check_in))
+                    .setIcon(Icon.createWithResource(this, R.mipmap.ic_launcher))
+                    .setIntent(checkInIntent)
+                    .build();
+
+            shortcutManager.addDynamicShortcuts(Arrays.asList(shortcut));
+        }
     }
 }

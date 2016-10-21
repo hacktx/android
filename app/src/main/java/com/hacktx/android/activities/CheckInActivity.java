@@ -18,6 +18,7 @@ package com.hacktx.android.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.ShortcutManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -63,6 +64,12 @@ public class CheckInActivity extends BaseActivity {
 
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(R.string.activity_check_in_title);
+        }
+
+        if (getIntent().getBooleanExtra("fromShortcut", false)
+                && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+            shortcutManager.reportShortcutUsed("check-in");
         }
 
         setupStatusBar();

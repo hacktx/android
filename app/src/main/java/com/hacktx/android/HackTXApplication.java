@@ -20,7 +20,6 @@ import android.app.Application;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.hacktx.android.utils.ConfigManager;
 import com.hacktx.android.utils.LifecycleListener;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;

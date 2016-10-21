@@ -1,0 +1,28 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="schedule"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/app_shortcut_announcements"
+        android:shortcutLongLabel="@string/app_shortcut_announcements">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.hacktx.android"
+            android:targetClass="com.hacktx.android.activities.MainActivity">
+            <extra android:name="open" android:value="announcements" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:shortcutId="map"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/app_shortcut_map"
+        android:shortcutLongLabel="@string/app_shortcut_map">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.hacktx.android"
+            android:targetClass="com.hacktx.android.activities.MainActivity">
+            <extra android:name="open" android:value="map" />
+        </intent>
+    </shortcut>
+</shortcuts>

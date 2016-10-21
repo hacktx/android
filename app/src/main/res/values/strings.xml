@@ -153,6 +153,11 @@
     <string name="notif_topic_announcements">announcements</string>
     <string name="notif_topic_debug">debug</string>
 
+    <!-- App Shortcuts -->
+    <string name="app_shortcut_announcements">Announcements</string>
+    <string name="app_shortcut_map">Map</string>
+    <string name="app_shortcut_check_in">Check-in</string>
+
     <!-- Analytics -->
     <string name="analytics_event_set_email">event_set_email</string>
     <string name="analytics_event_invalid_email">event_invalid_email</string>
