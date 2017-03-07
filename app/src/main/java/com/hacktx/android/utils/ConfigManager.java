@@ -1,7 +1,7 @@
 /*
  * Originally from Zephyr <https://goo.gl/bggO4r>. Modified for HackTX.
  *
- * Copyright 2016 Thomas Gaubert.
+ * Copyright 2017 Thomas Gaubert.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
