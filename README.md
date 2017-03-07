@@ -1,7 +1,7 @@
 android
 =======
 
-HackTX app for Android.
+HackTX Android application built using [Firebase](https://firebase.google.com) and [Fabric](https://www.fabric.io).
 
 ### Configuration
 
