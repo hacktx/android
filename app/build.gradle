@@ -68,12 +68,13 @@ android {
             debuggable true
         }
     }
+    flavorDimensions "default"
     productFlavors {
         production {
-
+            dimension "default"
         }
         dev {
-
+            dimension "default"
         }
     }
 }
