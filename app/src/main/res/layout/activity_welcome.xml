@@ -109,7 +109,7 @@
                         android:layout_marginLeft="24dp"
                         android:layout_marginBottom="8dp"
                         android:layout_marginRight="24dp"
-                        android:backgroundTint="@color/hacktx_blue"
+                        android:backgroundTint="@color/hacktx16_blue"
                         android:enabled="true"
                         android:imeOptions="actionDone" />
                 </android.support.design.widget.TextInputLayout>

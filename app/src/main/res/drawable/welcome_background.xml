@@ -20,8 +20,8 @@
         <shape>
             <gradient
                 android:angle="270"
-                android:startColor="@color/hacktx_blue"
-                android:endColor="@color/hacktx_blue_light"
+                android:startColor="@color/hacktx16_blue"
+                android:endColor="@color/hacktx16_blue_light"
                 android:type="linear" />
         </shape>
     </item>
