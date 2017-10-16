@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="If you login to the HackTX 2016 Slack, you&apos;ll receive notifications from #announcements."
+        android:text="If you login to the HackTX 2017 Slack, you&apos;ll receive notifications from #announcements."
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp" />
