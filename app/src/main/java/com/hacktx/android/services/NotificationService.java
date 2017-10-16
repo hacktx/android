@@ -85,12 +85,14 @@ public class NotificationService extends FirebaseMessagingService {
                 .setColor(ContextCompat.getColor(this, R.color.primary))
                 .setContentTitle(getString(R.string.app_name))
                 .setAutoCancel(true)
+                .setChannelId(NotificationUtils.getNotificationChannel(this, group))
                 .setContentIntent(pendingIntent);
 
         notificationManager.notify(NotificationUtils.getIdBase(this, group), summaryNotifBuilder.build());
 
         NotificationCompat.Builder notificationBuilder = getBaseNotificationBuilder(title, text, vibrate)
                 .setContentIntent(pendingIntent)
+                .setChannelId(NotificationUtils.getNotificationChannel(this, group))
                 .setGroup(group);
 
         notificationManager.notify(id, notificationBuilder.build());
@@ -110,6 +112,7 @@ public class NotificationService extends FirebaseMessagingService {
         boolean vibrate = Boolean.parseBoolean(data.get("vibrate") != null ? data.get("vibrate") : "false");
 
         NotificationCompat.Builder notificationBuilder = getBaseNotificationBuilder(title, text, vibrate)
+                .setChannelId(NotificationUtils.getNotificationChannel(this, group))
                 .setContentIntent(pendingIntent);
 
         notificationManager.notify(id, notificationBuilder.build());
