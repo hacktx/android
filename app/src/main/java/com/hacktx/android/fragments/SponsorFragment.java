@@ -31,8 +31,8 @@ import android.widget.TextView;
 
 import com.hacktx.android.R;
 import com.hacktx.android.models.Sponsor;
-import com.hacktx.android.network.HackTxClient;
-import com.hacktx.android.network.services.HackTxService;
+import com.hacktx.android.io.HackTxClient;
+import com.hacktx.android.io.services.HackTxService;
 import com.hacktx.android.views.SpacesItemDecoration;
 import com.hacktx.android.views.adapters.SponsorsRecyclerView;
 

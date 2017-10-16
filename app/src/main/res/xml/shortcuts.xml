@@ -16,9 +16,9 @@
 
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
-        android:shortcutId="schedule"
+        android:shortcutId="announcements"
         android:enabled="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_shortcut_announcements"
         android:shortcutShortLabel="@string/app_shortcut_announcements"
         android:shortcutLongLabel="@string/app_shortcut_announcements">
         <intent
@@ -31,7 +31,7 @@
     <shortcut
         android:shortcutId="map"
         android:enabled="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_shortcut_map"
         android:shortcutShortLabel="@string/app_shortcut_map"
         android:shortcutLongLabel="@string/app_shortcut_map">
         <intent

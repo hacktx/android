@@ -25,10 +25,9 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.hacktx.android.Constants;
 import com.hacktx.android.R;
 import com.hacktx.android.activities.MainActivity;
-import com.hacktx.android.network.UserStateStore;
+import com.hacktx.android.io.UserStateStore;
 import com.hacktx.android.utils.ConfigManager;
 import com.hacktx.android.utils.ConfigParam;
 import com.hacktx.android.utils.NotificationUtils;
@@ -41,7 +40,7 @@ public class NotificationService extends FirebaseMessagingService {
     private ConfigManager mConfigManager;
 
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
         mConfigManager = new ConfigManager();
     }
@@ -77,6 +76,7 @@ public class NotificationService extends FirebaseMessagingService {
         String title = data.get("title") != null ? data.get("title") : getString(R.string.app_name);
         String text = data.get("text") != null ? data.get("text") : getString(R.string.notif_new_notifications);
         boolean vibrate = Boolean.parseBoolean(data.get("vibrate") != null ? data.get("vibrate") : "false");
+        String channel = NotificationUtils.getNotificationChannel(this, group);
 
         NotificationCompat.Builder summaryNotifBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_alert)
@@ -85,11 +85,12 @@ public class NotificationService extends FirebaseMessagingService {
                 .setColor(ContextCompat.getColor(this, R.color.primary))
                 .setContentTitle(getString(R.string.app_name))
                 .setAutoCancel(true)
+                .setChannelId(NotificationUtils.getNotificationChannel(this, group))
                 .setContentIntent(pendingIntent);
 
         notificationManager.notify(NotificationUtils.getIdBase(this, group), summaryNotifBuilder.build());
 
-        NotificationCompat.Builder notificationBuilder = getBaseNotificationBuilder(title, text, vibrate)
+        NotificationCompat.Builder notificationBuilder = getBaseNotificationBuilder(title, text, vibrate, channel)
                 .setContentIntent(pendingIntent)
                 .setGroup(group);
 
@@ -108,15 +109,16 @@ public class NotificationService extends FirebaseMessagingService {
         String title = data.get("title") != null ? data.get("title") : getString(R.string.app_name);
         String text = data.get("text") != null ? data.get("text") : getString(R.string.notif_new_notifications);
         boolean vibrate = Boolean.parseBoolean(data.get("vibrate") != null ? data.get("vibrate") : "false");
+        String channel = NotificationUtils.getNotificationChannel(this, group);
 
-        NotificationCompat.Builder notificationBuilder = getBaseNotificationBuilder(title, text, vibrate)
+        NotificationCompat.Builder notificationBuilder = getBaseNotificationBuilder(title, text, vibrate, channel)
                 .setContentIntent(pendingIntent);
 
         notificationManager.notify(id, notificationBuilder.build());
     }
 
-    private NotificationCompat.Builder getBaseNotificationBuilder(String title, String text, boolean vibrate) {
-        return new NotificationCompat.Builder(this)
+    private NotificationCompat.Builder getBaseNotificationBuilder(String title, String text, boolean vibrate, String channel) {
+        return new NotificationCompat.Builder(this, channel)
                 .setSmallIcon(R.drawable.ic_alert)
                 .setColor(ContextCompat.getColor(this, R.color.primary))
                 .setContentTitle(title)

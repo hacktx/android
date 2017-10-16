@@ -16,10 +16,18 @@
 
 package com.hacktx.android.utils;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 
+import com.hacktx.android.BuildConfig;
+import com.hacktx.android.Constants;
 import com.hacktx.android.R;
 
 public class NotificationUtils {
@@ -42,12 +50,52 @@ public class NotificationUtils {
         }
     }
 
+    public static String getNotificationChannel(Context context, String group) {
+        if (group.contains(context.getString(R.string.notif_topic_debug))) {
+            return context.getString(R.string.notif_ch_debug_id);
+        } else {
+            return context.getString(R.string.notif_ch_announcement_id);
+        }
+    }
+
     private static int getIdOffset(Context context, String group) {
         SharedPreferences prefs = getPrefs(context);
         String key = context.getString(R.string.prefs_notif_offset) + '-' + group;
         int offset = prefs.getInt(key, 1);
         prefs.edit().putInt(key, offset + 1 <= 5 ? offset + 1 : 1).apply();
         return offset;
+    }
+
+    @TargetApi(26)
+    public static void setupNotificationChannels(Context context) {
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        {
+            // Announcements
+            NotificationChannel mChannel = new NotificationChannel(context.getString(R.string.notif_ch_announcement_id),
+                    context.getString(R.string.notif_ch_announcement_title), NotificationManager.IMPORTANCE_DEFAULT);
+
+            int intColor = ContextCompat.getColor(context, R.color.primary);
+            String hexColor = String.format("#%06X", (0xFFFFFF & intColor));
+
+            mChannel.enableLights(true);
+            mChannel.setLightColor(Color.parseColor(hexColor));
+            mChannel.enableVibration(true);
+            mChannel.setShowBadge(true);
+            mChannel.setDescription(context.getString(R.string.notif_ch_announcement_text));
+
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
+
+        if (BuildConfig.DEBUG || Constants.DEBUG_MENU) {
+            // Debug
+            NotificationChannel mChannel = new NotificationChannel(context.getString(R.string.notif_ch_debug_id),
+                    context.getString(R.string.notif_ch_debug_title), NotificationManager.IMPORTANCE_DEFAULT);
+
+            mChannel.setDescription(context.getString(R.string.notif_ch_debug_text));
+
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
     }
 
     private static SharedPreferences getPrefs(Context context) {

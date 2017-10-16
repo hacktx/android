@@ -29,13 +29,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hacktx.android.R;
 import com.hacktx.android.models.Announcement;
-import com.hacktx.android.network.HackTxClient;
-import com.hacktx.android.network.services.HackTxService;
+import com.hacktx.android.io.HackTxClient;
+import com.hacktx.android.io.services.HackTxService;
 import com.hacktx.android.views.SpacesItemDecoration;
 import com.hacktx.android.views.adapters.AnnouncementsRecyclerView;
 
@@ -77,7 +76,7 @@ public class AnnouncementFragment extends BaseFragment {
 
     private void setupSwipeRefreshLayout(ViewGroup root) {
         swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.announcementsSwipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.primary, R.color.hacktx_blue);
+        swipeRefreshLayout.setColorSchemeResources(R.color.primary, R.color.hacktx16_blue);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

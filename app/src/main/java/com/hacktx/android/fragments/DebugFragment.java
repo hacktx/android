@@ -25,11 +25,9 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 
-import com.hacktx.android.BuildConfig;
-import com.hacktx.android.Constants;
 import com.hacktx.android.R;
-import com.hacktx.android.network.HackTxClient;
-import com.hacktx.android.network.UserStateStore;
+import com.hacktx.android.io.HackTxClient;
+import com.hacktx.android.io.UserStateStore;
 import com.hacktx.android.utils.ConfigManager;
 import com.hacktx.android.utils.ConfigParam;
 
@@ -50,6 +48,9 @@ public class DebugFragment extends PreferenceFragment {
 
         final PreferenceScreen configBundledNotif = (PreferenceScreen) findPreference(getString(R.string.debug_config_bundled_notif_key));
         configBundledNotif.setSummary(configManager.getValue(ConfigParam.BUNDLED_NOTIFICATIONS) ? R.string.debug_config_enabled : R.string.debug_config_disabled);
+
+        final PreferenceScreen configRemoteMap = (PreferenceScreen) findPreference(getString(R.string.debug_config_remote_map_key));
+        configRemoteMap.setSummary(configManager.getValue(ConfigParam.REMOTE_MAP) ? R.string.debug_config_enabled : R.string.debug_config_disabled);
 
         final CheckBoxPreference mockServer = (CheckBoxPreference) findPreference(getString(R.string.prefs_network_mock));
         mockServer.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

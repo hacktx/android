@@ -43,7 +43,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hacktx.android.R;
-import com.hacktx.android.network.UserStateStore;
+import com.hacktx.android.io.UserStateStore;
 import com.hacktx.android.utils.ConfigParam;
 
 public class WelcomeActivity extends BaseActivity {

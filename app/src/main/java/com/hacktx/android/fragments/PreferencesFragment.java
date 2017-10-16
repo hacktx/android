@@ -16,20 +16,27 @@
 
 package com.hacktx.android.fragments;
 
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
 
+import com.hacktx.android.BuildConfig;
 import com.hacktx.android.Constants;
 import com.hacktx.android.R;
 import com.hacktx.android.activities.DebugActivity;
@@ -55,7 +62,7 @@ public class PreferencesFragment extends PreferenceFragment {
             }
         });
 
-        if(!Constants.DEBUG_MENU) {
+        if (!Constants.DEBUG_MENU) {
             final PreferenceCategory debugCategory = (PreferenceCategory) findPreference(getString(R.string.fragment_preferences_debug_key));
             getPreferenceScreen().removePreference(debugCategory);
         }
@@ -71,6 +78,33 @@ public class PreferencesFragment extends PreferenceFragment {
                 return true;
             }
         });
+
+        final PreferenceScreen notifShortcut = (PreferenceScreen) findPreference(getString(R.string.prefs_notif_shortcut));
+        notifShortcut.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            @TargetApi(26)
+            public boolean onPreferenceClick(Preference preference) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    Intent i = new Intent("android.settings.APP_NOTIFICATION_SETTINGS");
+                    i.putExtra(Settings.EXTRA_APP_PACKAGE, BuildConfig.APPLICATION_ID);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(getContext(), getText(R.string.fragment_preferences_notif_shortcut_error), Toast.LENGTH_SHORT).show();
+                    Log.e("PreferencesFragment", "Wrong API level when attempting to open notification settings.");
+                }
+
+                return false;
+            }
+        });
+
+        // On API 26 and above, use system's notification settings... otherwise use in-app toggle
+        PreferenceCategory notifCategory = ((PreferenceCategory) findPreference("notifications"));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notifAnnouncementPref.setChecked(true);
+            notifCategory.removePreference(notifAnnouncementPref);
+        } else {
+            notifCategory.removePreference(notifShortcut);
+        }
 
         final PreferenceScreen about = (PreferenceScreen) findPreference(getString(R.string.prefs_about));
         String version;
@@ -97,6 +131,11 @@ public class PreferencesFragment extends PreferenceFragment {
                 licenseDialog.show();
 
                 WebView licenseWebView = (WebView) licenseDialog.findViewById(R.id.licenseWebView);
+                licenseWebView.setWebViewClient(new WebViewClient() {
+                    public void onPageFinished(WebView view, String url) {
+                        licenseDialog.findViewById(R.id.dialog_spinner).setVisibility(View.GONE);
+                    }
+                });
                 licenseWebView.loadUrl("file:///android_asset/open_source_licenses.html");
                 return true;
             }

@@ -17,10 +17,12 @@
 package com.hacktx.android;
 
 import android.app.Application;
+import android.os.Build;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.hacktx.android.utils.LifecycleListener;
+import com.hacktx.android.utils.NotificationUtils;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.Twitter;
@@ -60,7 +62,7 @@ public class HackTXApplication extends Application {
         }
 
         // Set Picasso's disk cache to 25 MB
-        Picasso picasso =  new Picasso.Builder(this)
+        Picasso picasso = new Picasso.Builder(this)
                 .downloader(new OkHttpDownloader(getCacheDir(), 25000000))
                 .build();
 
@@ -71,6 +73,11 @@ public class HackTXApplication extends Application {
             if (Constants.FABRIC_CRASHLYITCS_ENABLED) {
                 Crashlytics.getInstance().core.logException(e);
             }
+        }
+
+        // Setup notification channels for API 26 (8.0 Oreo) and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationUtils.setupNotificationChannels(this);
         }
     }
 

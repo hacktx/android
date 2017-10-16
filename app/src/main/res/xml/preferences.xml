@@ -37,6 +37,10 @@
             android:summaryOff="@string/fragment_preferences_announcements_desc_off"
             android:defaultValue="true"/>
 
+        <PreferenceScreen
+            android:key="@string/prefs_notif_shortcut"
+            android:title="@string/fragment_preferences_notif_shortcut" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
