@@ -29,9 +29,11 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.hacktx.android.BuildConfig;
@@ -129,6 +131,11 @@ public class PreferencesFragment extends PreferenceFragment {
                 licenseDialog.show();
 
                 WebView licenseWebView = (WebView) licenseDialog.findViewById(R.id.licenseWebView);
+                licenseWebView.setWebViewClient(new WebViewClient() {
+                    public void onPageFinished(WebView view, String url) {
+                        licenseDialog.findViewById(R.id.dialog_spinner).setVisibility(View.GONE);
+                    }
+                });
                 licenseWebView.loadUrl("file:///android_asset/open_source_licenses.html");
                 return true;
             }
