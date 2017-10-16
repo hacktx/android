@@ -35,7 +35,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hacktx.android.BuildConfig;
 import com.hacktx.android.R;
@@ -249,7 +248,7 @@ public class MainActivity extends BaseActivity {
                 ShortcutInfo shortcut = new ShortcutInfo.Builder(this, "check-in")
                         .setShortLabel(getString(R.string.app_shortcut_check_in))
                         .setLongLabel(getString(R.string.app_shortcut_check_in))
-                        .setIcon(Icon.createWithResource(this, R.mipmap.ic_launcher))
+                        .setIcon(Icon.createWithResource(this, R.drawable.ic_shortcut_check_in))
                         .setIntent(checkInIntent)
                         .build();
 
