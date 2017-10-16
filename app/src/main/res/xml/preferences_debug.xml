@@ -31,6 +31,10 @@
             android:key="@string/debug_config_bundled_notif_key"
             android:title="@string/debug_config_bundled_notif" />
 
+        <PreferenceScreen
+            android:key="@string/debug_config_remote_map_key"
+            android:title="@string/debug_config_remote_map" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

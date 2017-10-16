@@ -158,6 +158,8 @@
     <string name="debug_config_feedback">Feedback</string>
     <string name="debug_config_bundled_notif_key">configBundledNotifications</string>
     <string name="debug_config_bundled_notif">Bundled Notifications</string>
+    <string name="debug_config_remote_map_key">configRemoteMap</string>
+    <string name="debug_config_remote_map">Remote Map</string>
     <string name="debug_config_enabled">Enabled</string>
     <string name="debug_config_disabled">Disabled</string>
     <string name="debug_network">Network</string>

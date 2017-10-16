@@ -49,6 +49,9 @@ public class DebugFragment extends PreferenceFragment {
         final PreferenceScreen configBundledNotif = (PreferenceScreen) findPreference(getString(R.string.debug_config_bundled_notif_key));
         configBundledNotif.setSummary(configManager.getValue(ConfigParam.BUNDLED_NOTIFICATIONS) ? R.string.debug_config_enabled : R.string.debug_config_disabled);
 
+        final PreferenceScreen configRemoteMap = (PreferenceScreen) findPreference(getString(R.string.debug_config_remote_map_key));
+        configRemoteMap.setSummary(configManager.getValue(ConfigParam.REMOTE_MAP) ? R.string.debug_config_enabled : R.string.debug_config_disabled);
+
         final CheckBoxPreference mockServer = (CheckBoxPreference) findPreference(getString(R.string.prefs_network_mock));
         mockServer.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override

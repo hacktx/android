@@ -7,7 +7,7 @@
         "id": 0,
         "name": "Check In",
         "type": "talk",
-        "imageUrl": "https://hacktx.com/images/app-event-banner.png",
+        "imageUrl": "http://via.placeholder.com/350x150",
         "startDate": "2015-10-22 09:30:00",
         "endDate": "2015-10-22 11:45:00",
         "location": {
@@ -28,7 +28,7 @@
         "id": 1,
         "name": "Opening Ceremony",
         "type": "talk",
-        "imageUrl": "https://hacktx.com/images/app-event-banner.png",
+        "imageUrl": "http://via.placeholder.com/350x150",
         "startDate": "2015-10-22 11:00:00",
         "endDate": "2015-10-22 11:50:00",
         "location": {
@@ -49,7 +49,7 @@
         "id": 2,
         "name": "Hacking Begins",
         "type": "dev",
-        "imageUrl": "https://hacktx.com/images/app-event-banner.png",
+        "imageUrl": "http://via.placeholder.com/350x150",
         "startDate": "2015-10-22 12:00:00",
         "endDate": "2015-10-23 12:00:00",
         "location": {
@@ -64,7 +64,7 @@
         "id": 3,
         "name": "Matchmaking Session",
         "type": "education",
-        "imageUrl": "https://hacktx.com/images/app-event-banner.png",
+        "imageUrl": "http://via.placeholder.com/350x150",
         "startDate": "2015-10-22 12:00:00",
         "endDate": "2015-10-23 12:30:00",
         "location": {
@@ -85,7 +85,7 @@
         "id": 4,
         "name": "Lunch",
         "type": "food",
-        "imageUrl": "https://hacktx.com/images/app-event-banner.png",
+        "imageUrl": "http://via.placeholder.com/350x150",
         "startDate": "2015-10-22 12:30:00",
         "endDate": "2015-10-22 13:30:00",
         "location": {
@@ -106,7 +106,7 @@
         "id": 5,
         "name": "Workshop",
         "type": "education",
-        "imageUrl": "https://hacktx.com/images/app-event-banner.png",
+        "imageUrl": "http://via.placeholder.com/350x150",
         "startDate": "2015-10-22 13:00:00",
         "endDate": "2015-10-22 14:00:00",
         "location": {
@@ -121,7 +121,7 @@
         "id": 6,
         "name": "Workshop",
         "type": "education",
-        "imageUrl": "https://hacktx.com/images/app-event-banner.png",
+        "imageUrl": "http://via.placeholder.com/350x150",
         "startDate": "2015-10-22 13:00:00",
         "endDate": "2015-10-22 14:00:00",
         "location": {
@@ -142,7 +142,7 @@
         "id": 7,
         "name": "Workshop",
         "type": "education",
-        "imageUrl": "https://hacktx.com/images/app-event-banner.png",
+        "imageUrl": "http://via.placeholder.com/350x150",
         "startDate": "2015-10-22 15:30:00",
         "endDate": "2015-10-22 17:00:00",
         "location": {
@@ -163,7 +163,7 @@
         "id": 8,
         "name": "WiCS/MACS Meetup",
         "type": "talk",
-        "imageUrl": "https://hacktx.com/images/app-event-banner.png",
+        "imageUrl": "http://via.placeholder.com/350x150",
         "startDate": "2015-10-22 17:00:00",
         "endDate": "2015-10-22 17:30:00",
         "location": {
@@ -184,7 +184,7 @@
         "id": 9,
         "name": "Dinner",
         "type": "food",
-        "imageUrl": "https://hacktx.com/images/app-event-banner.png",
+        "imageUrl": "http://via.placeholder.com/350x150",
         "startDate": "2015-10-22 18:30:00",
         "endDate": "2015-10-22 19:00:00",
         "location": {
@@ -205,7 +205,7 @@
         "id": 10,
         "name": "Microsoft Fireside Chat",
         "type": "talk",
-        "imageUrl": "https://hacktx.com/images/app-event-banner.png",
+        "imageUrl": "http://via.placeholder.com/350x150",
         "startDate": "2015-10-22 19:30:00",
         "endDate": "2015-10-22 20:00:00",
         "location": {
@@ -226,7 +226,7 @@
         "id": 11,
         "name": "1517 Fireside Chat",
         "type": "talk",
-        "imageUrl": "https://hacktx.com/images/app-event-banner.png",
+        "imageUrl": "http://via.placeholder.com/350x150",
         "startDate": "2015-10-22 21:00:00",
         "endDate": "2015-10-22 21:30:00",
         "location": {
