@@ -16,14 +16,8 @@
 
 package com.hacktx.android;
 
-import android.annotation.TargetApi;
 import android.app.Application;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -82,7 +76,7 @@ public class HackTXApplication extends Application {
         }
 
         // Setup notification channels for API 26 (8.0 Oreo) and above
-        if (Build.VERSION.SDK_INT >= 26) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationUtils.setupNotificationChannels(this);
         }
     }

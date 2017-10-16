@@ -34,7 +34,6 @@ import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
 import com.hacktx.android.BuildConfig;
 import com.hacktx.android.Constants;
 import com.hacktx.android.R;
@@ -97,11 +96,12 @@ public class PreferencesFragment extends PreferenceFragment {
         });
 
         // On API 26 and above, use system's notification settings... otherwise use in-app toggle
-        if (Build.VERSION.SDK_INT >= 26) {
-            getPreferenceScreen().removePreference(notifAnnouncementPref);
+        PreferenceCategory notifCategory = ((PreferenceCategory) findPreference("notifications"));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notifAnnouncementPref.setChecked(true);
+            notifCategory.removePreference(notifAnnouncementPref);
         } else {
-            getPreferenceScreen().removePreference(notifShortcut);
+            notifCategory.removePreference(notifShortcut);
         }
 
         final PreferenceScreen about = (PreferenceScreen) findPreference(getString(R.string.prefs_about));

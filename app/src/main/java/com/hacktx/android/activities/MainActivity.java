@@ -35,6 +35,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.hacktx.android.BuildConfig;
 import com.hacktx.android.R;
 import com.hacktx.android.fragments.AnnouncementFragment;
 import com.hacktx.android.fragments.GoogleMapFragment;
@@ -43,6 +44,7 @@ import com.hacktx.android.fragments.SponsorFragment;
 import com.hacktx.android.fragments.TwitterFragment;
 import com.hacktx.android.network.UserStateStore;
 import com.hacktx.android.utils.ConfigParam;
+import com.hacktx.android.utils.HackTXUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -67,7 +69,7 @@ public class MainActivity extends BaseActivity {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_fragment, new AnnouncementFragment());
             transaction.commit();
-        } else if(extra != null && extra.equals("maps")) {
+        } else if (extra != null && extra.equals("maps")) {
             ((NavigationView) findViewById(R.id.nav_view)).getMenu().getItem(3).setChecked(true);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_fragment, new GoogleMapFragment());
@@ -167,7 +169,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void displayWelcome() {
-        if(UserStateStore.isFirstLaunch(this)) {
+        if (UserStateStore.isFirstLaunch(this)) {
             Log.i(TAG, "Starting WelcomeActivity...");
             Intent intent = new Intent(this, WelcomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -225,23 +227,26 @@ public class MainActivity extends BaseActivity {
 
     private void setupAppShortcuts() {
         // Setup app shortcuts
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1 && mConfigManager.getValue(ConfigParam.CHECK_IN)) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+            if (mConfigManager.getValue(ConfigParam.CHECK_IN) && !HackTXUtils.hasHackTxEnded(this)) {
+                Intent checkInIntent = new Intent(Intent.ACTION_VIEW);
+                checkInIntent.setPackage(BuildConfig.APPLICATION_ID);
+                checkInIntent.setClass(this, CheckInActivity.class);
+                checkInIntent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+                checkInIntent.putExtra("fromShortcut", true);
 
-            Intent checkInIntent = new Intent(Intent.ACTION_VIEW);
-            checkInIntent.setPackage("com.hacktx.android");
-            checkInIntent.setClass(this, CheckInActivity.class);
-            checkInIntent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-            checkInIntent.putExtra("fromShortcut", true);
+                ShortcutInfo shortcut = new ShortcutInfo.Builder(this, "check-in")
+                        .setShortLabel(getString(R.string.app_shortcut_check_in))
+                        .setLongLabel(getString(R.string.app_shortcut_check_in))
+                        .setIcon(Icon.createWithResource(this, R.mipmap.ic_launcher))
+                        .setIntent(checkInIntent)
+                        .build();
 
-            ShortcutInfo shortcut = new ShortcutInfo.Builder(this, "check-in")
-                    .setShortLabel(getString(R.string.app_shortcut_check_in))
-                    .setLongLabel(getString(R.string.app_shortcut_check_in))
-                    .setIcon(Icon.createWithResource(this, R.mipmap.ic_launcher))
-                    .setIntent(checkInIntent)
-                    .build();
-
-            shortcutManager.addDynamicShortcuts(Arrays.asList(shortcut));
+                shortcutManager.addDynamicShortcuts(Arrays.asList(shortcut));
+            } else {
+                shortcutManager.removeAllDynamicShortcuts();
+            }
         }
     }
 }
