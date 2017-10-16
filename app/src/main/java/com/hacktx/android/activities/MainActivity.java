@@ -24,6 +24,7 @@ import android.content.pm.ShortcutManager;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -34,6 +35,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hacktx.android.BuildConfig;
 import com.hacktx.android.R;
@@ -196,7 +198,15 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onClick(View view) {
                     mMetricsManager.logEvent(R.string.analytics_event_slack_dialog_disable_notif, null);
-                    UserStateStore.setAnnouncementNotificationsEnabled(MainActivity.this, false);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        Intent i = new Intent("android.settings.APP_NOTIFICATION_SETTINGS");
+                        i.putExtra(Settings.EXTRA_APP_PACKAGE, BuildConfig.APPLICATION_ID);
+                        startActivity(i);
+                    } else {
+                        UserStateStore.setAnnouncementNotificationsEnabled(MainActivity.this, false);
+                    }
+
                     dialog.dismiss();
                 }
             });

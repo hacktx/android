@@ -40,8 +40,8 @@
 
     <!-- Slack Dialog -->
     <string name="dialog_slack_title">Hey There!</string>
-    <string name="dialog_slack_body_primary">It looks like you&apos;ve got Slack installed.</string>
-    <string name="dialog_slack_body_secondary">If you login to the HackTX 2017 Slack, you&apos;ll receive notifications from #announcements.</string>
+    <string name="dialog_slack_body_primary">It looks like you\'ve got Slack installed.</string>
+    <string name="dialog_slack_body_secondary">If you login to the HackTX 2017 Slack, you\'ll receive notifications from #announcements.</string>
     <string name="dialog_slack_body_prompt">To avoid duplicate notifications, want to turn off notifications here?</string>
     <string name="dialog_slack_btn_turn_off">Turn off Notifications</string>
     <string name="dialog_slack_btn_no_thanks">No Thanks</string>

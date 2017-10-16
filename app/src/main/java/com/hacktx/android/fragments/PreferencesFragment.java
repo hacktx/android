@@ -82,7 +82,7 @@ public class PreferencesFragment extends PreferenceFragment {
             @Override
             @TargetApi(26)
             public boolean onPreferenceClick(Preference preference) {
-                if (Build.VERSION.SDK_INT >= 26) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     Intent i = new Intent("android.settings.APP_NOTIFICATION_SETTINGS");
                     i.putExtra(Settings.EXTRA_APP_PACKAGE, BuildConfig.APPLICATION_ID);
                     startActivity(i);
