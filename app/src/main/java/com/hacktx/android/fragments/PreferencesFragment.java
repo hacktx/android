@@ -16,20 +16,26 @@
 
 package com.hacktx.android.fragments;
 
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+import com.hacktx.android.BuildConfig;
 import com.hacktx.android.Constants;
 import com.hacktx.android.R;
 import com.hacktx.android.activities.DebugActivity;
@@ -55,7 +61,7 @@ public class PreferencesFragment extends PreferenceFragment {
             }
         });
 
-        if(!Constants.DEBUG_MENU) {
+        if (!Constants.DEBUG_MENU) {
             final PreferenceCategory debugCategory = (PreferenceCategory) findPreference(getString(R.string.fragment_preferences_debug_key));
             getPreferenceScreen().removePreference(debugCategory);
         }
@@ -71,6 +77,32 @@ public class PreferencesFragment extends PreferenceFragment {
                 return true;
             }
         });
+
+        final PreferenceScreen notifShortcut = (PreferenceScreen) findPreference(getString(R.string.prefs_notif_shortcut));
+        notifShortcut.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            @TargetApi(26)
+            public boolean onPreferenceClick(Preference preference) {
+                if (Build.VERSION.SDK_INT >= 26) {
+                    Intent i = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
+                    i.putExtra(Settings.EXTRA_APP_PACKAGE, BuildConfig.APPLICATION_ID);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(getContext(), getText(R.string.fragment_preferences_notif_shortcut_error), Toast.LENGTH_SHORT).show();
+                    Log.e("PreferencesFragment", "Wrong API level when attempting to open notification settings.");
+                }
+
+                return false;
+            }
+        });
+
+        // On API 26 and above, use system's notification settings... otherwise use in-app toggle
+        if (Build.VERSION.SDK_INT >= 26) {
+            getPreferenceScreen().removePreference(notifAnnouncementPref);
+            notifAnnouncementPref.setChecked(true);
+        } else {
+            getPreferenceScreen().removePreference(notifShortcut);
+        }
 
         final PreferenceScreen about = (PreferenceScreen) findPreference(getString(R.string.prefs_about));
         String version;

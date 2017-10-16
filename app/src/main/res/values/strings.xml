@@ -76,6 +76,8 @@
     <string name="fragment_preferences_announcements">Announcements</string>
     <string name="fragment_preferences_announcements_desc_on">Get notified of the latest HackTX announcements.</string>
     <string name="fragment_preferences_announcements_desc_off">Do not get notified of the latest HackTX announcements.</string>
+    <string name="fragment_preferences_notif_shortcut">Manage Notifications</string>
+    <string name="fragment_preferences_notif_shortcut_error">Unable to open settings.</string>
     <string name="fragment_preferences_about">About</string>
     <string name="fragment_preferences_about_version">Version %1$s</string>
     <string name="fragment_preferences_licenses">Open Source Licenses</string>
@@ -135,6 +137,7 @@
     <string name="prefs_notif_offset">notifOffset</string>
     <string name="prefs_network_mock">mockServer</string>
     <string name="prefs_slack_alert_shown">slackAlertShown</string>
+    <string name="prefs_notif_shortcut">notifShortcut</string>
 
     <!-- DebugFragment -->
     <string name="debug_title">Debug</string>
