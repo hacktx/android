@@ -76,6 +76,7 @@ public class NotificationService extends FirebaseMessagingService {
         String title = data.get("title") != null ? data.get("title") : getString(R.string.app_name);
         String text = data.get("text") != null ? data.get("text") : getString(R.string.notif_new_notifications);
         boolean vibrate = Boolean.parseBoolean(data.get("vibrate") != null ? data.get("vibrate") : "false");
+        String channel = NotificationUtils.getNotificationChannel(this, group);
 
         NotificationCompat.Builder summaryNotifBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_alert)
@@ -89,9 +90,8 @@ public class NotificationService extends FirebaseMessagingService {
 
         notificationManager.notify(NotificationUtils.getIdBase(this, group), summaryNotifBuilder.build());
 
-        NotificationCompat.Builder notificationBuilder = getBaseNotificationBuilder(title, text, vibrate)
+        NotificationCompat.Builder notificationBuilder = getBaseNotificationBuilder(title, text, vibrate, channel)
                 .setContentIntent(pendingIntent)
-                .setChannelId(NotificationUtils.getNotificationChannel(this, group))
                 .setGroup(group);
 
         notificationManager.notify(id, notificationBuilder.build());
@@ -109,16 +109,16 @@ public class NotificationService extends FirebaseMessagingService {
         String title = data.get("title") != null ? data.get("title") : getString(R.string.app_name);
         String text = data.get("text") != null ? data.get("text") : getString(R.string.notif_new_notifications);
         boolean vibrate = Boolean.parseBoolean(data.get("vibrate") != null ? data.get("vibrate") : "false");
+        String channel = NotificationUtils.getNotificationChannel(this, group);
 
-        NotificationCompat.Builder notificationBuilder = getBaseNotificationBuilder(title, text, vibrate)
-                .setChannelId(NotificationUtils.getNotificationChannel(this, group))
+        NotificationCompat.Builder notificationBuilder = getBaseNotificationBuilder(title, text, vibrate, channel)
                 .setContentIntent(pendingIntent);
 
         notificationManager.notify(id, notificationBuilder.build());
     }
 
-    private NotificationCompat.Builder getBaseNotificationBuilder(String title, String text, boolean vibrate) {
-        return new NotificationCompat.Builder(this)
+    private NotificationCompat.Builder getBaseNotificationBuilder(String title, String text, boolean vibrate, String channel) {
+        return new NotificationCompat.Builder(this, channel)
                 .setSmallIcon(R.drawable.ic_alert)
                 .setColor(ContextCompat.getColor(this, R.color.primary))
                 .setContentTitle(title)
