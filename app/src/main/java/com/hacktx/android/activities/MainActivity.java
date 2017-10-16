@@ -43,7 +43,7 @@ import com.hacktx.android.fragments.GoogleMapFragment;
 import com.hacktx.android.fragments.ScheduleMainFragment;
 import com.hacktx.android.fragments.SponsorFragment;
 import com.hacktx.android.fragments.TwitterFragment;
-import com.hacktx.android.network.UserStateStore;
+import com.hacktx.android.io.UserStateStore;
 import com.hacktx.android.utils.ConfigParam;
 import com.hacktx.android.utils.HackTXUtils;
 

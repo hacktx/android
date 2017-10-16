@@ -34,7 +34,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hacktx.android.R;
-import com.hacktx.android.network.NetworkUtils;
+import com.hacktx.android.io.NetworkUtils;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 import com.twitter.sdk.android.tweetui.UserTimeline;
 

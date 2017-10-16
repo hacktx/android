@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.hacktx.android.network;
+package com.hacktx.android.io;
 
 import android.util.Log;
 
 import com.hacktx.android.HackTXApplication;
-import com.hacktx.android.network.services.HackTxService;
+import com.hacktx.android.io.services.HackTxService;
 import retrofit.RestAdapter;
 
 public class HackTxClient {

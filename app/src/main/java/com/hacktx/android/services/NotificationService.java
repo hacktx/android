@@ -25,10 +25,9 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.hacktx.android.Constants;
 import com.hacktx.android.R;
 import com.hacktx.android.activities.MainActivity;
-import com.hacktx.android.network.UserStateStore;
+import com.hacktx.android.io.UserStateStore;
 import com.hacktx.android.utils.ConfigManager;
 import com.hacktx.android.utils.ConfigParam;
 import com.hacktx.android.utils.NotificationUtils;

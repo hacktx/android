@@ -40,11 +40,11 @@ import com.hacktx.android.R;
 import com.hacktx.android.activities.EventDetailActivity;
 import com.hacktx.android.models.ScheduleCluster;
 import com.hacktx.android.models.ScheduleEvent;
-import com.hacktx.android.network.FileUtils;
-import com.hacktx.android.network.HackTxClient;
-import com.hacktx.android.network.NetworkUtils;
-import com.hacktx.android.network.UserStateStore;
-import com.hacktx.android.network.services.HackTxService;
+import com.hacktx.android.io.FileUtils;
+import com.hacktx.android.io.HackTxClient;
+import com.hacktx.android.io.NetworkUtils;
+import com.hacktx.android.io.UserStateStore;
+import com.hacktx.android.io.services.HackTxService;
 import com.hacktx.android.views.adapters.ScheduleClusterRecyclerView;
 import com.squareup.picasso.Picasso;
 

@@ -25,11 +25,9 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 
-import com.hacktx.android.BuildConfig;
-import com.hacktx.android.Constants;
 import com.hacktx.android.R;
-import com.hacktx.android.network.HackTxClient;
-import com.hacktx.android.network.UserStateStore;
+import com.hacktx.android.io.HackTxClient;
+import com.hacktx.android.io.UserStateStore;
 import com.hacktx.android.utils.ConfigManager;
 import com.hacktx.android.utils.ConfigParam;
 

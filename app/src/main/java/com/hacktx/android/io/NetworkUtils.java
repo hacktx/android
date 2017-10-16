@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.hacktx.android.network;
+package com.hacktx.android.io;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
