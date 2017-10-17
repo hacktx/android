@@ -54,7 +54,7 @@ public class GoogleMapFragment extends BaseFragment implements OnMapReadyCallbac
 
         setHasOptionsMenu(true);
 
-        setupToolbar((Toolbar) root.findViewById(R.id.toolbar), R.string.fragment_maps_title);
+        setupToolbar((Toolbar) root.findViewById(R.id.toolbar), R.string.fragment_map_title);
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(new LatLng(30.268915, -97.740378))
