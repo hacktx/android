@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_fragment, new AnnouncementFragment());
             transaction.commit();
-        } else if (extra != null && extra.equals("maps")) {
+        } else if (extra != null && extra.equals("map")) {
             ((NavigationView) findViewById(R.id.nav_view)).getMenu().getItem(3).setChecked(true);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_fragment, new GoogleMapFragment());
