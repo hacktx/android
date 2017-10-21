@@ -85,7 +85,7 @@ public class TwitterFragment extends BaseFragment {
 
     private void setupSwipeRefreshLayout(ViewGroup root) {
         swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.primary, R.color.hacktx16_blue);
+        swipeRefreshLayout.setColorSchemeResources(R.color.primary, R.color.hacktx17_orange);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/dialog_feedback_submit"
-                android:textColor="@color/hacktx16_red" />
+                android:textColor="@color/hacktx17_orange" />
         </LinearLayout>
 
     </LinearLayout>
