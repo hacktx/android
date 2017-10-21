@@ -31,7 +31,7 @@ public class HackTXUtils {
             Calendar now = Calendar.getInstance();
             Calendar hackTx = Calendar.getInstance();
             hackTx.set(Calendar.MONTH, Calendar.OCTOBER);
-            hackTx.set(Calendar.DAY_OF_MONTH, 28);
+            hackTx.set(Calendar.DAY_OF_MONTH, 27);
             hackTx.set(Calendar.YEAR, 2017);
 
             return now.after(hackTx);

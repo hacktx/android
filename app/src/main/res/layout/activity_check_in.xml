@@ -108,7 +108,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/ok"
-                            android:textColor="@color/hacktx17_orange" />
+                            android:textColor="@color/accent" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -189,7 +189,7 @@
                             android:ems="10"
                             android:nextFocusUp="@id/emailCardEditText"
                             android:nextFocusLeft="@id/emailCardEditText"
-                            android:backgroundTint="@color/hacktx17_blue"
+                            android:backgroundTint="@color/accent"
                             android:hint="@string/activity_check_in_email_hint" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -213,7 +213,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/ok"
-                            android:textColor="@color/hacktx17_orange" />
+                            android:textColor="@color/accent" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -287,7 +287,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/activity_check_in_done"
-                            android:textColor="@color/hacktx17_orange" />
+                            android:textColor="@color/accent" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -342,7 +342,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/ok"
-                            android:textColor="@color/hacktx17_orange" />
+                            android:textColor="@color/accent" />
                     </LinearLayout>
                 </LinearLayout>
 

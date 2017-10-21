@@ -20,7 +20,7 @@
 
     <color name="primary">#323187</color>
     <color name="primaryDark">#22215B</color>
-    <color name="accent">#FF9833</color>
+    <color name="accent">#FF0B63</color>
 
     <!-- F17 Colors -->
     <color name="hacktx17_dark_blue">#22215B</color>
@@ -29,6 +29,13 @@
     <color name="hacktx17_orange">#FF9833</color>
     <color name="hacktx17_text">#BBB9EA</color>
     <color name="hacktx17_pink">#FF0B63</color>
+
+    <!-- F16 Colors -->
+    <color name="hacktx16_red">#ce0019</color>
+    <color name="hacktx16_white">#FEF0D9</color>
+    <color name="hacktx16_blue">#124E78</color>
+    <color name="hacktx16_blue_light">#277CA3</color>
+    <color name="hacktx16_blue_lighter">#3291B8</color>
 
     <color name="status_bar_semi_transparent">#19000000</color>
 
