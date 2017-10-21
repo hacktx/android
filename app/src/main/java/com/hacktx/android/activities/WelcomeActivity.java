@@ -161,7 +161,7 @@ public class WelcomeActivity extends BaseActivity {
                                 public void onClick(View view) {
                                     mMetricsManager.logEvent(R.string.analytics_event_get_directions, null);
                                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                                    intent.setData(Uri.parse("geo:0,0?q=30.268915,-97.740378(HackTX 2016)"));
+                                    intent.setData(Uri.parse("geo:0,0?q=30.268915,-97.740378(" + getString(R.string.event_name) + ")"));
                                     startActivity(intent);
                                 }
                             });

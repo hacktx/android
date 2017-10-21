@@ -31,8 +31,8 @@ public class HackTXUtils {
             Calendar now = Calendar.getInstance();
             Calendar hackTx = Calendar.getInstance();
             hackTx.set(Calendar.MONTH, Calendar.OCTOBER);
-            hackTx.set(Calendar.DAY_OF_MONTH, 20);
-            hackTx.set(Calendar.YEAR, 2016);
+            hackTx.set(Calendar.DAY_OF_MONTH, 27);
+            hackTx.set(Calendar.YEAR, 2017);
 
             return now.after(hackTx);
         } else {
@@ -45,8 +45,8 @@ public class HackTXUtils {
             Calendar now = Calendar.getInstance();
             Calendar hackTx = Calendar.getInstance();
             hackTx.set(Calendar.MONTH, Calendar.OCTOBER);
-            hackTx.set(Calendar.DAY_OF_MONTH, 23);
-            hackTx.set(Calendar.YEAR, 2016);
+            hackTx.set(Calendar.DAY_OF_MONTH, 30);
+            hackTx.set(Calendar.YEAR, 2017);
 
             return now.after(hackTx);
         } else {

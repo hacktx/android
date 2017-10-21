@@ -24,7 +24,7 @@
             android:pivotY="50%"
             android:toDegrees="360">
             <shape android:shape="line">
-                <stroke android:width="5dp" android:color="@color/hacktx16_blue_lighter"/>
+                <stroke android:width="5dp" android:color="@color/hacktx17_text"/>
                 <size android:height="50dp" />
             </shape>
         </rotate>
