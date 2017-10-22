@@ -78,7 +78,7 @@ public class NotificationService extends FirebaseMessagingService {
         boolean vibrate = Boolean.parseBoolean(data.get("vibrate") != null ? data.get("vibrate") : "false");
         String channel = NotificationUtils.getNotificationChannel(this, group);
 
-        NotificationCompat.Builder summaryNotifBuilder = new NotificationCompat.Builder(this)
+        NotificationCompat.Builder summaryNotifBuilder = new NotificationCompat.Builder(this, channel)
                 .setSmallIcon(R.drawable.ic_alert)
                 .setGroup(group)
                 .setGroupSummary(true)

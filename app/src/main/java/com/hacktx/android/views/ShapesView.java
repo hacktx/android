@@ -23,19 +23,18 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
 
 import com.hacktx.android.R;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ShapesView extends ImageView {
+public class ShapesView extends AppCompatImageView {
 
     private ArrayList<Shape> shapes = new ArrayList<>();
     private int width, height;

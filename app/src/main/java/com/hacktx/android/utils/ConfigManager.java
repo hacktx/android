@@ -18,12 +18,8 @@
 
 package com.hacktx.android.utils;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;

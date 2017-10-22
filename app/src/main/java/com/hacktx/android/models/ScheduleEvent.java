@@ -16,13 +16,13 @@
 
 package com.hacktx.android.models;
 
+import com.hacktx.android.enums.EventType;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
-
-import com.hacktx.android.enums.EventType;
 
 public class ScheduleEvent {
 
@@ -158,9 +158,9 @@ public class ScheduleEvent {
         int startHourOfDay = (start.get(Calendar.HOUR) == 0) ? 12 : start.get(Calendar.HOUR);
         int endHourOfDay = (end.get(Calendar.HOUR) == 0) ? 12 : end.get(Calendar.HOUR);
 
-        return String.format("%01d:%02d", startHourOfDay, start.get(Calendar.MINUTE))
+        return String.format(Locale.US, "%01d:%02d", startHourOfDay, start.get(Calendar.MINUTE))
                 + startAmPm + " - "
-                + String.format("%01d:%02d", endHourOfDay, end.get(Calendar.MINUTE))
+                + String.format(Locale.US, "%01d:%02d", endHourOfDay, end.get(Calendar.MINUTE))
                 + endAmPm;
     }
 }

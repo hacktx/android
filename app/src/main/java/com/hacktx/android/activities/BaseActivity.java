@@ -16,6 +16,7 @@
 
 package com.hacktx.android.activities;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,6 +29,7 @@ import com.hacktx.android.R;
 import com.hacktx.android.utils.ConfigManager;
 import com.hacktx.android.utils.MetricsManager;
 
+@SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity {
 
     protected final String TAG = getClass().getSimpleName();
