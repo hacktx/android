@@ -99,9 +99,7 @@ public class WelcomeActivity extends BaseActivity {
                         mMetricsManager.logEvent(R.string.analytics_event_set_email, null);
                         UserStateStore.setUserEmail(WelcomeActivity.this, email);
                     } else if (!email.trim().isEmpty() && !email.contains("@")) {
-                        Bundle b = new Bundle();
-                        b.putString(getString(R.string.analytics_param_email), email);
-                        mMetricsManager.logEvent(R.string.analytics_event_invalid_email, b);
+                        mMetricsManager.logEvent(R.string.analytics_event_invalid_email, null);
                         Snackbar.make(WelcomeActivity.this.findViewById(android.R.id.content), getString(R.string.welcome_invalid_email), Snackbar.LENGTH_SHORT).show();
                         return;
                     } else {

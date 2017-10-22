@@ -208,9 +208,7 @@ public class CheckInActivity extends BaseActivity {
                     builder.setNegativeButton(getString(R.string.no), null);
                     builder.show();
                 } else {
-                    Bundle b = new Bundle();
-                    b.putString(getString(R.string.analytics_param_email), email);
-                    mMetricsManager.logEvent(R.string.analytics_event_invalid_email, b);
+                    mMetricsManager.logEvent(R.string.analytics_event_invalid_email, null);
                     Snackbar.make(findViewById(android.R.id.content), getString(R.string.activity_check_in_invalid_email), Snackbar.LENGTH_SHORT).show();
                 }
             }
