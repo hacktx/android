@@ -51,8 +51,8 @@ android {
         applicationId "com.hacktx.android"
         minSdkVersion 17
         targetSdkVersion 26
-        versionCode 5
-        versionName "1.1"
+        versionCode 6
+        versionName "1.1.1"
 
         buildConfigField "String", "TWITTER_KEY", "\"${props.getProperty('TWITTER_KEY')}\""
         buildConfigField "String", "TWITTER_SECRET", "\"${props.getProperty('TWITTER_SECRET')}\""
