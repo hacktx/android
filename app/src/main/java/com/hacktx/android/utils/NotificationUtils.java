@@ -22,6 +22,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 
@@ -55,6 +56,11 @@ public class NotificationUtils {
         } else {
             return context.getString(R.string.notif_ch_announcement_id);
         }
+    }
+
+    public static boolean shouldShowDebugNotification(Context context, String channel) {
+        return channel.equals(context.getString(R.string.notif_ch_debug_id)) && BuildConfig.DEBUG;
+
     }
 
     private static int getIdOffset(Context context, String group) {

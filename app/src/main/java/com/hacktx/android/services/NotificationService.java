@@ -78,6 +78,11 @@ public class NotificationService extends FirebaseMessagingService {
         boolean vibrate = Boolean.parseBoolean(data.get("vibrate") != null ? data.get("vibrate") : "false");
         String channel = NotificationUtils.getNotificationChannel(this, group);
 
+        if (!NotificationUtils.shouldShowDebugNotification(this, channel)) {
+            Log.i(TAG, "Ignoring debug notification.");
+            return;
+        }
+
         NotificationCompat.Builder summaryNotifBuilder = new NotificationCompat.Builder(this, channel)
                 .setSmallIcon(R.drawable.ic_alert)
                 .setGroup(group)
@@ -110,6 +115,11 @@ public class NotificationService extends FirebaseMessagingService {
         String text = data.get("text") != null ? data.get("text") : getString(R.string.notif_new_notifications);
         boolean vibrate = Boolean.parseBoolean(data.get("vibrate") != null ? data.get("vibrate") : "false");
         String channel = NotificationUtils.getNotificationChannel(this, group);
+
+        if (!NotificationUtils.shouldShowDebugNotification(this, channel)) {
+            Log.i(TAG, "Ignoring debug notification.");
+            return;
+        }
 
         NotificationCompat.Builder notificationBuilder = getBaseNotificationBuilder(title, text, vibrate, channel)
                 .setContentIntent(pendingIntent);
