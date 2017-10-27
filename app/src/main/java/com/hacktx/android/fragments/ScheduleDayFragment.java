@@ -73,8 +73,8 @@ public class ScheduleDayFragment extends BaseFragment {
         scheduleList = new ArrayList<>();
 
         switch(getArguments().getString("request")) {
-            case "Oct 22": day = 1; break;
-            case "Oct 23": day = 2; break;
+            case "Oct 28": day = 1; break;
+            case "Oct 29": day = 2; break;
             default: day = 1;
         }
 
