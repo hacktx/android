@@ -39,6 +39,13 @@
             android:title="@string/fragment_sponsor_title" />
     </group>
 
+    <group android:id="@+id/group_external">
+        <item
+            android:id="@+id/nav_slack"
+            android:icon="@drawable/ic_slack"
+            android:title="@string/action_slack" />
+    </group>
+
     <group android:id="@+id/group_other">
         <item
             android:id="@+id/nav_check_in"

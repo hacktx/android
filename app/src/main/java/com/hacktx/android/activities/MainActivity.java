@@ -106,6 +106,10 @@ public class MainActivity extends BaseActivity {
         this.drawerLayout = drawerLayout;
         ((TextView) navigationView.getHeaderView(0).findViewById(R.id.navHeaderEmail)).setText(UserStateStore.getUserEmail(this));
 
+        if (isSlackInstalled()) {
+            navigationView.getMenu().setGroupVisible(R.id.group_external, false);
+        }
+
         if (!mConfigManager.getValue(ConfigParam.CHECK_IN)) {
             navigationView.getMenu().getItem(5).setEnabled(false);
             navigationView.getMenu().getItem(5).setVisible(false);
@@ -143,6 +147,13 @@ public class MainActivity extends BaseActivity {
                                 mMetricsManager.logEvent(R.string.analytics_event_nav_sponsors, null);
                                 transaction.replace(R.id.content_fragment, new SponsorFragment());
                                 transaction.commit();
+                                break;
+                            case R.id.nav_slack:
+                                mMetricsManager.logEvent(R.string.analytics_event_nav_slack, null);
+                                Intent appStartIntent = getPackageManager().getLaunchIntentForPackage("com.Slack");
+                                if (null != appStartIntent) {
+                                    startActivity(appStartIntent);
+                                }
                                 break;
                             case R.id.nav_check_in:
                                 mMetricsManager.logEvent(R.string.analytics_event_nav_check_in, null);
