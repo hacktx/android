@@ -12,7 +12,9 @@ public class Constants {
     public static final boolean FEATURE_REMOTE_MAP = true;
 
     /* Configuration */
+    public static final String[] EVENT_DAYS = {"Oct 28", "Oct 29"};
     public static final String REMOTE_MAP_URL = "https://hacktx.com/map";
+    public static final String SLACK_PACKAGE = "com.Slack";
 
     /* Firebase */
     public static final boolean FIREBASE_ANALYTICS_ENABLED = true;

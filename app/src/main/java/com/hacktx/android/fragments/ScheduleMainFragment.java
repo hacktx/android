@@ -29,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hacktx.android.Constants;
 import com.hacktx.android.R;
 
 import java.util.ArrayList;
@@ -55,8 +56,11 @@ public class ScheduleMainFragment extends BaseFragment {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getFragmentManager());
-        adapter.addFragment(new ScheduleDayFragment(), "Oct 28");
-        adapter.addFragment(new ScheduleDayFragment(), "Oct 29");
+
+        for (String day : Constants.EVENT_DAYS) {
+            adapter.addFragment(new ScheduleDayFragment(), day);
+        }
+
         viewPager.setAdapter(adapter);
         Log.v("ScheduleMainFrag", " " + viewPager.getAdapter().getCount());
     }

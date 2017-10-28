@@ -36,6 +36,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import com.hacktx.android.Constants;
 import com.hacktx.android.R;
 import com.hacktx.android.activities.EventDetailActivity;
 import com.hacktx.android.models.ScheduleCluster;
@@ -55,7 +56,7 @@ public class ScheduleDayFragment extends BaseFragment {
     private ConstraintLayout mEmptyLayout;
     private ArrayList<ScheduleCluster> scheduleList;
     private boolean doneLoading;
-    private int day;
+    private int day = 1;
 
     public static ScheduleDayFragment newInstance(String request) {
         Bundle args = new Bundle();
@@ -72,10 +73,14 @@ public class ScheduleDayFragment extends BaseFragment {
         View root = inflater.inflate(R.layout.fragment_schedule_day, container, false);
         scheduleList = new ArrayList<>();
 
-        switch(getArguments().getString("request")) {
-            case "Oct 28": day = 1; break;
-            case "Oct 29": day = 2; break;
-            default: day = 1;
+        try {
+            for (int x = 0; x < Constants.EVENT_DAYS.length; x++) {
+                if (getArguments().getString("request").equals(Constants.EVENT_DAYS[x])) {
+                    day = x + 1;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         mEmptyLayout = (ConstraintLayout) root.findViewById(R.id.empty_view);

@@ -37,6 +37,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hacktx.android.BuildConfig;
+import com.hacktx.android.Constants;
 import com.hacktx.android.R;
 import com.hacktx.android.fragments.AnnouncementFragment;
 import com.hacktx.android.fragments.GoogleMapFragment;
@@ -150,7 +151,7 @@ public class MainActivity extends BaseActivity {
                                 break;
                             case R.id.nav_slack:
                                 mMetricsManager.logEvent(R.string.analytics_event_nav_slack, null);
-                                Intent appStartIntent = getPackageManager().getLaunchIntentForPackage("com.Slack");
+                                Intent appStartIntent = getPackageManager().getLaunchIntentForPackage(Constants.SLACK_PACKAGE);
                                 if (null != appStartIntent) {
                                     startActivity(appStartIntent);
                                 }
@@ -235,7 +236,7 @@ public class MainActivity extends BaseActivity {
 
     private boolean isSlackInstalled() {
         final PackageManager packageManager = getPackageManager();
-        Intent intent = packageManager.getLaunchIntentForPackage("com.Slack");
+        Intent intent = packageManager.getLaunchIntentForPackage(Constants.SLACK_PACKAGE);
 
         if (intent == null) {
             return false;
