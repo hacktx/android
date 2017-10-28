@@ -65,6 +65,7 @@ public class MainActivity extends BaseActivity {
         setupDrawerContent((DrawerLayout) findViewById(R.id.drawer_layout), (NavigationView) findViewById(R.id.nav_view));
         setupFragmentContent(savedInstanceState);
 
+        // Handle case where app was opened from app shortcut
         String extra = getIntent().getStringExtra("open");
         if (extra != null && extra.equals("announcements")) {
             ((NavigationView) findViewById(R.id.nav_view)).getMenu().getItem(1).setChecked(true);
@@ -181,6 +182,9 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    /**
+     * Display `WelcomeActivity` on first run.
+     */
     private void displayWelcome() {
         if (UserStateStore.isFirstLaunch(this)) {
             Log.i(TAG, "Starting WelcomeActivity...");
@@ -193,6 +197,9 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    /**
+     * Display Slack notification dialog if Slack is installed and if the user hasn't been prompted before.
+     */
     private void displaySlackAlert() {
         if (isSlackInstalled() && !UserStateStore.getSlackAlertShown(this)) {
             mMetricsManager.logEvent(R.string.analytics_event_slack_dialog_show, null);
@@ -246,6 +253,9 @@ public class MainActivity extends BaseActivity {
         return list.size() > 0;
     }
 
+    /**
+     * Sets up app shortcuts (Android 7.1 and above). Check-in shortcut is added if check-in is enabled.
+     */
     private void setupAppShortcuts() {
         // Setup app shortcuts
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {

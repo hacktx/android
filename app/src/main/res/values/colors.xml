@@ -18,6 +18,7 @@
 <resources>
     <color name="window_background">#FFF5F5F5</color>
 
+    <!-- App Theme -->
     <color name="primary">#323187</color>
     <color name="primaryDark">#22215B</color>
     <color name="accent">#FF0B63</color>
@@ -37,6 +38,7 @@
     <color name="hacktx16_blue_light">#277CA3</color>
     <color name="hacktx16_blue_lighter">#3291B8</color>
 
+    <!-- Miscellaneous -->
     <color name="status_bar_semi_transparent">#19000000</color>
 
 </resources>
