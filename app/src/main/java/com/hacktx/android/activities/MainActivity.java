@@ -106,7 +106,7 @@ public class MainActivity extends BaseActivity {
         this.drawerLayout = drawerLayout;
         ((TextView) navigationView.getHeaderView(0).findViewById(R.id.navHeaderEmail)).setText(UserStateStore.getUserEmail(this));
 
-        if (isSlackInstalled()) {
+        if (!isSlackInstalled()) {
             navigationView.getMenu().setGroupVisible(R.id.group_external, false);
         }
 
