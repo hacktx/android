@@ -30,6 +30,9 @@ import retrofit.client.Request;
 import retrofit.client.Response;
 import retrofit.mime.TypedByteArray;
 
+/**
+ * Mock client for debugging API responses.
+ */
 public class MockClient implements Client {
 
     private final String TAG = getClass().getSimpleName();

@@ -18,6 +18,9 @@ package com.hacktx.android.utils;
 
 import com.hacktx.android.Constants;
 
+/**
+ * Define `ConfigManager` parameters and default values here.
+ */
 public enum ConfigParam {
 
     BUNDLED_NOTIFICATIONS("bundled_notifications", Constants.FEATURE_BUNDLED_NOTIFICATIONS),

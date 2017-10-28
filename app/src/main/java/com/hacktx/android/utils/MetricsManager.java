@@ -36,6 +36,9 @@ import java.util.UUID;
 
 import io.fabric.sdk.android.Fabric;
 
+/**
+ * Handles logging of events to Firebase and Fabric along with anonymous user identity.
+ */
 public class MetricsManager {
 
     private final String TAG = this.getClass().getSimpleName();
@@ -62,18 +65,27 @@ public class MetricsManager {
         }
     }
 
+    /**
+     * Logs event to configured services.
+     */
     public void logEvent(@StringRes int iri, Bundle extras) {
         Log.v(TAG, mContext.getString(iri) + ": " + (extras != null ? extras.toString() : "null"));
         firebaseEvent(iri, extras);
         fabricEvent(iri, extras);
     }
 
+    /**
+     * Logs event to Firebase.
+     */
     private void firebaseEvent(@StringRes int iri, Bundle extras) {
         if (Constants.FIREBASE_ANALYTICS_ENABLED) {
             mFirebaseAnalytics.logEvent(mContext.getString(iri), extras);
         }
     }
 
+    /**
+     * Logs event to configured services.
+     */
     private void fabricEvent(@StringRes int iri, Bundle extras) {
         if (!Constants.FABRIC_ANSWERS_ENABLED) {
             return;
@@ -93,6 +105,9 @@ public class MetricsManager {
         Answers.getInstance().logCustom(event);
     }
 
+    /**
+     * Gets current UUID or creates a new one if not found.
+     */
     private String getUuid() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         String uuid = preferences.getString(mContext.getString(R.string.prefs_uuid), "");

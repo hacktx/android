@@ -26,6 +26,10 @@ import java.util.Calendar;
 
 public class HackTXUtils {
 
+    /**
+     * Determines if HackTX has begun. Set this date to the day before HackTX.
+     * For example: If HackTX begins on October 28th, set the date to October 27th.
+     */
     public static boolean hasHackTxStarted(Context context) {
         if(!isOverrideEnabled(context)) {
             Calendar now = Calendar.getInstance();
@@ -40,6 +44,10 @@ public class HackTXUtils {
         }
     }
 
+    /**
+     * Determines if HackTX has ended. Set this date to the day after HackTX.
+     * For example: If HackTX ends on October 29th, set the date to October 30th.
+     */
     public static boolean hasHackTxEnded(Context context) {
         if(!isOverrideEnabled(context)) {
             Calendar now = Calendar.getInstance();
@@ -54,18 +62,30 @@ public class HackTXUtils {
         }
     }
 
+    /**
+     * Returns default `SharedPreferences`.
+     */
     private static SharedPreferences getPrefs(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
+    /**
+     * Returns if debug option to follow override values is set.
+     */
     private static boolean isOverrideEnabled(Context context) {
         return getPrefs(context).getBoolean(context.getString(R.string.debug_hacktx_utils_override_key), false);
     }
 
+    /**
+     * Returns true if app should treat HackTX as started regardless of date. Debug only.
+     */
     private static boolean getStartOverride(Context context) {
         return getPrefs(context).getBoolean(context.getString(R.string.debug_hacktx_utils_started_key), false);
     }
 
+    /**
+     * Returns true if app should treat HackTX as ended regardless of date. Debug only.
+     */
     private static boolean getEndOverride(Context context) {
         return getPrefs(context).getBoolean(context.getString(R.string.debug_hacktx_utils_ended_key), false);
     }

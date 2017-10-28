@@ -24,6 +24,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
 import com.hacktx.android.BuildConfig;
@@ -32,11 +33,22 @@ import com.hacktx.android.R;
 
 public class NotificationUtils {
 
+    /**
+     * Returns notification ID given group provided as part of the notification payload
+     * and age of notification.
+     */
     public static int getId(Context context, String group) {
         return getIdBase(context, group) + getIdOffset(context, group);
     }
 
+    /**
+     * Returns base notification ID given group provided as part of the notification payload.
+     */
     public static int getIdBase(Context context, String group) {
+        if (context == null || group == null) {
+            return 40;
+        }
+
         if (group.contains(context.getString(R.string.notif_topic_hacktx))) {
             return 0;
         } else if (group.contains(context.getString(R.string.notif_topic_android))) {
@@ -50,20 +62,15 @@ public class NotificationUtils {
         }
     }
 
-    public static String getNotificationChannel(Context context, String group) {
-        if (group.contains(context.getString(R.string.notif_topic_debug))) {
-            return context.getString(R.string.notif_ch_debug_id);
-        } else {
-            return context.getString(R.string.notif_ch_announcement_id);
-        }
-    }
-
-    public static boolean shouldShowDebugNotification(Context context, String channel) {
-        return channel.equals(context.getString(R.string.notif_ch_debug_id)) && BuildConfig.DEBUG;
-
-    }
-
+    /**
+     * Returns offset notification ID given "age" of notification. The offset ensures five
+     * notifications are shown, with the oldest notification eventually being replaced.
+     */
     private static int getIdOffset(Context context, String group) {
+        if (context == null || group == null) {
+            return 0;
+        }
+
         SharedPreferences prefs = getPrefs(context);
         String key = context.getString(R.string.prefs_notif_offset) + '-' + group;
         int offset = prefs.getInt(key, 1);
@@ -71,6 +78,32 @@ public class NotificationUtils {
         return offset;
     }
 
+    /**
+     * Returns Android notification channel for notification given group as part of notification
+     * payload. Used on Android 8.0 Oreo and above.
+     */
+    public static String getNotificationChannel(Context context, String group) {
+        if (context == null || group == null) {
+            return null;
+        }
+
+        if (group.contains(context.getString(R.string.notif_topic_debug))) {
+            return context.getString(R.string.notif_ch_debug_id);
+        } else {
+            return context.getString(R.string.notif_ch_announcement_id);
+        }
+    }
+
+    /**
+     * Returns if debug notification should be shown.
+     */
+    public static boolean shouldShowDebugNotification(Context context, String channel) {
+        return channel.equals(context.getString(R.string.notif_ch_debug_id)) && BuildConfig.DEBUG;
+    }
+
+    /**
+     * Creates Android notification channels. Used on Android 8.0 Oreo and above.
+     */
     @TargetApi(26)
     public static void setupNotificationChannels(Context context) {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -103,6 +136,9 @@ public class NotificationUtils {
         }
     }
 
+    /**
+     * Returns default `SharedPreferences`.
+     */
     private static SharedPreferences getPrefs(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }

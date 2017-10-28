@@ -40,8 +40,10 @@ public class HackTXApplication extends Application {
 
         sInstance = this;
 
+        // Register Activity lifecycle callbacks
         registerActivityLifecycleCallbacks(new LifecycleListener());
 
+        // Setup Firebase notifications if enabled
         if (Constants.FIREBASE_NOTIFICATIONS_ENABLED) {
             FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
             firebaseMessaging.subscribeToTopic(getString(R.string.notif_topic_hacktx));

@@ -19,6 +19,9 @@ package com.hacktx.android.utils;
 import android.animation.TypeEvaluator;
 import android.graphics.ColorMatrix;
 
+/**
+ * Used for `EventDetailActivity` toolbar coloring.
+ */
 public class AlphaSatColorMatrixEvaluator implements TypeEvaluator {
 
     private ColorMatrix colorMatrix;

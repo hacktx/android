@@ -34,6 +34,9 @@ import com.hacktx.android.R;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * HackTX-styled background with animated shapes.
+ */
 public class ShapesView extends AppCompatImageView {
 
     private ArrayList<Shape> shapes = new ArrayList<>();
@@ -42,6 +45,7 @@ public class ShapesView extends AppCompatImageView {
     public ShapesView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        // If in layout editor, don't render anything.
         if(isInEditMode()) {
             return;
         }
@@ -55,11 +59,15 @@ public class ShapesView extends AppCompatImageView {
         Random r = new Random();
         int drawables[] = {R.drawable.circle, R.drawable.dot, R.drawable.line, R.drawable.square};
 
+        // Generate 25 random shapes.
         for (int x = 0; x < 25; x++) {
             shapes.add(new Shape(drawables[r.nextInt(drawables.length)], r.nextInt(width), height + r.nextInt(height), r.nextInt(height)));
         }
     }
 
+    /**
+     * Called each time the view is drawn. Animate shapes here.
+     */
     public void draw(Canvas canvas) {
         super.draw(canvas);
 
@@ -71,8 +79,12 @@ public class ShapesView extends AppCompatImageView {
         }
     }
 
+    /**
+     * Represents individual shape on `ShapesView`.
+     */
     class Shape implements ValueAnimator.AnimatorUpdateListener {
 
+        // Configuration
         private final int BASE_DURATION = 20000;
         private final int DISTANCE_ABOVE_STATUS_BAR = 100;
         private final int ROTATION_FACTOR = 3;

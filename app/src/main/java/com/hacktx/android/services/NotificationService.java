@@ -46,6 +46,9 @@ public class NotificationService extends FirebaseMessagingService {
     }
 
     @Override
+    /**
+     * Invoked when a notification payload is received from Firebase.
+     */
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
@@ -64,6 +67,9 @@ public class NotificationService extends FirebaseMessagingService {
         }
     }
 
+    /**
+     * Display bundled notification.
+     */
     private void sendBundledNotification(String group, Map<String, String> data) {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
@@ -102,6 +108,9 @@ public class NotificationService extends FirebaseMessagingService {
         notificationManager.notify(id, notificationBuilder.build());
     }
 
+    /**
+     * Display notification.
+     */
     private void sendNotification(String group, Map<String, String> data) {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
@@ -127,6 +136,9 @@ public class NotificationService extends FirebaseMessagingService {
         notificationManager.notify(id, notificationBuilder.build());
     }
 
+    /**
+     * Returns universal `NotificationCompat.Builder` regardless if notifications should be bundled.
+     */
     private NotificationCompat.Builder getBaseNotificationBuilder(String title, String text, boolean vibrate, String channel) {
         return new NotificationCompat.Builder(this, channel)
                 .setSmallIcon(R.drawable.ic_alert)

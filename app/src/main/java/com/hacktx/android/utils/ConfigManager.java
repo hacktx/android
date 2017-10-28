@@ -29,6 +29,10 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.hacktx.android.Constants;
 import com.hacktx.android.R;
 
+/**
+ * Handles remote configuration values. Gracefully falls back to local default values.
+ * Set values in `ConfigParam`.
+ */
 public class ConfigManager {
 
     private final String TAG = this.getClass().getSimpleName();

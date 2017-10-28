@@ -29,6 +29,9 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
+/**
+ * Generic circular ImageView.
+ */
 public class CircularImageView extends AppCompatImageView {
 
     public CircularImageView(Context context) {
